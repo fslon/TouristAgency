@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -17,6 +19,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,15 +36,50 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation ("com.google.android.material:material:1.7.0")
+
+    implementation("com.github.moxy-community:moxy-ktx:2.2.2")
+    kapt("com.github.moxy-community:moxy-compiler:2.2.2")
+    implementation("com.github.moxy-community:moxy-androidx:2.2.2")
+    implementation("com.github.moxy-community:moxy-material:2.2.2")
+
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
+
+    implementation("com.github.terrakok:cicerone:7.1")
+
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
+
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
+
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+
+
+    implementation("androidx.room:room-runtime:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
+
+
+
+    implementation("com.google.dagger:dagger:2.24")
+    kapt("com.google.dagger:dagger-compiler:2.24")
+
 }
