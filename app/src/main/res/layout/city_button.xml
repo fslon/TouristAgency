@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/back"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city_name_tv"
+        android:text="@string/city_button_text"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/days_number_tv"
+        android:text="2 сентября, 7 ночей"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/inactive_text_color"
+        />
+
+
+</LinearLayout>
+
+

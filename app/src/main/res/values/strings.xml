@@ -8,5 +8,8 @@
     <string name="navigation_search">Поиск</string>
     <string name="navigation_favourite">Избранное</string>
     <string name="navigation_hot_tours">Акции</string>
+    <string name="button_tours_text">Туры</string>
+    <string name="button_hotels_text">Отели</string>
+    <string name="city_button_text">Россия</string>
 
 </resources>

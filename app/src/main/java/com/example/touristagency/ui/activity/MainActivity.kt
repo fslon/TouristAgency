@@ -1,6 +1,7 @@
 package com.example.touristagency.ui.activity
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.databinding.ActivityMainBinding
@@ -26,6 +27,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         App.instance.appComponent.inject(this)
