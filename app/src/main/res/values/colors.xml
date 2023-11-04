@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF0D</color>
+    <color name="blue">#0022FF</color>
+
+    <color name="primary_color">#D31212</color>
+
+
+    <color name="color_for_background">#F0EFEF</color>
+    <color name="inactive_text_color">#686868</color>
+
+    <color name="button_on_press_tours">#8A8A8A</color>
+
+
+
 </resources>
