@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="city_button_elements_margin_horizontal">20dp</dimen>
+    <dimen name="city_button_margin_top">5dp</dimen>
+    <dimen name="tours_button_margin_top">5dp</dimen>
+    <dimen name="hotels_button_margin_start">5dp</dimen>
+</resources>
