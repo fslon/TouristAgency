@@ -4,4 +4,6 @@
     <dimen name="city_button_margin_top">5dp</dimen>
     <dimen name="tours_button_margin_top">5dp</dimen>
     <dimen name="hotels_button_margin_start">5dp</dimen>
+    <dimen name="corner_radius_sorting_and_filters_buttons">10dp</dimen>
+    <dimen name="margin_sorting_and_filters_buttons_from_parent">5dp</dimen>
 </resources>

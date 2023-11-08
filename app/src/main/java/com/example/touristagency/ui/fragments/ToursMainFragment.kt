@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ArrayAdapter
+import android.widget.Button
+import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.dagger.ToursSubComponent
@@ -19,7 +21,8 @@ import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
- // https://www.youtube.com/watch?v=pl_ta6SVhm4
+
+// https://www.youtube.com/watch?v=pl_ta6SVhm4
 class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener {
     private var _binding: FragmentToursMainBinding? = null
     private val binding get() = _binding!!
@@ -28,8 +31,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private var isToursButtonActive = true
 
-    val sortingStrings = listOf("По релевантности", "По новизне", "Дороже", "Дешевле")
-    lateinit var adapterItems: ArrayAdapter<String>
+    val sortingStrings = listOf("Рекомендуемое", "Сначала новое", "Дешевле", "Дороже")
+//    lateinit var adapterItems: ArrayAdapter<String>
 
     val presenter: ToursMainPresenter by moxyPresenter {
         toursSubComponent = App.instance.initUserSubComponent()
@@ -61,9 +64,9 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             switchStateButtonsToursAndHotels(false)
         }
 
-        initSortingMenu()
 
-
+        binding.sortingButton.text = sortingStrings[0] // дефолтный способ сортировки
+        binding.sortingButton.setOnClickListener { initSortingMenu() }
 
         binding.filtersButton.setOnClickListener { showBottomDialog() }
 
@@ -72,17 +75,40 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private fun initSortingMenu() {
 
-        adapterItems =
-            ArrayAdapter<String>(requireContext(), R.layout.sorting_list_item, sortingStrings)
-        binding.sortingAutoCompleteTv.setText(adapterItems.getItem(0))
-        binding.sortingAutoCompleteTv.setAdapter(adapterItems)
-        binding.sortingAutoCompleteTv.setOnItemClickListener { adapterView, view, i, l ->
-            binding.sortingAutoCompleteTv.clearFocus()
-
-            // TODO обработать нажатия на список сортировки
-
+        val popupMenu = PopupMenu(requireContext(), binding.sortingButton)
+        for (option in sortingStrings) {
+            popupMenu.menu.add(option)
         }
+        popupMenu.setOnMenuItemClickListener {
+            when (it.title) {
+                sortingStrings[0] -> { // Рекомендуемое
+                    // TODO Обработка выбранной сортировки
+                    binding.sortingButton.text = it.title
+                    true
+                }
 
+                sortingStrings[1] -> { // Сначала новое
+                    // TODO Обработка выбранной сортировки
+                    binding.sortingButton.text = it.title
+                    true
+                }
+
+                sortingStrings[2] -> { // Дешевле
+                    // TODO Обработка выбранной сортировки
+                    binding.sortingButton.text = it.title
+                    true
+                }
+
+                sortingStrings[3] -> { // Дороже
+                    // TODO Обработка выбранной сортировки
+                    binding.sortingButton.text = it.title
+                    true
+                }
+
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 
     private fun showBottomDialog() {
@@ -98,7 +124,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(Gravity.BOTTOM
+        dialog.window?.setGravity(
+            Gravity.BOTTOM
         )
 
 

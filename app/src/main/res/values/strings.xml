@@ -15,5 +15,7 @@
     <string name="city_button_city_name_default">Россия</string>
     <string name="city_button_date_default_text">2 сентября, 7 ночей</string>
     <string name="for_relevation_string">По релевантности</string>
+    <string name="sorting_button_text">Сортировка</string>
+    <string name="filters_button_text">Фильтры</string>
 
 </resources>

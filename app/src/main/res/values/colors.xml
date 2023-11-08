@@ -18,5 +18,7 @@
     <color name="city_button_on_press_city">#3A3A3A</color>
     <color name="city_button_on_press_date">#939393</color>
 
+    <color name="background_color_sorting_and_filters_buttons">#E7E6E6</color>
+
 
 </resources>
