@@ -6,4 +6,9 @@
     <dimen name="hotels_button_margin_start">5dp</dimen>
     <dimen name="corner_radius_sorting_and_filters_buttons">10dp</dimen>
     <dimen name="margin_sorting_and_filters_buttons_from_parent">5dp</dimen>
+    <dimen name="days_number_city_button_margin_bottom">2dp</dimen>
+
+    <dimen name="dialog_filters_peek_height">300dp</dimen>
+
+
 </resources>

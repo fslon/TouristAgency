@@ -1,16 +1,11 @@
 package com.example.touristagency.ui.fragments
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ArrayAdapter
-import android.widget.Button
+import android.widget.LinearLayout
 import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
@@ -19,6 +14,8 @@ import com.example.touristagency.databinding.FragmentToursMainBinding
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.ui.activity.BackButtonListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -29,10 +26,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private var toursSubComponent: ToursSubComponent? = null
 
-    private var isToursButtonActive = true
+    private var isToursButtonActive = true // флаг, активна ли кнопка "Туры"
 
-    val sortingStrings = listOf("Рекомендуемое", "Сначала новое", "Дешевле", "Дороже")
-//    lateinit var adapterItems: ArrayAdapter<String>
+    private val sortingStrings = listOf("Рекомендуемое", "Сначала новое", "Дешевле", "Дороже") // способы сортировки для меню сортировки
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     val presenter: ToursMainPresenter by moxyPresenter {
         toursSubComponent = App.instance.initUserSubComponent()
@@ -56,30 +54,32 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toursButton.setOnClickListener {
+        binding.toursButton.setOnClickListener { // кнопка "Туры"
             switchStateButtonsToursAndHotels(true)
         }
 
-        binding.hotelsButton.setOnClickListener {
+        binding.hotelsButton.setOnClickListener { // кнопка "Отели"
             switchStateButtonsToursAndHotels(false)
         }
 
 
-        binding.sortingButton.text = sortingStrings[0] // дефолтный способ сортировки
-        binding.sortingButton.setOnClickListener { initSortingMenu() }
+        binding.sortingButton.text = sortingStrings[0] // присвоение дефолтного способа сортировки
+        binding.sortingButton.setOnClickListener { initSortingMenu() } // кнопка "Сортировка"
 
-        binding.filtersButton.setOnClickListener { showBottomDialog() }
+        binding.filtersButton.setOnClickListener {// кнопка "Фильтры"
+            showBottomDialog()
+        }
 
 
     }
 
-    private fun initSortingMenu() {
+    private fun initSortingMenu() { // обработка меню сортировки
 
         val popupMenu = PopupMenu(requireContext(), binding.sortingButton)
         for (option in sortingStrings) {
             popupMenu.menu.add(option)
         }
-        popupMenu.setOnMenuItemClickListener {
+        popupMenu.setOnMenuItemClickListener {// нажатие на один из элементов меню сортировки
             when (it.title) {
                 sortingStrings[0] -> { // Рекомендуемое
                     // TODO Обработка выбранной сортировки
@@ -111,23 +111,16 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         popupMenu.show()
     }
 
-    private fun showBottomDialog() {
+    private fun showBottomDialog() { // показать меню фильтров
 
-        val dialog = Dialog(requireContext())
+        val bottomSheet = layoutInflater.inflate(R.layout.filters_bottom_sheet_layout, null)
+        val dialog = BottomSheetDialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.bottomsheet_layout)
-
+        dialog.setContentView(bottomSheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet.parent as View)
+        bottomSheetBehavior.peekHeight =
+            resources.getDimensionPixelSize(R.dimen.dialog_filters_peek_height) // Устанавливаем высоту, на которую откроется BottomSheet
         dialog.show()
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(
-            Gravity.BOTTOM
-        )
-
 
     }
 
@@ -151,7 +144,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     )
                 }
                 with(binding.toursButton) {
-                    setBackgroundColor(resources.getColor(R.color.white, null))
+                    setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
                     setTextColor(
                         resources.getColorStateList(
                             R.color.text_color_active_button,
@@ -182,7 +175,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     )
                 }
                 with(binding.hotelsButton) {
-                    setBackgroundColor(resources.getColor(R.color.white, null))
+                    setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
                     setTextColor(
                         resources.getColorStateList(
                             R.color.text_color_active_button,
