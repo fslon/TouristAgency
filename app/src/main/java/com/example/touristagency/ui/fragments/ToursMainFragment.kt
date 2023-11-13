@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
@@ -16,6 +16,8 @@ import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.ui.activity.BackButtonListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -30,7 +32,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private val sortingStrings = listOf("Рекомендуемое", "Сначала новое", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var currentCurrency: String // текущая валюта
 
     val presenter: ToursMainPresenter by moxyPresenter {
         toursSubComponent = App.instance.initUserSubComponent()
@@ -53,6 +55,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        currentCurrency = resources.getString(R.string.current_currency)
 
         binding.toursButton.setOnClickListener { // кнопка "Туры"
             switchStateButtonsToursAndHotels(true)
@@ -122,8 +126,47 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             resources.getDimensionPixelSize(R.dimen.dialog_filters_peek_height) // Устанавливаем высоту, на которую откроется BottomSheet
         dialog.show()
 
-    }
+        // блок с "ценой" в фильтрах
+        //todo сделать получение сохраненных значений
+        val priceNumberFrom = dialog.findViewById<TextView>(R.id.price_number_from) // textView с ценой "от"
+        val priceNumberTo = dialog.findViewById<TextView>(R.id.price_number_to) // textView с ценой "до"
+        priceNumberFrom?.text = resources.getString(R.string.price_number_from_default) + currentCurrency // дефолтное значение
+        priceNumberTo?.text = resources.getString(R.string.price_number_to_default) + currentCurrency // дефолтное значение
 
+        val rangeSlider = dialog.findViewById<RangeSlider>(R.id.price_slider) // слайдер с ценой
+        rangeSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
+            priceNumberFrom?.text = slider.values[0].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
+            priceNumberTo?.text = slider.values[1].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
+        }
+
+        // блок с "количеством звезд" в фильтрах
+        //todo сделать получение сохраненных значений
+        val starsNumberFrom = dialog.findViewById<TextView>(R.id.stars_number_from) // textView с ценой "от"
+        val starsNumberTo = dialog.findViewById<TextView>(R.id.stars_number_to) // textView с ценой "до"
+        starsNumberFrom?.text = resources.getString(R.string.stars_number_from_default)  // дефолтное значение
+        starsNumberTo?.text = resources.getString(R.string.stars_number_to_default) // дефолтное значение
+
+        val starsSlider = dialog.findViewById<RangeSlider>(R.id.stars_slider) // слайдер со звездами
+        starsSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере со звездами
+            starsNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи звезд под слайдером
+            starsNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи звезд под слайдером
+        }
+
+        // блок с "количеством человек" в фильтрах
+        //todo сделать получение сохраненных значений
+//        val peoplesNumberFrom = dialog.findViewById<TextView>(R.id.peoples_number_from) // textView с ценой "от"
+//        val peoplesNumberTo = dialog.findViewById<TextView>(R.id.peoples_number_to) // textView с ценой "до"
+//        peoplesNumberFrom?.text = resources.getString(R.string.peoples_number_from_default)  // дефолтное значение
+//        peoplesNumberTo?.text = resources.getString(R.string.peoples_number_to_default) // дефолтное значение
+
+        val peoplesSlider = dialog.findViewById<Slider>(R.id.peoples_slider) // слайдер с колвом человек
+        peoplesSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с колвом человек
+//            peoplesNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи человек под слайдером
+//            peoplesNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи человек под слайдером
+        }
+
+
+    }
 
     private fun switchStateButtonsToursAndHotels(fromTours: Boolean) { // boolean это проверка на какую кнопку вызывается метод, чтобы не было повторных нажатий на одну и ту же кнопку
         if (fromTours != isToursButtonActive) { // если клик не по той же кнопке

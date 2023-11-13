@@ -1,0 +1,16 @@
+<resources>
+    <array name="initial_values_price">
+        <item>0</item>
+        <item>1000000</item>
+    </array>
+
+    <array name="initial_values_stars">
+        <item>1</item>
+        <item>5</item>
+    </array>
+
+    <array name="initial_values_peoples">
+        <item>1</item>
+        <item>10</item>
+    </array>
+</resources>

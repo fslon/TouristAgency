@@ -29,149 +29,368 @@
 
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:text="@string/tv_bottom_sheet_filters_text"
+                android:textColor="#686868"
+                android:textSize="20sp" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_price"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/tv_price"
+                    style="@style/filtersMainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_price_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/price_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="0.0"
+                    android:valueTo="1000000.0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_price"
+                    app:values="@array/initial_values_price" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/price_text_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/text_from"
+                    app:layout_constraintStart_toStartOf="@id/price_slider"
+                    app:layout_constraintTop_toBottomOf="@id/price_slider"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/price_number_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/price_number_from_default"
+                    app:layout_constraintBottom_toBottomOf="@id/price_text_from"
+                    app:layout_constraintStart_toEndOf="@id/price_text_from" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/price_text_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/price_text_to"
+                    app:layout_constraintBottom_toBottomOf="@id/price_text_from"
+                    app:layout_constraintEnd_toStartOf="@id/price_number_to"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/price_number_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_number_to_default"
+                    app:layout_constraintBottom_toBottomOf="@id/price_text_from"
+                    app:layout_constraintEnd_toEndOf="@id/price_slider" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_stars"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:layout_marginTop="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/tv_stars"
+                    style="@style/filtersMainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_stars_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/stars_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1.0"
+                    android:valueFrom="1"
+                    android:valueTo="5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_stars"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                    app:values="@array/initial_values_stars" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/stars_text_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/text_from"
+                    app:layout_constraintStart_toStartOf="@id/stars_slider"
+                    app:layout_constraintTop_toBottomOf="@id/stars_slider" />
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/stars_number_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/stars_number_from_default"
+                    app:layout_constraintBottom_toBottomOf="@id/stars_text_from"
+                    app:layout_constraintStart_toEndOf="@id/stars_text_from" />
+
+
+                <TextView
+                    android:id="@+id/stars_text_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/price_text_to"
+                    app:layout_constraintBottom_toBottomOf="@id/stars_text_from"
+                    app:layout_constraintEnd_toStartOf="@id/stars_number_to" />
+
+                <TextView
+                    android:id="@+id/stars_number_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stars_number_to_default"
+                    app:layout_constraintBottom_toBottomOf="@id/stars_text_from"
+                    app:layout_constraintEnd_toEndOf="@id/stars_slider" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_peoples"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test textView"
-                android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_peoples"
+                    style="@style/filtersMainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_peoples_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/peoples_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stepSize="1.0"
+                    android:valueFrom="1"
+                    android:valueTo="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peoples"
+                    app:values="@array/initial_values_peoples" />
+
+                <TextView
+                    android:id="@+id/peoples_text_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/text_from"
+                    app:layout_constraintStart_toStartOf="@id/peoples_slider"
+                    app:layout_constraintTop_toBottomOf="@id/peoples_slider" />
+
+                <TextView
+                    android:id="@+id/peoples_number_from"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/peoples_number_from_default"
+                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
+                    app:layout_constraintStart_toEndOf="@id/peoples_text_from" />
+
+
+                <TextView
+                    android:id="@+id/peoples_text_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/price_text_to"
+                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
+                    app:layout_constraintEnd_toStartOf="@id/peoples_number_to" />
+
+                <TextView
+                    android:id="@+id/peoples_number_to"
+                    style="@style/filtersFromToText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/peoples_number_to_default"
+                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
+                    app:layout_constraintEnd_toEndOf="@id/peoples_slider" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_food"
+                    style="@style/filtersMainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_food_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/food_radiobutton_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_food">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_1_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_2_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_3_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_4_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_5_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_radio_6_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_food_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_food_types"
+                    style="@style/filtersMainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_food_types_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@id/food_types_radiobutton_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_food_types">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_types_radiobutton_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_types_radio_1_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_types_radio_2_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food_types_radio_3_text"
+                        android:textSize="@dimen/filters_radiobutton_text_size" />
+
+                </RadioGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="current_currency">₽</string>
+
 
     <string name="navigation_profile">Профиль</string>
     <string name="navigation_search">Поиск</string>
@@ -17,5 +19,31 @@
     <string name="for_relevation_string">По релевантности</string>
     <string name="sorting_button_text">Сортировка</string>
     <string name="filters_button_text">Фильтры</string>
+    <string name="text_from">от</string>
+    <string name="price_text_to">до</string>
+    <string name="price_number_from_default">0</string>
+    <string name="price_number_to_default">1000000</string>
+    <string name="stars_number_from_default">1</string>
+    <string name="stars_number_to_default">5</string>
+    <string name="tv_stars_text">Количество звёзд</string>
+    <string name="tv_price_text">Цена</string>
+    <string name="peoples_number_from_default">1</string>
+    <string name="peoples_number_to_default">10</string>
+    <string name="tv_peoples_text">Количество человек</string>
+
+
+    <string name="tv_bottom_sheet_filters_text">Фильтры</string>
+    <string name="tv_food_text">Система питания</string>
+    <string name="food_radio_1_text">Любая</string>
+    <string name="food_radio_2_text">Завтрак</string>
+    <string name="food_radio_3_text">Завтрак + обед</string>
+    <string name="food_radio_4_text">Завтрак + обед + ужин</string>
+    <string name="food_radio_5_text">Завтрак + ужин</string>
+    <string name="food_radio_6_text">Без питания</string>
+    <string name="tv_food_types_text">Тип питания</string>
+    <string name="food_types_radio_1_text">Любой</string>
+    <string name="food_types_radio_2_text">Шведский стол</string>
+    <string name="food_types_radio_3_text">Все включено</string>
+
 
 </resources>
