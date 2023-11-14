@@ -21,7 +21,6 @@ import com.google.android.material.slider.Slider
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-// https://www.youtube.com/watch?v=pl_ta6SVhm4
 class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener {
     private var _binding: FragmentToursMainBinding? = null
     private val binding get() = _binding!!
@@ -30,7 +29,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private var isToursButtonActive = true // флаг, активна ли кнопка "Туры"
 
-    private val sortingStrings = listOf("Рекомендуемое", "Сначала новое", "Дешевле", "Дороже") // способы сортировки для меню сортировки
+    private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
     private lateinit var currentCurrency: String // текущая валюта
 
@@ -163,6 +162,13 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         peoplesSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с колвом человек
 //            peoplesNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи человек под слайдером
 //            peoplesNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи человек под слайдером
+        }
+
+
+        dialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
+            starsSlider?.values
+            peoplesSlider?.value
+            // TODO: Сделать тут получение данных из фильтров, с последующей обработкой и сохранением
         }
 
 

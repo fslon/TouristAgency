@@ -22,5 +22,8 @@
 
     <color name="background_color_sorting_and_filters_buttons">#E7E6E6</color>
 
+    <color name="filters_strip_color">#494848</color>
+    <color name="filters_filters_text_color">#686868</color>
+
 
 </resources>
