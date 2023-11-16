@@ -25,5 +25,8 @@
     <color name="filters_strip_color">#494848</color>
     <color name="filters_filters_text_color">#686868</color>
 
+    <color name="city_menu_background_color_for_active_buttons">#E1BEE7</color>
+    <color name="city_menu_background_color_for_inactive_buttons">#FFFFFFFF</color>
+
 
 </resources>

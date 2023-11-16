@@ -52,6 +52,7 @@
     <string name="filters_infrastructure_tv_5_text">Тренажерный зал</string>
     <string name="filters_infrastructure_tv_6_text">Сауна</string>
     <string name="filters_infrastructure_tv_7_text">Дискотека/ночной клуб</string>
+    <string name="city_menu_cancel_button_text">Отмена</string>
 
 
 </resources>
