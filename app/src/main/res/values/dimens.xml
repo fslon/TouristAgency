@@ -17,6 +17,16 @@
     <dimen name="filters_layouts_margin_top">10dp</dimen>
     <dimen name="filters_from_text_margin_start">6dp</dimen>
     <dimen name="filters_to_text_margin_end">6dp</dimen>
+    <dimen name="padding_bottom_city_layout_container">15dp</dimen>
+    <dimen name="margin_start_tours_hotels_city_layout">5dp</dimen>
+    <dimen name="margin_end_cancel_city_layout">5dp</dimen>
+    <dimen name="margin_start_city_destination_city_layout">5dp</dimen>
+    <dimen name="city_tips_height_city_layout">200dp</dimen>
+    <dimen name="text_size_city_layout">16sp</dimen>
+    <dimen name="margin_horizontal_date_and_others_city_layout">5dp</dimen>
+    <dimen name="margin_top_date_city_layout">20dp</dimen>
+    <dimen name="margin_start_autocomplete_tv_city_departure_city_menu">5dp</dimen>
+    <dimen name="margin_top_autocomplete_tv_city_departure_city_menu">20dp</dimen>
 
 
 </resources>

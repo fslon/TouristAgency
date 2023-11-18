@@ -1,5 +1,6 @@
 package com.example.touristagency.ui.fragments
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
@@ -9,10 +10,14 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.widget.addTextChangedListener
 import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.dagger.ToursSubComponent
@@ -29,6 +34,11 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
 
 class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener {
     private var _binding: FragmentToursMainBinding? = null
@@ -39,6 +49,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private var isToursButtonActiveMainLayout = true // флаг, активна ли кнопка "Туры" в основом лэйауте
     private var isToursButtonActiveCityLayout = true // флаг, активна ли кнопка "Туры" в меню выбора города
 
+    private var isDepartureCityFieldActiveCityLayout = true // флаг, видно ли поле выбора города вылета в меню выбора города
+
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
     private lateinit var cityDialog: Dialog // диалог с выбором города и даты
@@ -46,6 +58,12 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private lateinit var filtersDialog: BottomSheetDialog // диалог с фильтрами
 
     private lateinit var currentCurrency: String // текущая валюта
+
+    private var minYear = 0 // минимальный год для выбора даты вылета
+    private var minMonth = 0 // минимальный месяц для выбора даты вылета
+    private var minDay = 0 // минимальный день для выбора даты вылета
+    private lateinit var calendar: Calendar // календарь для выбора даты вылета в меню выбора города
+
 
     val presenter: ToursMainPresenter by moxyPresenter {
         toursSubComponent = App.instance.initUserSubComponent()
@@ -70,12 +88,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         super.onViewCreated(view, savedInstanceState)
 
         currentCurrency = resources.getString(R.string.current_currency)
-
+        initMinDate()
 
 
         initCityDialog()
         binding.cityAndNightsButton.root.setOnClickListener {
-//            showCityDialog()
             cityDialog.show()
         }
 
@@ -99,46 +116,222 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
+    private fun initFiltersDialog() { // init меню фильтров
+
+        val bottomSheet = layoutInflater.inflate(R.layout.filters_bottom_sheet_layout, null)
+        filtersDialog = BottomSheetDialog(requireContext())
+        filtersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        filtersDialog.setContentView(bottomSheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet.parent as View)
+        bottomSheetBehavior.peekHeight =
+            resources.getDimensionPixelSize(R.dimen.dialog_filters_peek_height) // Устанавливаем высоту, на которую откроется BottomSheet
+
+
+        // блок с "ценой" в фильтрах
+        //todo сделать получение сохраненных значений
+        val priceNumberFrom = filtersDialog.findViewById<TextView>(R.id.price_number_from) // textView с ценой "от"
+        val priceNumberTo = filtersDialog.findViewById<TextView>(R.id.price_number_to) // textView с ценой "до"
+        priceNumberFrom?.text = resources.getString(R.string.price_number_from_default) + currentCurrency // дефолтное значение
+        priceNumberTo?.text = resources.getString(R.string.price_number_to_default) + currentCurrency // дефолтное значение
+
+        val rangeSlider = filtersDialog.findViewById<RangeSlider>(R.id.price_slider) // слайдер с ценой
+        rangeSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
+            priceNumberFrom?.text = slider.values[0].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
+            priceNumberTo?.text = slider.values[1].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
+        }
+
+        // блок с "количеством звезд" в фильтрах
+        //todo сделать получение сохраненных значений
+        val starsNumberFrom = filtersDialog.findViewById<TextView>(R.id.stars_number_from) // textView с ценой "от"
+        val starsNumberTo = filtersDialog.findViewById<TextView>(R.id.stars_number_to) // textView с ценой "до"
+        starsNumberFrom?.text = resources.getString(R.string.stars_number_from_default)  // дефолтное значение
+        starsNumberTo?.text = resources.getString(R.string.stars_number_to_default) // дефолтное значение
+
+        val starsSlider = filtersDialog.findViewById<RangeSlider>(R.id.stars_slider) // слайдер со звездами
+        starsSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере со звездами
+            starsNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи звезд под слайдером
+            starsNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи звезд под слайдером
+        }
+
+        initInfrastructureCheckboxes(filtersDialog)
+
+
+
+        filtersDialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
+            starsSlider?.values
+            // TODO: Сделать тут получение данных из фильтров, с последующей обработкой и сохранением
+        }
+
+
+    }
+
 
     private fun initCityDialog() { // инициализация диалога с выбором города и даты
         val citySheet = layoutInflater.inflate(R.layout.city_sheet_layout, null)
         cityDialog = Dialog(requireContext(), R.style.CityDateDialogStyle)
         cityDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         cityDialog.setContentView(citySheet)
-//        cityDialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, resources.getDimensionPixelSize(R.dimen.dialog_city_peek_height))
-
         val window: Window = cityDialog.window!!
         val param: WindowManager.LayoutParams = window.attributes
         param.width = WindowManager.LayoutParams.MATCH_PARENT
-        param.height = resources.getDimensionPixelSize(R.dimen.dialog_city_peek_height)
+//        param.height = resources.getDimensionPixelSize(R.dimen.dialog_city_peek_height)
+        param.height = WindowManager.LayoutParams.WRAP_CONTENT
         param.gravity = Gravity.TOP
         window.attributes = param
+
+
+        initCancelButtonCityDialog(cityDialog) // кнопка "Отмена"
+
+        initTourAndHotelsButtonsCityDialog(cityDialog) // кнопки "Туры", "Отели"
+
+        initAutoCompleteCityDialog(cityDialog) // выбор города
+        initButtonClearAutoCompleteCityDialog(cityDialog) // очистить поле выбора города
+
+        initAutoCompleteCityDestinationCityDialog(cityDialog) // выбор города откуда вылет
+        initButtonClearAutoCompleteDestinationCityDialog(cityDialog) // очистить поле выбора города откуда вылет
+
+        initDatePickerCityDialog(cityDialog) // выбор даты
+
+        initNightsCounter(cityDialog) // количество ночей
+        initPeoplesCounter(cityDialog) // количество людей
 
 
         cityDialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
             cityDialog.dismiss()
 //            starsSlider?.values
 //            peoplesSlider?.value
-            // TODO: Сделать тут получение данных из фильтров, с последующей обработкой и сохранением
+            // TODO: Сделать тут получение данных из диалога выбора города, с последующей обработкой и сохранением
         }
-
-        cityDialog.findViewById<Button>(R.id.city_menu_cancel_button).setOnClickListener {// кнопка "Отмена" // todo вынести что ли отсюда
-            cityDialog.dismiss()
-        }
-
-        initTourAndHotelsButtonsCityDialog(cityDialog)
-        initAutoCompleteCityDialog(cityDialog)
-        initButtonClearAutoCompleteCityDialog(cityDialog)
     }
 
-    private fun initButtonClearAutoCompleteCityDialog(cityDialog: Dialog) { // кнопка очистки рядом с полем выбора города
+    private fun initCancelButtonCityDialog(cityDialog: Dialog) {
+        cityDialog.findViewById<Button>(R.id.city_menu_cancel_button).setOnClickListener {// кнопка "Отмена"
+            cityDialog.dismiss()
+        }
+    }
+
+    private fun initNightsCounter(cityDialog: Dialog) { // инит количества ночей в меню выбора города
+        val counterTextView = cityDialog.findViewById<EditText>(R.id.city_menu_nights_value)
+        val plusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_nights_plus_button)
+        val minusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_nights_minus_button)
+
+        counterTextView.addTextChangedListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
+                if (counterTextView.text.toString().toInt() > 30) counterTextView.setText("30")
+                if (counterTextView.text.toString().toInt() < 1) counterTextView.setText("1")
+                counterTextView.setSelection(counterTextView.text.length)
+            }
+        }
+        plusButton.setOnClickListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString()
+                    .isNotEmpty()
+            ) counterTextView.setText((counterTextView.text.toString().toInt() + 1).toString())
+            else counterTextView.setText("1")
+            counterTextView.setSelection(counterTextView.text.length)
+        }
+        minusButton.setOnClickListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString()
+                    .isNotEmpty()
+            ) counterTextView.setText((counterTextView.text.toString().toInt() - 1).toString())
+            else counterTextView.setText("1")
+            counterTextView.setSelection(counterTextView.text.length)
+        }
+    }
+
+    private fun initPeoplesCounter(cityDialog: Dialog) { // инит количества людей в меню выбора города
+        val counterTextView = cityDialog.findViewById<EditText>(R.id.city_menu_peoples_value)
+        val plusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_peoples_plus_button)
+        val minusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_peoples_minus_button)
+
+        counterTextView.addTextChangedListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
+                if (counterTextView.text.toString().toInt() > 10) counterTextView.setText("10")
+                if (counterTextView.text.toString().toInt() < 1) counterTextView.setText("1")
+                counterTextView.setSelection(counterTextView.text.length)
+            }
+        }
+        plusButton.setOnClickListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString()
+                    .isNotEmpty()
+            ) counterTextView.setText((counterTextView.text.toString().toInt() + 1).toString())
+            else counterTextView.setText("1")
+            counterTextView.setSelection(counterTextView.text.length)
+        }
+        minusButton.setOnClickListener {
+            if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString()
+                    .isNotEmpty()
+            ) counterTextView.setText((counterTextView.text.toString().toInt() - 1).toString())
+            else counterTextView.setText("1")
+            counterTextView.setSelection(counterTextView.text.length)
+        }
+    }
+
+    private fun initDatePickerCityDialog(cityDialog: Dialog) { // выбор даты вылета диалог // todo сделать ограничение дат через onDataSet()
+        lateinit var startDatePicker: DatePickerDialog
+        var startDate: Date
+        val textViewButtonDate = cityDialog.findViewById<TextView>(R.id.city_menu_date_picker_tv)
+        textViewButtonDate.text = formatDate(calendar.time) // дата вылета = завтра
+
+//        textViewButtonDate.text = formatDate(Date().) // сегодняшняя дата
+
+        // Создаем DatePickerDialog для выбора даты вылета
+        startDatePicker = createDatePicker { selectedDate ->
+            startDate = selectedDate
+            val startDateStr = formatDate(startDate)
+            textViewButtonDate.text = startDateStr
+        }
+        textViewButtonDate.setOnClickListener {
+            startDatePicker.show()
+        }
+    }
+
+    private fun createDatePicker(onDateSelected: (Date) -> Unit): DatePickerDialog { // создание окна выбора даты для кнопки выбора числа вылета
+
+        val listener = DatePickerDialog.OnDateSetListener { view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            onDateSelected(calendar.time)
+        }
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            listener,
+            minYear, minMonth, minDay
+        )
+        datePickerDialog.datePicker.minDate = calendar.timeInMillis // минимальная дата = завтра
+
+        return datePickerDialog
+    }
+
+    private fun formatDate(date: Date?): String { // формат даты для выбора числа вылета
+        val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        return format.format(date)
+    }
+
+    private fun initMinDate() { // установка минимальной даты вылета
+        calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)
+        minYear = calendar.get(Calendar.YEAR)
+        minMonth = calendar.get(Calendar.MONTH)
+        minDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+    }
+
+    private fun initButtonClearAutoCompleteCityDialog(cityDialog: Dialog) { // кнопка очистки рядом с полем выбора города, куда планируется тур
         val clearButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button)
         clearButton.setOnClickListener {
             cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv).text.clear()
         }
     }
 
-    private fun initAutoCompleteCityDialog(cityDialog: Dialog) { // инит поля с выбором города
+    private fun initButtonClearAutoCompleteDestinationCityDialog(cityDialog: Dialog) { // кнопка очистки рядом с полем выбора города, откуда вылет
+        val clearButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from)
+        clearButton.setOnClickListener {
+            cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).text.clear()
+        }
+    }
+
+    private fun initAutoCompleteCityDestinationCityDialog(cityDialog: Dialog) { // инит поля с выбором города, куда планируется тур
         val cities = listOf( // todo вынести в файл с массивами может быть
             "Анапа",
             "Москва",
@@ -199,6 +392,68 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
+    private fun initAutoCompleteCityDialog(cityDialog: Dialog) { // инит поля с выбором города, откуда вылет
+        val cities = listOf( // todo вынести в файл с массивами может быть
+            "Анапа",
+            "Москва",
+            "Санкт-Петербург",
+            "Новосибирск",
+            "Екатеринбург",
+            "Нижний Новгород",
+            "Казань",
+            "Челябинск",
+            "Омск",
+            "Самара",
+            "Ростов-на-Дону",
+            "Уфа",
+            "Красноярск",
+            "Воронеж",
+            "Пермь",
+            "Волгоград",
+            "Краснодар",
+            "Саратов",
+            "Тюмень",
+            "Тольятти",
+            "Ижевск",
+            "Барнаул",
+            "Иркутск",
+            "Ульяновск",
+            "Владивосток",
+            "Ярославль",
+            "Хабаровск",
+            "Махачкала",
+            "Оренбург",
+            "Томск",
+            "Новокузнецк",
+            "Кемерово",
+            "Рязань",
+            "Астрахань",
+            "Набережные Челны",
+            "Пенза",
+            "Липецк",
+            "Тула",
+            "Киров",
+            "Чебоксары",
+            "Калининград",
+            "Курск",
+            "Улан-Удэ",
+            "Тверь",
+            "Ставрополь",
+            "Магнитогорск",
+            "Брянск",
+            "Белгород",
+            "Архангельск",
+            "Ангарск",
+            "Смоленск"
+        )
+
+        val autoCompleteTextView =
+            cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from) // поле с выбором города
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, cities)
+        autoCompleteTextView.setAdapter(adapter)
+
+    }
+
     private fun initTourAndHotelsButtonsCityDialog(cityDialog: Dialog) { // инициализация кнопок "Туры" и "Отели" в диалоге с выбором города и времени
         cityDialog.findViewById<Button>(R.id.city_menu_tours_button).setOnClickListener { // кнопка "Туры"
             switchStateButtonsToursAndHotels(
@@ -208,6 +463,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                 cityDialog.findViewById(R.id.city_menu_tours_button),
                 cityDialog.findViewById(R.id.city_menu_hotels_button)
             )
+            hideOrShowCityDepartureCityField(true)
+
         }
         cityDialog.findViewById<Button>(R.id.city_menu_hotels_button).setOnClickListener { // кнопка "Отели"
             switchStateButtonsToursAndHotels(
@@ -217,6 +474,22 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                 cityDialog.findViewById(R.id.city_menu_tours_button),
                 cityDialog.findViewById(R.id.city_menu_hotels_button)
             )
+            hideOrShowCityDepartureCityField(false)
+        }
+    }
+
+    private fun hideOrShowCityDepartureCityField(fromTours: Boolean) { // спрятать или показать поле ввода города вылета, в зависимости от того, активна ли кнопка "Туры"
+        if (fromTours != isDepartureCityFieldActiveCityLayout) {
+            if (isDepartureCityFieldActiveCityLayout) {
+                cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility =
+                    View.INVISIBLE // invisible, вместо gone, чтобы разметка не съезжала
+                cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.INVISIBLE
+            } else {
+                cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility = View.VISIBLE
+                cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.VISIBLE
+            }
+
+            isDepartureCityFieldActiveCityLayout = !isDepartureCityFieldActiveCityLayout
         }
     }
 
@@ -258,70 +531,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         popupMenu.show()
     }
 
-    private fun initFiltersDialog() { // показать меню фильтров
 
-        val bottomSheet = layoutInflater.inflate(R.layout.filters_bottom_sheet_layout, null)
-        filtersDialog = BottomSheetDialog(requireContext())
-        filtersDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        filtersDialog.setContentView(bottomSheet)
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet.parent as View)
-        bottomSheetBehavior.peekHeight =
-            resources.getDimensionPixelSize(R.dimen.dialog_filters_peek_height) // Устанавливаем высоту, на которую откроется BottomSheet
-//        filtersDialog.show()
-
-        // блок с "ценой" в фильтрах
-        //todo сделать получение сохраненных значений
-        val priceNumberFrom = filtersDialog.findViewById<TextView>(R.id.price_number_from) // textView с ценой "от"
-        val priceNumberTo = filtersDialog.findViewById<TextView>(R.id.price_number_to) // textView с ценой "до"
-        priceNumberFrom?.text = resources.getString(R.string.price_number_from_default) + currentCurrency // дефолтное значение
-        priceNumberTo?.text = resources.getString(R.string.price_number_to_default) + currentCurrency // дефолтное значение
-
-        val rangeSlider = filtersDialog.findViewById<RangeSlider>(R.id.price_slider) // слайдер с ценой
-        rangeSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
-            priceNumberFrom?.text = slider.values[0].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
-            priceNumberTo?.text = slider.values[1].toInt().toString() + currentCurrency // изменение подписи цены под слайдером
-        }
-
-        // блок с "количеством звезд" в фильтрах
-        //todo сделать получение сохраненных значений
-        val starsNumberFrom = filtersDialog.findViewById<TextView>(R.id.stars_number_from) // textView с ценой "от"
-        val starsNumberTo = filtersDialog.findViewById<TextView>(R.id.stars_number_to) // textView с ценой "до"
-        starsNumberFrom?.text = resources.getString(R.string.stars_number_from_default)  // дефолтное значение
-        starsNumberTo?.text = resources.getString(R.string.stars_number_to_default) // дефолтное значение
-
-        val starsSlider = filtersDialog.findViewById<RangeSlider>(R.id.stars_slider) // слайдер со звездами
-        starsSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере со звездами
-            starsNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи звезд под слайдером
-            starsNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи звезд под слайдером
-        }
-
-        // блок с "количеством человек" в фильтрах
-        //todo сделать получение сохраненных значений
-//        val peoplesNumberFrom = dialog.findViewById<TextView>(R.id.peoples_number_from) // textView с ценой "от"
-//        val peoplesNumberTo = dialog.findViewById<TextView>(R.id.peoples_number_to) // textView с ценой "до"
-//        peoplesNumberFrom?.text = resources.getString(R.string.peoples_number_from_default)  // дефолтное значение
-//        peoplesNumberTo?.text = resources.getString(R.string.peoples_number_to_default) // дефолтное значение
-
-        val peoplesSlider = filtersDialog.findViewById<Slider>(R.id.peoples_slider) // слайдер с колвом человек
-        peoplesSlider?.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с колвом человек
-//            peoplesNumberFrom?.text = slider.values[0].toInt().toString()  // изменение подписи человек под слайдером
-//            peoplesNumberTo?.text = slider.values[1].toInt().toString() // изменение подписи человек под слайдером
-        }
-
-        initInfrastructureCheckboxes(filtersDialog)
-
-
-
-        filtersDialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
-            starsSlider?.values
-            peoplesSlider?.value
-            // TODO: Сделать тут получение данных из фильтров, с последующей обработкой и сохранением
-        }
-
-
-    }
-
-    private fun initInfrastructureCheckboxes(filtersDialog: BottomSheetDialog) { // init checkboxes + textviews
+    private fun initInfrastructureCheckboxes(filtersDialog: BottomSheetDialog) { // init checkboxes + textviews в фильтрах
         filtersDialog.findViewById<TextView>(R.id.filters_infrastructure_textview_1)
             ?.setOnClickListener { // onClickListener на TextView рядом с чекбоксом
                 with(filtersDialog.findViewById<MaterialCheckBox>(R.id.filters_infrastructure_checkbox_1)) {

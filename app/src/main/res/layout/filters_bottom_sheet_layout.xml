@@ -23,8 +23,7 @@
             <com.google.android.material.bottomsheet.BottomSheetDragHandleView
                 android:id="@+id/drag_handle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content" />
 
 
             <TextView
@@ -178,76 +177,6 @@
                     app:layout_constraintEnd_toEndOf="@id/stars_slider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_peoples"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/filters_layouts_margin_top">
-
-                <TextView
-                    android:id="@+id/tv_peoples"
-                    style="@style/filtersMainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_peoples_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/peoples_slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:stepSize="1.0"
-                    android:valueFrom="1"
-                    android:valueTo="10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peoples"
-                    app:values="@array/initial_values_peoples" />
-
-                <TextView
-                    android:id="@+id/peoples_text_from"
-                    style="@style/filtersFromToText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/filters_from_text_margin_start"
-                    android:text="@string/text_from"
-                    app:layout_constraintStart_toStartOf="@id/peoples_slider"
-                    app:layout_constraintTop_toBottomOf="@id/peoples_slider" />
-
-                <TextView
-                    android:id="@+id/peoples_number_from"
-                    style="@style/filtersFromToText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/filters_from_text_margin_start"
-                    android:text="@string/peoples_number_from_default"
-                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
-                    app:layout_constraintStart_toEndOf="@id/peoples_text_from" />
-
-
-                <TextView
-                    android:id="@+id/peoples_text_to"
-                    style="@style/filtersFromToText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/filters_to_text_margin_end"
-                    android:text="@string/price_text_to"
-                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
-                    app:layout_constraintEnd_toStartOf="@id/peoples_number_to" />
-
-                <TextView
-                    android:id="@+id/peoples_number_to"
-                    style="@style/filtersFromToText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/filters_to_text_margin_end"
-                    android:text="@string/peoples_number_to_default"
-                    app:layout_constraintBottom_toBottomOf="@id/peoples_text_from"
-                    app:layout_constraintEnd_toEndOf="@id/peoples_slider" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_food"
