@@ -61,6 +61,17 @@
     <string name="autocomplete_tv_city_departure_city_layout">Город вылета</string>
     <string name="peoples_number_tv_city_layout">Количество человек</string>
     <string name="peoples_value_city_layout">1</string>
+    <string name="recycler_item_tour_hotel_rating_default_text">9.8</string>
+    <string name="recycler_item_tour_line_text_view_default_text">линия</string>
+    <string name="recycler_item_tour_wifi_text_view_default_text">везде</string>
+    <string name="recycler_item_tour_parking_text_view_default_text">есть</string>
+    <string name="recycler_item_tour_beach_text_view_default_text">500 м</string>
+    <string name="recycler_item_tour_airport_text_view_default_text">в 2 км</string>
+    <string name="recycler_item_tour_hotel_name_default_text">Отель ALEAN FAMILY DOVILLE</string>
+    <string name="recycler_item_tour_hotel_location_default_text">Анапа, Россия</string>
+    <string name="recycler_item_tour_price_text_view_default_text">100 000 ₽</string>
+    <string name="city_menu_find_button_text_find_tours">Найти туры</string>
+    <string name="city_menu_find_button_text_find_hotels">Найти отели</string>
 
 
 </resources>

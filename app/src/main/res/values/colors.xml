@@ -36,4 +36,8 @@
     <color name="background_color_rating_medium">#FFB300</color>
     <color name="background_color_rating_low">#E53935</color>
 
+    <color name="recycler_item_tour_icons_bottom_text_color">#FF000000</color>
+    <color name="recycler_item_tour_price_text_view_text_color">#FF000000</color>
+    <color name="recycler_item_tour_main_text_color">#FFFFFF</color>
+
 </resources>

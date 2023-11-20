@@ -27,6 +27,24 @@
     <dimen name="margin_top_date_city_layout">20dp</dimen>
     <dimen name="margin_start_autocomplete_tv_city_departure_city_menu">5dp</dimen>
     <dimen name="margin_top_autocomplete_tv_city_departure_city_menu">20dp</dimen>
+    <dimen name="slide_item_image_view_height">200dp</dimen>
+    <dimen name="recycler_item_tour_hotel_name_text_size">18sp</dimen>
+    <dimen name="recycler_item_tour_hotel_location_text_size">16sp</dimen>
+    <dimen name="recycler_item_tour_hotel_location_margin_start">10dp</dimen>
+    <dimen name="recycler_item_tour_hotel_location_margin_bottom">5dp</dimen>
+    <dimen name="recycler_item_tour_hotel_rating_margin_end">5dp</dimen>
+    <dimen name="recycler_item_tour_hotel_rating_margin_bottom">5dp</dimen>
+    <dimen name="recycler_item_tour_hotel_rating_padding">10dp</dimen>
+    <dimen name="recycler_item_tour_hotel_rating_text_size">16sp</dimen>
+    <dimen name="recycler_item_tour_line_image_margin_top">10dp</dimen>
+    <dimen name="recycler_item_tour_icons_bottom_text_size">16sp</dimen>
+    <dimen name="recycler_item_tour_icons_size">40dp</dimen>
+    <dimen name="recycler_item_tour_price_text_view_margin">10dp</dimen>
+    <dimen name="recycler_item_tour_price_text_view_text_size">22sp</dimen>
+    <dimen name="city_menu_find_button_text_size">16sp</dimen>
+    <dimen name="city_menu_find_button_margin_horizontal">30dp</dimen>
+    <dimen name="city_menu_find_button_margin_top">5dp</dimen>
+    <dimen name="recycler_item_tour_card_margin_vertical">5dp</dimen>
 
 
 </resources>

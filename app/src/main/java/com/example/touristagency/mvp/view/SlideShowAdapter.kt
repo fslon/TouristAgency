@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.touristagency.R
 
 class SlideShowAdapter(private val images: List<Int>) : RecyclerView.Adapter<SlideShowAdapter.SlideViewHolder>() {
@@ -17,7 +15,6 @@ class SlideShowAdapter(private val images: List<Int>) : RecyclerView.Adapter<Sli
     }
 
     override fun onBindViewHolder(holder: SlideViewHolder, position: Int) {
-//        holder.bind(images[position])
         holder.bind(images[position])
     }
 
