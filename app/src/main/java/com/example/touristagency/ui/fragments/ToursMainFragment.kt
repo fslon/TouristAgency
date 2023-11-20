@@ -2,13 +2,17 @@ package com.example.touristagency.ui.fragments
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -18,13 +22,16 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.dagger.ToursSubComponent
 import com.example.touristagency.databinding.FragmentToursMainBinding
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
+import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.ui.activity.BackButtonListener
+import com.example.touristagency.ui.activity.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -46,10 +53,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private var toursSubComponent: ToursSubComponent? = null
 
-    private var isToursButtonActiveMainLayout = true // флаг, активна ли кнопка "Туры" в основом лэйауте
-    private var isToursButtonActiveCityLayout = true // флаг, активна ли кнопка "Туры" в меню выбора города
-
-    private var isDepartureCityFieldActiveCityLayout = true // флаг, видно ли поле выбора города вылета в меню выбора города
+    private var isToursButtonActive = true // флаг, активна ли кнопка "Туры"
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
@@ -97,11 +101,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
 
         binding.toursButton.setOnClickListener { // кнопка "Туры"
-            switchStateButtonsToursAndHotels(true, true, isToursButtonActiveMainLayout, binding.toursButton, binding.hotelsButton)
+            switchStateButtonsToursAndHotels(true)
         }
 
         binding.hotelsButton.setOnClickListener { // кнопка "Отели"
-            switchStateButtonsToursAndHotels(false, true, isToursButtonActiveMainLayout, binding.toursButton, binding.hotelsButton)
+            switchStateButtonsToursAndHotels(false)
         }
 
 
@@ -113,6 +117,65 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             filtersDialog.show()
         }
 
+
+        testinit()
+        testinit2()
+
+    }
+
+    private fun testinit() {
+
+
+        // Создаем список изображений
+        val images = listOf(
+            R.drawable.alean_1,
+            R.drawable.alean_2,
+            R.drawable.alean_3,
+            R.drawable.alean_4,
+            R.drawable.alean_5,
+            R.drawable.alean_6,
+            R.drawable.alean_7,
+            R.drawable.alean_8,
+            R.drawable.alean_9,
+            R.drawable.alean_10
+        )
+
+// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
+        val adapter = SlideShowAdapter(images)
+        binding.testItem.viewPager2.adapter = adapter
+
+    }
+
+    private fun testinit2() {
+
+        binding.testItem2.tv1.text = "Санаторий \"Надежда\""
+        binding.testItem2.tv2.text = "Анапа, Россия"
+        binding.testItem2.tv3.text = "9.0"
+
+        binding.testItem2.firstImage.setImageResource(R.drawable.second_24)
+        binding.testItem2.airportValue.text = "в 1 км"
+        binding.testItem2.beachValue.text = "650 м"
+
+        binding.testItem2.price.text = "40 627 ₽"
+
+
+        // Создаем список изображений
+        val images = listOf(
+            R.drawable.nadezhda_1,
+            R.drawable.nadezhda_2,
+            R.drawable.nadezhda_3,
+            R.drawable.nadezhda_4,
+            R.drawable.nadezhda_5,
+            R.drawable.nadezhda_6,
+            R.drawable.nadezhda_7,
+            R.drawable.nadezhda_8,
+            R.drawable.nadezhda_9,
+            R.drawable.nadezhda_10
+        )
+
+// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
+        val adapter = SlideShowAdapter(images)
+        binding.testItem2.viewPager2.adapter = adapter
 
     }
 
@@ -179,6 +242,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         param.gravity = Gravity.TOP
         window.attributes = param
 
+        window.setWindowAnimations(R.style.DialogAnimation)
 
         initCancelButtonCityDialog(cityDialog) // кнопка "Отмена"
 
@@ -197,12 +261,17 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
 
         cityDialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
+            val test = cityDialog.findViewById<MaterialButton>(R.id.city_menu_hotels_button)
+//            Log.e("//////////// ",test.iconTint.toString() )
+
             cityDialog.dismiss()
+
 //            starsSlider?.values
 //            peoplesSlider?.value
             // TODO: Сделать тут получение данных из диалога выбора города, с последующей обработкой и сохранением
         }
     }
+
 
     private fun initCancelButtonCityDialog(cityDialog: Dialog) {
         cityDialog.findViewById<Button>(R.id.city_menu_cancel_button).setOnClickListener {// кнопка "Отмена"
@@ -266,7 +335,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
-    private fun initDatePickerCityDialog(cityDialog: Dialog) { // выбор даты вылета диалог // todo сделать ограничение дат через onDataSet()
+    private fun initDatePickerCityDialog(cityDialog: Dialog) { // выбор даты вылета диалог
         lateinit var startDatePicker: DatePickerDialog
         var startDate: Date
         val textViewButtonDate = cityDialog.findViewById<TextView>(R.id.city_menu_date_picker_tv)
@@ -456,40 +525,22 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     private fun initTourAndHotelsButtonsCityDialog(cityDialog: Dialog) { // инициализация кнопок "Туры" и "Отели" в диалоге с выбором города и времени
         cityDialog.findViewById<Button>(R.id.city_menu_tours_button).setOnClickListener { // кнопка "Туры"
-            switchStateButtonsToursAndHotels(
-                true,
-                false,
-                isToursButtonActiveCityLayout,
-                cityDialog.findViewById(R.id.city_menu_tours_button),
-                cityDialog.findViewById(R.id.city_menu_hotels_button)
-            )
-            hideOrShowCityDepartureCityField(true)
+            switchStateButtonsToursAndHotels(true)
 
         }
         cityDialog.findViewById<Button>(R.id.city_menu_hotels_button).setOnClickListener { // кнопка "Отели"
-            switchStateButtonsToursAndHotels(
-                false,
-                false,
-                isToursButtonActiveCityLayout,
-                cityDialog.findViewById(R.id.city_menu_tours_button),
-                cityDialog.findViewById(R.id.city_menu_hotels_button)
-            )
-            hideOrShowCityDepartureCityField(false)
+            switchStateButtonsToursAndHotels(false)
         }
     }
 
-    private fun hideOrShowCityDepartureCityField(fromTours: Boolean) { // спрятать или показать поле ввода города вылета, в зависимости от того, активна ли кнопка "Туры"
-        if (fromTours != isDepartureCityFieldActiveCityLayout) {
-            if (isDepartureCityFieldActiveCityLayout) {
-                cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility =
-                    View.INVISIBLE // invisible, вместо gone, чтобы разметка не съезжала
-                cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.INVISIBLE
-            } else {
-                cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility = View.VISIBLE
-                cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.VISIBLE
-            }
-
-            isDepartureCityFieldActiveCityLayout = !isDepartureCityFieldActiveCityLayout
+    private fun hideOrShowCityDepartureCityField() { // спрятать или показать поле ввода города вылета, в зависимости от того, активна ли кнопка "Туры"
+        if (!isToursButtonActive) {
+            cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility =
+                View.INVISIBLE // invisible, вместо gone, чтобы разметка не съезжала
+            cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.INVISIBLE
+        } else {
+            cityDialog.findViewById<AutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).visibility = View.VISIBLE
+            cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from).visibility = View.VISIBLE
         }
     }
 
@@ -579,21 +630,36 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
+    private fun switchStateButtonsToursAndHotels(fromTours: Boolean) {
+
+        makeSwitchStateButtonsToursAndHotels(fromTours, true)
+        makeSwitchStateButtonsToursAndHotels(fromTours, false)
+        hideOrShowCityDepartureCityField()
+
+    }
+
     // fromTours: Boolean - это проверка на какую кнопку вызывается метод, чтобы не было повторных нажатий на одну и ту же кнопку (из "Туры" или "Отели");
-    // isCallFromMainLayout: Boolean - из главного лэйаута, или из выбора города;
-    // isToursButtonActive: Boolean - активна ли кнопка "Туры" [есть разница из какого лэйаута кнопка]
-    private fun switchStateButtonsToursAndHotels(
+    // isCallFromMainLayout: Boolean - в каком лэйауте красить кнопки, главный или в выборе города (нужно по 2 раза вызывать метод);
+    private fun makeSwitchStateButtonsToursAndHotels(
         fromTours: Boolean,
-        isCallFromMainLayout: Boolean,
-        isToursButtonActive: Boolean,
-        toursButton: MaterialButton,
-        hotelsButton: MaterialButton
-    ) { // метод меняет цвета фона и цвета текста у кнопок "Туры" и "Отели
+        isCallForMainLayoutButtons: Boolean,
+    ) { // метод меняет цвета фона и цвета текста у кнопок "Туры" и "Отели"
+
+        lateinit var toursButton: MaterialButton
+        lateinit var hotelsButton: MaterialButton
+
+        if (isCallForMainLayoutButtons) { // если красим в main layout, то кнопки берем оттуда же
+            toursButton = binding.toursButton
+            hotelsButton = binding.hotelsButton
+        } else { // если красим в city dialog, то кнопки берем оттуда же
+            toursButton = cityDialog.findViewById(R.id.city_menu_tours_button)
+            hotelsButton = cityDialog.findViewById(R.id.city_menu_hotels_button)
+        }
 
         if (fromTours != isToursButtonActive) { // если клик не по той же кнопке
             if (!isToursButtonActive) {
                 with(hotelsButton) {
-                    if (isCallFromMainLayout) setBackgroundColor(resources.getColor(R.color.color_for_background, null))
+                    if (isCallForMainLayoutButtons) setBackgroundColor(resources.getColor(R.color.color_for_background, null))
                     else {
                         setBackgroundColor(resources.getColor(R.color.white, null))
                     }
@@ -611,7 +677,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     )
                 }
                 with(toursButton) {
-                    if (isCallFromMainLayout) setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
+                    if (isCallForMainLayoutButtons) setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
                     else {
                         setBackgroundColor(resources.getColor(R.color.city_menu_background_color_for_active_buttons, null))
                     }
@@ -630,8 +696,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                 }
             } else {
                 with(toursButton) {
-                    if (isCallFromMainLayout) setBackgroundColor(resources.getColor(R.color.color_for_background, null))
-                    if (!isCallFromMainLayout) {
+                    if (isCallForMainLayoutButtons) setBackgroundColor(resources.getColor(R.color.color_for_background, null))
+                    else {
                         setBackgroundColor(resources.getColor(R.color.white, null))
                     }
                     setTextColor(
@@ -648,31 +714,29 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     )
                 }
                 with(hotelsButton) {
-                    if (isCallFromMainLayout) setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
-                    else {
+                    if (isCallForMainLayoutButtons) {
+                        setBackgroundColor(resources.getColor(R.color.background_color_for_active_buttons, null))
+                    } else {
                         setBackgroundColor(resources.getColor(R.color.city_menu_background_color_for_active_buttons, null))
                     }
-                    setTextColor(
-                        resources.getColorStateList(
-                            R.color.text_color_active_button,
-                            null
-                        )
-                    )
                     icon.setTintList(
                         resources.getColorStateList(
                             R.color.text_color_active_button,
                             null
                         )
                     )
+                    setTextColor(
+                        resources.getColorStateList(
+                            R.color.text_color_active_button,
+                            null
+                        )
+                    )
+                    Log.e("---------- ", this.iconTint.toString())
                 }
             }
 
+            if (!isCallForMainLayoutButtons) isToursButtonActive = !isToursButtonActive // меняем флаг активна ли кнопка "Туры"
 
-            if (isCallFromMainLayout) { // меняем флаги активна ли кнопка "Туры" в зависимости от лэйаута, откуда был запрос
-                isToursButtonActiveMainLayout = !isToursButtonActiveMainLayout
-            } else {
-                isToursButtonActiveCityLayout = !isToursButtonActiveCityLayout
-            }
 
         }
     }

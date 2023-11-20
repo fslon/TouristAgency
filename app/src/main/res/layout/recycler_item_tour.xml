@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отель ALEAN FAMILY DOVILLE"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_2"
+                app:layout_constraintStart_toStartOf="@id/tv_2"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Анапа, Россия"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/image"
+                app:layout_constraintStart_toStartOf="@id/image" />
+
+            <TextView
+                android:id="@+id/tv_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rating_background"
+                android:backgroundTint="@color/background_color_rating_high"
+                android:padding="10dp"
+                android:text="9.8"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/image"
+                app:layout_constraintEnd_toEndOf="@id/image" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/first_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/first_24"
+                app:layout_constraintEnd_toStartOf="@id/second_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image" />
+
+            <TextView
+                android:id="@+id/tv_bottom_image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="линия"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/first_image"
+                app:layout_constraintStart_toStartOf="@id/first_image"
+                app:layout_constraintTop_toBottomOf="@id/first_image" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/second_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/airplane"
+                app:layout_constraintBottom_toBottomOf="@id/first_image"
+                app:layout_constraintEnd_toStartOf="@id/third_image"
+                app:layout_constraintStart_toEndOf="@id/first_image"
+                app:layout_constraintTop_toTopOf="@id/first_image" />
+
+            <TextView
+                android:id="@+id/airport_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="в 2 км"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/second_image"
+                app:layout_constraintStart_toStartOf="@id/second_image"
+                app:layout_constraintTop_toBottomOf="@id/second_image"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/third_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/beach"
+                app:layout_constraintBottom_toBottomOf="@id/second_image"
+                app:layout_constraintEnd_toStartOf="@id/fourth_image"
+                app:layout_constraintStart_toEndOf="@id/second_image"
+                app:layout_constraintTop_toTopOf="@id/second_image" />
+
+            <TextView
+                android:id="@+id/beach_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500 м"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/third_image"
+                app:layout_constraintStart_toStartOf="@id/third_image"
+                app:layout_constraintTop_toBottomOf="@id/third_image"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/fourth_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/parking"
+                app:layout_constraintBottom_toBottomOf="@id/third_image"
+                app:layout_constraintEnd_toStartOf="@id/fifth_image"
+                app:layout_constraintStart_toEndOf="@id/third_image"
+                app:layout_constraintTop_toTopOf="@id/third_image" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="есть"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/fourth_image"
+                app:layout_constraintStart_toStartOf="@id/fourth_image"
+                app:layout_constraintTop_toBottomOf="@id/fourth_image"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/fifth_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/wifi"
+                app:layout_constraintBottom_toBottomOf="@id/fourth_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/fourth_image"
+                app:layout_constraintTop_toTopOf="@id/fourth_image" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="везде"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/fifth_image"
+                app:layout_constraintStart_toStartOf="@id/fifth_image"
+                app:layout_constraintTop_toBottomOf="@id/fifth_image"
+
+                />
+
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="100 000 ₽"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_bottom_image_1"
+
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

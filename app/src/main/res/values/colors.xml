@@ -32,4 +32,8 @@
     <color name="city_menu_cancel_default">#1E88E5</color>
     <color name="city_menu_cancel_on_pressed">#7EC1FC</color>
 
+    <color name="background_color_rating_high">#7CB342</color>
+    <color name="background_color_rating_medium">#FFB300</color>
+    <color name="background_color_rating_low">#E53935</color>
+
 </resources>
