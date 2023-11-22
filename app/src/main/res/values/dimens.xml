@@ -45,6 +45,9 @@
     <dimen name="city_menu_find_button_margin_horizontal">30dp</dimen>
     <dimen name="city_menu_find_button_margin_top">5dp</dimen>
     <dimen name="recycler_item_tour_card_margin_vertical">5dp</dimen>
+    <dimen name="recycler_item_tour_favourite_button_size">35dp</dimen>
+    <dimen name="recycler_item_tour_favourite_button_margin_top">10dp</dimen>
+    <dimen name="filters_layout_cancel_button_text_size">16sp</dimen>
 
 
 </resources>

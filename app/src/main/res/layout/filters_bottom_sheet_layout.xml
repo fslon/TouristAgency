@@ -25,13 +25,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_bottom_sheet_filters_text"
-                android:textColor="@color/filters_filters_text_color"
-                android:textSize="@dimen/filters_filters_text_size" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_bottom_sheet_filters_text"
+                    android:textColor="@color/filters_filters_text_color"
+                    android:textSize="@dimen/filters_filters_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/filters_layout_clear_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:text="Сбросить"
+                    android:textColor="@color/city_menu_clear_color_selector"
+                    android:textSize="@dimen/filters_layout_cancel_button_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/filters_layout_cancel_button"
+                    android:clickable="true"
+                    />
+
+                <TextView
+                    android:id="@+id/filters_layout_cancel_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/city_menu_cancel_button_text"
+                    android:textColor="@color/city_menu_cancel_color_selector"
+                    android:textSize="@dimen/filters_layout_cancel_button_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_price"
@@ -194,6 +224,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioGroup
+                    android:id="@+id/food_systems_radiogroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkedButton="@id/food_radiobutton_1"
@@ -208,30 +239,35 @@
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_radio_2_text"
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_radio_3_text"
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_radio_4_text"
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_radio_5_text"
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_radiobutton_6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_radio_6_text"
@@ -256,6 +292,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <RadioGroup
+                    android:id="@+id/food_types_radiogroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkedButton="@id/food_types_radiobutton_1"
@@ -270,12 +307,14 @@
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_types_radiobutton_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_types_radio_2_text"
                         android:textSize="@dimen/filters_radiobutton_and_checkbox_text_size" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/food_types_radiobutton_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/food_types_radio_3_text"

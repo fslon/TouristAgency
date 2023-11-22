@@ -8,8 +8,7 @@
         style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/recycler_item_tour_card_margin_vertical"
-        >
+        android:layout_marginVertical="@dimen/recycler_item_tour_card_margin_vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,6 +31,18 @@
                     android:background="@color/black" />
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/recycler_item_tour_favourite_button"
+                android:layout_width="@dimen/recycler_item_tour_favourite_button_size"
+                android:layout_height="@dimen/recycler_item_tour_favourite_button_size"
+                android:layout_margin="@dimen/recycler_item_tour_favourite_button_margin_top"
+                android:clickable="true"
+                android:src="@drawable/baseline_favorite_border_24"
+                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_image_layout"
+                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_image_layout"
+
+                />
 
             <TextView
                 android:id="@+id/recycler_item_tour_hotel_name"

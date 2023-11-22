@@ -72,6 +72,7 @@
     <string name="recycler_item_tour_price_text_view_default_text">100 000 ₽</string>
     <string name="city_menu_find_button_text_find_tours">Найти туры</string>
     <string name="city_menu_find_button_text_find_hotels">Найти отели</string>
+    <string name="city_and_nights_button_default_text">Россия</string>
 
 
 </resources>

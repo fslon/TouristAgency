@@ -31,6 +31,8 @@
     <color name="city_menu_background_color_for_options_buttons_on_pressed">#AC91B1</color>
     <color name="city_menu_cancel_default">#1E88E5</color>
     <color name="city_menu_cancel_on_pressed">#7EC1FC</color>
+    <color name="city_menu_clear_default">#757575</color>
+    <color name="city_menu_clear_on_pressed">#AFAFAF</color>
 
     <color name="background_color_rating_high">#7CB342</color>
     <color name="background_color_rating_medium">#FFB300</color>
