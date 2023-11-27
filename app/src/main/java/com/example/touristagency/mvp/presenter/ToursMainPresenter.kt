@@ -1,46 +1,263 @@
 package com.example.touristagency.mvp.presenter
 
+import android.view.MenuItem
+import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.presenter.list.IUserListPresenter
 import com.example.touristagency.mvp.view.ToursView
+import com.example.touristagency.mvp.view.list.UserItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import java.util.Calendar
 import javax.inject.Inject
 
 class ToursMainPresenter : MvpPresenter<ToursView>() {
-
-
     @Inject
     lateinit var router: Router
+
     @Inject
     lateinit var screens: IScreens
 
-//    class UsersListPresenter : IUserListPresenter {
-//
-//        val users = mutableListOf<GithubUser>()
-//
-//        override var itemClickListener: ((UserItemView) -> Unit)? = null
-//        override fun getCount() = users.size
-//        override fun bindView(view: UserItemView) {
-//            val user = users[view.pos]
-//            user.login?.let { view.setLogin(it) }
-//            user.avatarUrl?.let { view.loadAvatar(it) }
-//
-//        }
-//    }
+    private val currentCurrency: String = "₽"// текущая валюта
 
-//    val usersListPresenter = UsersListPresenter()
+    private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
+
+    private var savedValuesFiltersDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в меню фильтров
+    private val priceNumberFromKey = "priceNumberFrom" // ключ для сохранения "цены от" в map
+    private val priceNumberToKey = "priceNumberTo" // ключ для сохранения "цены до" в map
+    private val starsNumberFromKey = "starsNumberFrom" // ключ для сохранения "колво звезд от" в map
+    private val starsNumberToKey = "starsNumberTo" // ключ для сохранения  "колво звезд до" в map
+    private val foodTypesRadioGroupKey = "foodTypesRadioGroup" // ключ для сохранения checked элемента в radiogroup типов питания
+    private val foodSystemsRadioGroupKey = "foodSystemsRadioGroup" // ключ для сохранения checked элемента в radiogroup систем питания
+    private val infrastructureCheckBox1Key = "infrastructureCheckBox1" // ключ для сохранения состояния чекбокса 1
+    private val infrastructureCheckBox2Key = "infrastructureCheckBox2" // ключ для сохранения состояния чекбокса 2
+    private val infrastructureCheckBox3Key = "infrastructureCheckBox3" // ключ для сохранения состояния чекбокса 3
+    private val infrastructureCheckBox4Key = "infrastructureCheckBox4" // ключ для сохранения состояния чекбокса 4
+    private val infrastructureCheckBox5Key = "infrastructureCheckBox5" // ключ для сохранения состояния чекбокса 5
+    private val infrastructureCheckBox6Key = "infrastructureCheckBox6" // ключ для сохранения состояния чекбокса 6
+    private val infrastructureCheckBox7Key = "infrastructureCheckBox7" // ключ для сохранения состояния чекбокса 7
+
+
+    class ToursListPresenter : IUserListPresenter {
+
+        val users = mutableListOf<Tour>()
+
+        override var itemClickListener: ((UserItemView) -> Unit)? = null
+        override fun getCount() = users.size
+        override fun bindView(view: UserItemView) {
+            val user = users[view.pos]
+            user.login?.let { view.setLogin(it) }
+            user.avatarUrl?.let { view.loadAvatar(it) }
+
+        }
+    }
+
+    val toursListPresenter = ToursListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
+        viewState.initCurrentCurrency(currentCurrency)
+        initMinDate()
+
         viewState.init()
 //        loadData()
-//        usersListPresenter.itemClickListener = { itemView ->
-//            val user = usersListPresenter.users[itemView.pos]
-//
+        toursListPresenter.itemClickListener = { itemView ->
+            val user = toursListPresenter.users[itemView.pos]
+
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
-//        }
+        }
+
+
+        initViews()
+
     }
+
+    private fun initViews() {
+        viewState.setTextSortingButton(sortingStrings[0]) // присвоение дефолтного способа сортировки
+
+
+        viewState.initCityDialog()
+        viewState.updateCityButton()
+        viewState.initCityAndNightsButton()
+
+        initFiltersDialogFun()
+
+        viewState.initToursButton()
+
+        viewState.initSortingButton()
+        viewState.initFiltersButton()
+
+        viewState.testInitFirstRecyclerItem()
+        viewState.testInitSecondRecyclerItem()
+    }
+
+    private fun initMinDate() {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)
+        val minYear = calendar.get(Calendar.YEAR)
+        val minMonth = calendar.get(Calendar.MONTH)
+        val minDay = calendar.get(Calendar.DAY_OF_MONTH)
+        viewState.initMinDate(calendar, minYear, minMonth, minDay)
+
+    }
+
+    fun filtersButtonOnClick() {
+        viewState.showFiltersDialog()
+    }
+
+    fun toursButtonOnClick() {
+        viewState.switchStateButtonsToursAndHotels(true)
+    }
+
+    fun hotelsButtonOnClick() {
+        viewState.switchStateButtonsToursAndHotels(false)
+    }
+
+    fun cityAndNightsButtonOnClick() {
+        viewState.showCityDialog()
+    }
+
+    fun sortingButtonOnClick() {
+        viewState.initSortingMenu(sortingStrings)
+    }
+
+    fun sortingItemOnClick(item: MenuItem) {
+        when (item.title) {
+            sortingStrings[0] -> { // Рекомендуемое
+                // TODO Обработка выбранной сортировки
+                viewState.setTextSortingButton(item.title.toString())
+            }
+
+            sortingStrings[1] -> { // Сначала новое
+                // TODO Обработка выбранной сортировки
+                viewState.setTextSortingButton(item.title.toString())
+            }
+
+            sortingStrings[2] -> { // Дешевле
+                // TODO Обработка выбранной сортировки
+                viewState.setTextSortingButton(item.title.toString())
+            }
+
+            sortingStrings[3] -> { // Дороже
+                // TODO Обработка выбранной сортировки
+                viewState.setTextSortingButton(item.title.toString())
+            }
+        }
+    }
+
+    fun priceSliderOnChange(value1: String, value2: String) {
+        viewState.setValueToPriceNumberFrom(value1 + currentCurrency)
+        viewState.setValueToPriceNumberTo(value2 + currentCurrency)
+    }
+
+    fun priceStarsOnChange(value1: String, value2: String) {
+        viewState.setValueToStarsNumberFrom(value1)
+        viewState.setValueToStarsNumberTo(value2)
+    }
+
+    private fun setCurrentValuesFiltersDialog() {
+        viewState.setValuesFiltersDialog(
+            savedValuesFiltersDialog[priceNumberFromKey].toString(),
+            savedValuesFiltersDialog[priceNumberToKey].toString(),
+            savedValuesFiltersDialog[starsNumberFromKey].toString(),
+            savedValuesFiltersDialog[starsNumberToKey].toString(),
+            savedValuesFiltersDialog[foodTypesRadioGroupKey].toString(),
+            savedValuesFiltersDialog[foodSystemsRadioGroupKey].toString(),
+            savedValuesFiltersDialog[infrastructureCheckBox1Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox2Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox3Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox4Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox5Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox6Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox7Key].toBoolean()
+        )
+    }
+
+    fun cancelButtonFiltersOnClick() {
+        setCurrentValuesFiltersDialog()
+        viewState.cancelFiltersDialog()
+    }
+
+    fun clearButtonFiltersOnClick() {
+        setInitialFiltersValues()
+        setCurrentValuesFiltersDialog()
+    }
+
+    fun filtersDialogOnCancel(list: MutableMap<String, String>) {
+        savedValuesFiltersDialog = list
+
+        //TODO тут сделать запрос в базу по выбранным фильтрам
+    }
+
+    private fun initFiltersDialogFun() {
+        viewState.initFiltersDialog()
+
+        setInitialFiltersValues()
+        viewState.setValuesFiltersDialog(
+            savedValuesFiltersDialog[priceNumberFromKey].toString(),
+            savedValuesFiltersDialog[priceNumberToKey].toString(),
+            savedValuesFiltersDialog[starsNumberFromKey].toString(),
+            savedValuesFiltersDialog[starsNumberToKey].toString(),
+            savedValuesFiltersDialog[foodTypesRadioGroupKey].toString(),
+            savedValuesFiltersDialog[foodSystemsRadioGroupKey].toString(),
+            savedValuesFiltersDialog[infrastructureCheckBox1Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox2Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox3Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox4Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox5Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox6Key].toBoolean(),
+            savedValuesFiltersDialog[infrastructureCheckBox7Key].toBoolean(),
+        )
+    }
+
+//    private fun getSavedFiltersValues() {
+////        savedValuesFiltersDialog =
+//        viewState.getValuesFiltersDialog(
+//            priceNumberFromKey,
+//            priceNumberToKey,
+//            starsNumberFromKey,
+//            starsNumberToKey,
+//            foodTypesRadioGroupKey,
+//            foodSystemsRadioGroupKey,
+//            infrastructureCheckBox1Key,
+//            infrastructureCheckBox2Key,
+//            infrastructureCheckBox3Key,
+//            infrastructureCheckBox4Key,
+//            infrastructureCheckBox5Key,
+//            infrastructureCheckBox6Key,
+//            infrastructureCheckBox7Key
+//        )
+//    }
+
+
+    private fun setInitialFiltersValues() {
+        savedValuesFiltersDialog.put(priceNumberFromKey, "0")
+        savedValuesFiltersDialog.put(priceNumberToKey, "1000000")
+
+        savedValuesFiltersDialog.put(starsNumberFromKey, "1")
+        savedValuesFiltersDialog.put(starsNumberToKey, "5")
+
+        savedValuesFiltersDialog.put(
+            foodTypesRadioGroupKey,
+            "food_types_radiobutton_1"
+        )
+
+        savedValuesFiltersDialog.put(
+            foodSystemsRadioGroupKey,
+            "food_systems_radiobutton_1"
+        )
+
+        savedValuesFiltersDialog.put(infrastructureCheckBox1Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox2Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox3Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox4Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox5Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox6Key, false.toString())
+        savedValuesFiltersDialog.put(infrastructureCheckBox7Key, false.toString())
+
+    }
+
 
 //    fun loadData() {
 //        usersRepo.getUsers().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
