@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.touristagency.dagger.AppComponent
 import com.example.touristagency.dagger.AppModule
 import com.example.touristagency.dagger.DaggerAppComponent
+import com.example.touristagency.dagger.HotToursSubComponent
 import com.example.touristagency.dagger.ToursSubComponent
 
 
@@ -14,8 +15,8 @@ class App : Application() {
     var toursSubComponent: ToursSubComponent? = null
         private set
 
-//    var repositorySubComponent: RepositorySubComponent? = null
-//        private set
+    var hotToursSubComponent: HotToursSubComponent? = null
+        private set
 
     companion object {
         lateinit var instance: App
@@ -37,12 +38,13 @@ class App : Application() {
         toursSubComponent = null
     }
 
-//    fun initRepositorySubComponent() = userSubComponent?.repositorySubComponent().also {
-//        repositorySubComponent = it
-//    }
-//
-//    fun releaseRepositorySubComponent() {
-//        repositorySubComponent = null
+    fun initHotToursSubComponent() = toursSubComponent?.hotToursSubComponent().also {
+        hotToursSubComponent = it
     }
+
+    fun releaseHotToursSubComponent() {
+        hotToursSubComponent = null
+    }
+}
 
 

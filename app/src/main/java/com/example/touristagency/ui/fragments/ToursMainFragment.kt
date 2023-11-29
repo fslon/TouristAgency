@@ -92,13 +92,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private var minimumNumberOfPeople: Int = 1
     private var maximumNumberOfPeople: Int = 10
 
-//    private val savedValuesCityDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в cityDialog
-//    private val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
-//    private val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
-//    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
-//    private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
-//    private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
-
     private var cities = arrayOf<String>() // массив с городами
 
 
@@ -124,6 +117,37 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
+
+    override fun initBottomNavigationMenu() {
+        binding.bottomNavigation.menu.findItem(R.id.item_search).isChecked = true
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_search -> {
+                    presenter.navigationSearchOnClick()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.item_hot_tours -> {
+                    presenter.navigationHotToursOnClick()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.item_favourite -> {
+//                    presenter.navigationFavouriteOnClick()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.item_profile -> {
+                    println("item_profile")
+                    return@setOnItemSelectedListener true
+                }
+
+                else -> {
+                    false
+                }
+            }
+
+        }
+    }
+
 
     override fun getCitiesArrayFromResourses() {
         presenter.setCities(resources.getStringArray(R.array.cities))
@@ -231,71 +255,98 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun testInitFirstRecyclerItem() { // прокручивающиеся картинки в recyclerViewItem // todo переработать
 
+        binding.testItem.recyclerItemTourHotelName.text = "«Бургас» пансионат"
+        binding.testItem.recyclerItemTourHotelLocation.text = "г. Сочи, п. Кудепста"
+        binding.testItem.recyclerItemTourHotelRating.text = "9.1"
 
+        binding.testItem.recyclerItemTourAirportTextView.text = "в 6 км"
+        binding.testItem.recyclerItemTourBeachTextView.text = "150 м"
+
+        binding.testItem.recyclerItemTourPriceTextView.text = "96 583 $currentCurrency"
+
+        binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
+            // todo прокинуть метод в presenter
+        }
         // Создаем список изображений
         val images = listOf(
-            R.drawable.alean_1,
-            R.drawable.alean_2,
-            R.drawable.alean_3,
-            R.drawable.alean_4,
-            R.drawable.alean_5,
-            R.drawable.alean_6,
-            R.drawable.alean_7,
-            R.drawable.alean_8,
-            R.drawable.alean_9,
-            R.drawable.alean_10
+            R.drawable.burgas_1,
+            R.drawable.burgas_2,
+            R.drawable.burgas_3
         )
+
+        binding.testItem.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
 
 // Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
         val adapter = SlideShowAdapter(images)
         binding.testItem.recyclerItemTourImageLayoutViewpager2.adapter = adapter
 
-
-//        binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
-//            binding.testItem2.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
-//        }
+        binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
+            binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
+        }
 
     }
 
     override fun testInitSecondRecyclerItem() {
+        binding.testItem2.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
 
-        binding.testItem2.recyclerItemTourHotelName.text = "Санаторий \"Надежда\""
-        binding.testItem2.recyclerItemTourHotelLocation.text = "Анапа, Россия"
-        binding.testItem2.recyclerItemTourHotelRating.text = "9.0"
+        binding.testItem2.recyclerItemTourHotelName.text = "«Сочи Парк Отель»"
+        binding.testItem2.recyclerItemTourHotelLocation.text = "Краснодарский край, пгт. Сириус"
+        binding.testItem2.recyclerItemTourHotelRating.text = "9.6"
 
-        binding.testItem2.recyclerItemTourLineImage.setImageResource(R.drawable.second_24)
-        binding.testItem2.recyclerItemTourAirportTextView.text = "в 1 км"
-        binding.testItem2.recyclerItemTourBeachTextView.text = "650 м"
+        binding.testItem2.recyclerItemTourAirportTextView.text = "в 5 км"
+        binding.testItem2.recyclerItemTourBeachTextView.text = "1000 м"
 
-        binding.testItem2.recyclerItemTourPriceTextView.text = "40 627 $currentCurrency"
+        binding.testItem2.recyclerItemTourPriceTextView.text = "121 254 $currentCurrency"
 
         binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
         binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
 
         binding.testItem2.recyclerItemTourFavouriteButton.setOnClickListener {
             // todo прокинуть метод в presenter
-
         }
-
-
         // Создаем список изображений
         val images = listOf(
-            R.drawable.nadezhda_1,
-            R.drawable.nadezhda_2,
-            R.drawable.nadezhda_3,
-            R.drawable.nadezhda_4,
-            R.drawable.nadezhda_5,
-            R.drawable.nadezhda_6,
-            R.drawable.nadezhda_7,
-            R.drawable.nadezhda_8,
-            R.drawable.nadezhda_9,
-            R.drawable.nadezhda_10
-        )
+            R.drawable.sochi_hotel_1,
+            R.drawable.sochi_hotel_2,
+            R.drawable.sochi_hotel_3,
+
+            )
 
 // Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
         val adapter = SlideShowAdapter(images)
         binding.testItem2.recyclerItemTourImageLayoutViewpager2.adapter = adapter
+    }
 
+
+    override fun testInitThirdRecyclerItem() {
+
+        binding.testItem3.recyclerItemTourHotelName.text = "«Алеан Фэмили Спутник» отель"
+        binding.testItem3.recyclerItemTourHotelLocation.text = "г.Сочи, Новороссийское шоссе, д. 17/1"
+        binding.testItem3.recyclerItemTourHotelRating.text = "9.2"
+
+        binding.testItem3.recyclerItemTourLineImage.setImageResource(R.drawable.second_24)
+        binding.testItem3.recyclerItemTourAirportTextView.text = "в 15 км"
+        binding.testItem3.recyclerItemTourBeachTextView.text = "150 м"
+
+        binding.testItem3.recyclerItemTourPriceTextView.text = "152 965 $currentCurrency"
+
+//        binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
+//        binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
+
+        binding.testItem3.recyclerItemTourFavouriteButton.setOnClickListener {
+            // todo прокинуть метод в presenter
+        }
+        // Создаем список изображений
+        val images = listOf(
+            R.drawable.alean_sochi_1,
+            R.drawable.alean_sochi_2,
+            R.drawable.alean_sochi_3,
+
+            )
+
+// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
+        val adapter = SlideShowAdapter(images)
+        binding.testItem3.recyclerItemTourImageLayoutViewpager2.adapter = adapter
     }
 
     override fun initFiltersDialog() { // init меню фильтров

@@ -11,6 +11,10 @@ interface ToursView : MvpView {
     fun updateList()
     fun release()
 
+
+    fun initBottomNavigationMenu()
+
+
     fun initCurrentCurrency(currentCurrency: String)
     fun setCitiesList(cities: Array<String>)
     fun getCitiesArrayFromResourses()
@@ -38,6 +42,7 @@ interface ToursView : MvpView {
     fun setValueToPriceNumberTo(text: String)
     fun setValueToStarsNumberFrom(text: String)
     fun setValueToStarsNumberTo(text: String)
+
 
     fun switchStateButtonsToursAndHotels(fromTours: Boolean)
     fun initMinDate(calendar: Calendar, minYear: Int, minMonth: Int, minDay: Int)
@@ -72,6 +77,8 @@ interface ToursView : MvpView {
 
     fun testInitFirstRecyclerItem()
     fun testInitSecondRecyclerItem()
+    fun testInitThirdRecyclerItem()
+
 
 
 }

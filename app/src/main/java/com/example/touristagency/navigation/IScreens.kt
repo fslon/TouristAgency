@@ -4,6 +4,6 @@ import com.github.terrakok.cicerone.Screen
 
 interface IScreens {
     fun mainAllTours(): Screen
-//    fun profileUser(user: GithubUser): Screen
+    fun hotTours(): Screen
 //    fun repository(repository: GithubUserProfile): Screen
 }

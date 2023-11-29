@@ -20,6 +20,7 @@ import javax.inject.Inject
 class ToursMainPresenter : MvpPresenter<ToursView>() {
     @Inject
     lateinit var router: Router
+
     @Inject
     lateinit var screens: IScreens
 
@@ -90,6 +91,9 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.setMinimumNumberPeoples(minimumNumberOfPeople)
         viewState.setMaximumNumberPeoples(maximumNumberOfPeople)
 
+        viewState.initBottomNavigationMenu()
+
+
         viewState.init()
 //        loadData()
         toursListPresenter.itemClickListener = { itemView ->
@@ -124,7 +128,17 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
         viewState.testInitFirstRecyclerItem()
         viewState.testInitSecondRecyclerItem()
+        viewState.testInitThirdRecyclerItem()
     }
+
+    fun navigationSearchOnClick() {
+        router.replaceScreen(screens.mainAllTours())
+    }
+
+    fun navigationHotToursOnClick() {
+        router.replaceScreen(screens.hotTours())
+    }
+
 
     private fun initMinDate() {
 
@@ -157,7 +171,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
 
-    private fun loadData(){
+    private fun loadData() {
 
         usersRepo.getUsers().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
             Log.e("-------------- ", repos.toString())
@@ -171,9 +185,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         })
 
     }
-
-
-
 
 
     fun cityAndNightsButtonOnClick() {
