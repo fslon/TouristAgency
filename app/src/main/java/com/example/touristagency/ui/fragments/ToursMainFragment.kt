@@ -132,7 +132,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     return@setOnItemSelectedListener true
                 }
                 R.id.item_favourite -> {
-//                    presenter.navigationFavouriteOnClick()
+                    presenter.navigationFavouriteOnClick()
                     return@setOnItemSelectedListener true
                 }
                 R.id.item_profile -> {

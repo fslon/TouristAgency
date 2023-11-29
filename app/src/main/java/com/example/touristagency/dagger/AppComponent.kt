@@ -18,6 +18,8 @@ import javax.inject.Singleton
 )
 interface AppComponent {
     fun toursSubcomponent(): ToursSubComponent
+    fun hotToursSubComponent(): HotToursSubComponent
+    fun favouritesSubComponent(): FavouritesSubComponent
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)

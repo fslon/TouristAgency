@@ -1,6 +1,5 @@
 package com.example.touristagency.ui.fragments
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,30 +7,31 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.HotToursSubComponent
-import com.example.touristagency.databinding.FragmentHotToursBinding
-import com.example.touristagency.mvp.presenter.HotToursPresenter
+import com.example.touristagency.dagger.FavouritesSubComponent
+import com.example.touristagency.databinding.FragmentFavouritesBinding
+import com.example.touristagency.mvp.presenter.FavouritesPresenter
+import com.example.touristagency.mvp.view.FavouritesView
 import com.example.touristagency.mvp.view.HotToursView
 import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListener {
-    private var _binding: FragmentHotToursBinding? = null
+class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonListener {
+    private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
-    private var hotToursSubComponent: HotToursSubComponent? = null
+    private var favouritesSubComponent: FavouritesSubComponent? = null
 
 
     private lateinit var currentCurrency: String // текущая валюта
 
 
-    val presenter: HotToursPresenter by moxyPresenter {
-        hotToursSubComponent = App.instance.initHotToursSubComponent()
+    val presenter: FavouritesPresenter by moxyPresenter {
+        favouritesSubComponent = App.instance.initFavouritesSubComponent()
 
-        HotToursPresenter().apply {
-            hotToursSubComponent?.inject(this)
+        FavouritesPresenter().apply {
+            favouritesSubComponent?.inject(this)
         }
     }
 
@@ -42,7 +42,7 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHotToursBinding.inflate(inflater, container, false)
+        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -64,12 +64,12 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
     }
 
     override fun release() {
-        hotToursSubComponent = null
-        App.instance.releaseHotToursSubComponent()
+        favouritesSubComponent = null
+        App.instance.releaseFavouritesSubComponent()
     }
 
     override fun initBottomNavigationMenu() {
-        binding.bottomNavigation.menu.findItem(R.id.item_hot_tours).isChecked = true
+        binding.bottomNavigation.menu.findItem(R.id.item_favourite).isChecked = true
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.item_search -> {
@@ -110,9 +110,8 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
         binding.testItem.recyclerItemTourAirportTextView.text = "в 6 км"
         binding.testItem.recyclerItemTourBeachTextView.text = "150 м"
 
-        binding.testItem.recyclerItemTourPrice1TextView.text = "96 583 $currentCurrency"
-        binding.testItem.recyclerItemTourPrice1TextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-        binding.testItem.recyclerItemTourPrice2TextView.text = "86 583 $currentCurrency"
+        binding.testItem.recyclerItemTourPriceTextView.text = "96 583 $currentCurrency"
+
 
         binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
             // todo прокинуть метод в presenter
@@ -130,8 +129,10 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
         val adapter = SlideShowAdapter(images)
         binding.testItem.recyclerItemTourImageLayoutViewpager2.adapter = adapter
 
+        binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
+
         binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
-            binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
+            binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
         }
 
     }
@@ -146,9 +147,8 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
         binding.testItem2.recyclerItemTourAirportTextView.text = "в 5 км"
         binding.testItem2.recyclerItemTourBeachTextView.text = "1000 м"
 
-        binding.testItem2.recyclerItemTourPrice1TextView.text = "121 254 $currentCurrency"
-        binding.testItem2.recyclerItemTourPrice1TextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-        binding.testItem2.recyclerItemTourPrice2TextView.text = "91 254 $currentCurrency"
+        binding.testItem2.recyclerItemTourPriceTextView.text = "121 254 $currentCurrency"
+
 
         binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
         binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
@@ -167,6 +167,13 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
 // Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
         val adapter = SlideShowAdapter(images)
         binding.testItem2.recyclerItemTourImageLayoutViewpager2.adapter = adapter
+
+        binding.testItem2.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
+
+        binding.testItem2.recyclerItemTourFavouriteButton.setOnClickListener {
+            binding.testItem2.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
+        }
+
     }
 
 
@@ -180,9 +187,8 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
         binding.testItem3.recyclerItemTourAirportTextView.text = "в 15 км"
         binding.testItem3.recyclerItemTourBeachTextView.text = "150 м"
 
-        binding.testItem3.recyclerItemTourPrice1TextView.text = "152 965 $currentCurrency"
-        binding.testItem3.recyclerItemTourPrice1TextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-        binding.testItem3.recyclerItemTourPrice2TextView.text = "82 965 $currentCurrency"
+        binding.testItem3.recyclerItemTourPriceTextView.text = "152 965 $currentCurrency"
+
 
 //        binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
 //        binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
@@ -201,6 +207,15 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
 // Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
         val adapter = SlideShowAdapter(images)
         binding.testItem3.recyclerItemTourImageLayoutViewpager2.adapter = adapter
+
+
+        binding.testItem3.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
+
+        binding.testItem3.recyclerItemTourFavouriteButton.setOnClickListener {
+            binding.testItem3.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
+        }
+
+
     }
 
     override fun setTextSortingButton(text: String) {
@@ -256,7 +271,7 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
 
 
     companion object {
-        fun newInstance() = HotToursFragment()
+        fun newInstance() = FavouritesFragment()
     }
 
 

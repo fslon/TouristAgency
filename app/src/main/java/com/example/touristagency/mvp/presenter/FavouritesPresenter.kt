@@ -1,13 +1,14 @@
 package com.example.touristagency.mvp.presenter
 
 import android.view.MenuItem
+import com.example.touristagency.mvp.view.FavouritesView
 import com.example.touristagency.mvp.view.HotToursView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class HotToursPresenter : MvpPresenter<HotToursView>() {
+class FavouritesPresenter : MvpPresenter<FavouritesView>() {
     @Inject
     lateinit var router: Router
 
@@ -62,6 +63,7 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
     fun navigationFavouriteOnClick() {
         router.replaceScreen(screens.favourites())
     }
+
 
     fun sortingItemOnClick(item: MenuItem) {
         when (item.title) {

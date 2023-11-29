@@ -139,6 +139,9 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         router.replaceScreen(screens.hotTours())
     }
 
+    fun navigationFavouriteOnClick() {
+        router.replaceScreen(screens.favourites())
+    }
 
     private fun initMinDate() {
 
