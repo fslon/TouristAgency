@@ -3,13 +3,76 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="current_currency">₽</string>
+
 
     <string name="navigation_profile">Профиль</string>
     <string name="navigation_search">Поиск</string>
     <string name="navigation_favourite">Избранное</string>
     <string name="navigation_hot_tours">Акции</string>
+
     <string name="button_tours_text">Туры</string>
     <string name="button_hotels_text">Отели</string>
-    <string name="city_button_text">Россия</string>
+
+    <string name="city_button_city_name_default">Россия</string>
+    <string name="city_button_date_default_text">2 сентября, 7 ночей</string>
+    <string name="for_relevation_string">По релевантности</string>
+    <string name="sorting_button_text">Сортировка</string>
+    <string name="filters_button_text">Фильтры</string>
+    <string name="text_from">от</string>
+    <string name="price_text_to">до</string>
+    <string name="price_number_from_default">0</string>
+    <string name="price_number_to_default">1000000</string>
+    <string name="stars_number_from_default">1</string>
+    <string name="stars_number_to_default">5</string>
+    <string name="tv_stars_text">Количество звёзд</string>
+    <string name="tv_price_text">Цена</string>
+    <string name="peoples_number_from_default">1</string>
+    <string name="peoples_number_to_default">10</string>
+    <string name="tv_peoples_text">Количество человек</string>
+
+
+    <string name="tv_bottom_sheet_filters_text">Фильтры</string>
+    <string name="tv_food_text">Система питания</string>
+    <string name="food_radio_1_text">Любая</string>
+    <string name="food_radio_2_text">Завтрак</string>
+    <string name="food_radio_3_text">Завтрак + обед</string>
+    <string name="food_radio_4_text">Завтрак + обед + ужин</string>
+    <string name="food_radio_5_text">Завтрак + ужин</string>
+    <string name="food_radio_6_text">Без питания</string>
+    <string name="tv_food_types_text">Тип питания</string>
+    <string name="food_types_radio_1_text">Любой</string>
+    <string name="food_types_radio_2_text">Шведский стол</string>
+    <string name="food_types_radio_3_text">Все включено</string>
+    <string name="tv_infrastructure_text">Инфраструктура</string>
+    <string name="filters_infrastructure_tv_1_text">Wi-FI</string>
+    <string name="filters_infrastructure_tv_2_text">Аквапарк</string>
+    <string name="filters_infrastructure_tv_3_text">Баня</string>
+    <string name="filters_infrastructure_tv_4_text">Парковка</string>
+    <string name="filters_infrastructure_tv_5_text">Тренажерный зал</string>
+    <string name="filters_infrastructure_tv_6_text">Сауна</string>
+    <string name="filters_infrastructure_tv_7_text">Дискотека/ночной клуб</string>
+    <string name="city_menu_cancel_button_text">Отмена</string>
+    <string name="autocomplete_tv_city_layout">Введите город</string>
+    <string name="date_departure_city_layout">Дата вылета</string>
+    <string name="date_picker_tv_city_layout">date null</string>
+    <string name="nights_number_tv_city_layout">Количество ночей</string>
+    <string name="nights_value_city_layout">10</string>
+    <string name="autocomplete_tv_city_departure_city_layout">Город вылета</string>
+    <string name="peoples_number_tv_city_layout">Количество человек</string>
+    <string name="peoples_value_city_layout">1</string>
+    <string name="recycler_item_tour_hotel_rating_default_text">9.8</string>
+    <string name="recycler_item_tour_line_text_view_default_text">линия</string>
+    <string name="recycler_item_tour_wifi_text_view_default_text">везде</string>
+    <string name="recycler_item_tour_parking_text_view_default_text">есть</string>
+    <string name="recycler_item_tour_beach_text_view_default_text">500 м</string>
+    <string name="recycler_item_tour_airport_text_view_default_text">в 2 км</string>
+    <string name="recycler_item_tour_hotel_name_default_text">Отель ALEAN FAMILY DOVILLE</string>
+    <string name="recycler_item_tour_hotel_location_default_text">Анапа, Россия</string>
+    <string name="recycler_item_tour_price_text_view_default_text">100 000 ₽</string>
+    <string name="city_menu_find_button_text_find_tours">Найти туры</string>
+    <string name="city_menu_find_button_text_find_hotels">Найти отели</string>
+    <string name="city_and_nights_button_default_text">Россия</string>
+
 
 </resources>

@@ -1,0 +1,74 @@
+<resources>
+    <array name="initial_values_price">
+        <item>0</item>
+        <item>1000000</item>
+    </array>
+
+    <array name="initial_values_stars">
+        <item>1</item>
+        <item>5</item>
+    </array>
+
+    <array name="initial_values_peoples">
+        <item>1</item>
+        <item>10</item>
+    </array>
+
+
+    <array name="cities">
+        <item>Анапа</item>
+        <item>Сочи</item>
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Новосибирск</item>
+        <item>Екатеринбург</item>
+        <item>Нижний Новгород</item>
+        <item>Казань</item>
+        <item>Челябинск</item>
+        <item>Омск</item>
+        <item>Самара</item>
+        <item>Ростов-на-Дону</item>
+        <item>Уфа</item>
+        <item>Красноярск</item>
+        <item>Воронеж</item>
+        <item>Пермь</item>
+        <item>Волгоград</item>
+        <item>Краснодар</item>
+        <item>Саратов</item>
+        <item>Тюмень</item>
+        <item>Тольятти</item>
+        <item>Ижевск</item>
+        <item>Барнаул</item>
+        <item>Иркутск</item>
+        <item>Ульяновск</item>
+        <item>Владивосток</item>
+        <item>Хабаровск</item>
+        <item>Махачкала</item>
+        <item>Оренбург</item>
+        <item>Томск</item>
+        <item>Новокузнецк</item>
+        <item>Кемерово</item>
+        <item>Рязань</item>
+        <item>Набережные Челны</item>
+        <item>Астрахань</item>
+        <item>Пенза</item>
+        <item>Липецк</item>
+        <item>Тула</item>
+        <item>Киров</item>
+        <item>Калининград</item>
+        <item>Чебоксары</item>
+        <item>Курск</item>
+        <item>Улан-Удэ</item>
+        <item>Тверь</item>
+        <item>Ставрополь</item>
+        <item>Магнитогорск</item>
+        <item>Брянск</item>
+        <item>Белгород</item>
+        <item>Архангельск</item>
+        <item>Ангарск</item>
+        <item>Смоленск</item>
+
+    </array>
+
+
+</resources>
