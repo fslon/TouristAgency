@@ -1,12 +1,15 @@
 package com.example.touristagency.mvp.presenter
 
+import android.util.Log
 import android.view.MenuItem
 import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.model.users.IGithubUsersRepo
 import com.example.touristagency.mvp.presenter.list.IUserListPresenter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.mvp.view.list.UserItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -17,9 +20,13 @@ import javax.inject.Inject
 class ToursMainPresenter : MvpPresenter<ToursView>() {
     @Inject
     lateinit var router: Router
-
     @Inject
     lateinit var screens: IScreens
+
+
+    @Inject
+    lateinit var usersRepo: IGithubUsersRepo
+
 
     private val currentCurrency: String = "₽"// текущая валюта
     private lateinit var cities: Array<String>
@@ -110,6 +117,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         initFiltersDialogFun()
 
         viewState.initToursButton()
+        viewState.initHotelsButton()
 
         viewState.initSortingButton()
         viewState.initFiltersButton()
@@ -137,8 +145,36 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
     fun hotelsButtonOnClick() {
+        // TODO: РАЗОБРАТЬСЯ С МЕСТОМ ИНИЦИАЦИИ ЗАПРОСА
+        Log.e("=========== ", "HERE")
+        loadData()
+
+
+
+
         viewState.switchStateButtonsToursAndHotels(false)
+
     }
+
+
+    private fun loadData(){
+
+        usersRepo.getUsers().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+            Log.e("-------------- ", repos.toString())
+//            usersListPresenter.users.clear()
+//            usersListPresenter.users.addAll(repos)
+//            viewState.updateList()
+
+        }, {
+            println("Error: ${it.message}")
+
+        })
+
+    }
+
+
+
+
 
     fun cityAndNightsButtonOnClick() {
         viewState.showCityDialog()
