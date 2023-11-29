@@ -8,7 +8,10 @@ import com.example.touristagency.mvp.view.list.UserItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class ToursMainPresenter : MvpPresenter<ToursView>() {
@@ -19,6 +22,13 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     lateinit var screens: IScreens
 
     private val currentCurrency: String = "₽"// текущая валюта
+    private lateinit var cities: Array<String>
+    private val minimumNumberOfNights = 1
+    private val maximumNumberOfNights = 30
+    private val minimumNumberOfPeople: Int = 1
+    private val maximumNumberOfPeople: Int = 10
+
+    val calendar = Calendar.getInstance()
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
@@ -36,6 +46,13 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val infrastructureCheckBox5Key = "infrastructureCheckBox5" // ключ для сохранения состояния чекбокса 5
     private val infrastructureCheckBox6Key = "infrastructureCheckBox6" // ключ для сохранения состояния чекбокса 6
     private val infrastructureCheckBox7Key = "infrastructureCheckBox7" // ключ для сохранения состояния чекбокса 7
+
+    private var savedValuesCityDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в cityDialog
+    private val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
+    private val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
+    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
+    private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
+    private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
 
     class ToursListPresenter : IUserListPresenter {
@@ -58,7 +75,13 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         super.onFirstViewAttach()
 
         viewState.initCurrentCurrency(currentCurrency)
+        viewState.getCitiesArrayFromResourses()
+        viewState.setCitiesList(cities)
         initMinDate()
+        viewState.setMinimumNumberNights(minimumNumberOfNights)
+        viewState.setMaximumNumberNights(maximumNumberOfNights)
+        viewState.setMinimumNumberPeoples(minimumNumberOfPeople)
+        viewState.setMaximumNumberPeoples(maximumNumberOfPeople)
 
         viewState.init()
 //        loadData()
@@ -78,8 +101,11 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
         viewState.initCityDialog()
-        viewState.updateCityButton()
         viewState.initCityAndNightsButton()
+        viewState.initFindButtonCityDialog()
+        setInitialCityValues()
+        viewState.updateCityButton(savedValuesCityDialog[cityNameKeyCityDialog].toString(), savedValuesCityDialog[nightsKeyCityDialog].toString())
+
 
         initFiltersDialogFun()
 
@@ -93,7 +119,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
     private fun initMinDate() {
-        val calendar = Calendar.getInstance()
+
         calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)
         val minYear = calendar.get(Calendar.YEAR)
         val minMonth = calendar.get(Calendar.MONTH)
@@ -194,42 +220,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.initFiltersDialog()
 
         setInitialFiltersValues()
-        viewState.setValuesFiltersDialog(
-            savedValuesFiltersDialog[priceNumberFromKey].toString(),
-            savedValuesFiltersDialog[priceNumberToKey].toString(),
-            savedValuesFiltersDialog[starsNumberFromKey].toString(),
-            savedValuesFiltersDialog[starsNumberToKey].toString(),
-            savedValuesFiltersDialog[foodTypesRadioGroupKey].toString(),
-            savedValuesFiltersDialog[foodSystemsRadioGroupKey].toString(),
-            savedValuesFiltersDialog[infrastructureCheckBox1Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox2Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox3Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox4Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox5Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox6Key].toBoolean(),
-            savedValuesFiltersDialog[infrastructureCheckBox7Key].toBoolean(),
-        )
+        setCurrentValuesFiltersDialog()
     }
-
-//    private fun getSavedFiltersValues() {
-////        savedValuesFiltersDialog =
-//        viewState.getValuesFiltersDialog(
-//            priceNumberFromKey,
-//            priceNumberToKey,
-//            starsNumberFromKey,
-//            starsNumberToKey,
-//            foodTypesRadioGroupKey,
-//            foodSystemsRadioGroupKey,
-//            infrastructureCheckBox1Key,
-//            infrastructureCheckBox2Key,
-//            infrastructureCheckBox3Key,
-//            infrastructureCheckBox4Key,
-//            infrastructureCheckBox5Key,
-//            infrastructureCheckBox6Key,
-//            infrastructureCheckBox7Key
-//        )
-//    }
-
 
     private fun setInitialFiltersValues() {
         savedValuesFiltersDialog.put(priceNumberFromKey, "0")
@@ -256,6 +248,61 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         savedValuesFiltersDialog.put(infrastructureCheckBox6Key, false.toString())
         savedValuesFiltersDialog.put(infrastructureCheckBox7Key, false.toString())
 
+    }
+
+    fun cancelButtonCityDialogOnClick() {
+        viewState.cancelCityDialog()
+    }
+
+    fun toursButtonCityDialogOnClick() {
+        viewState.switchStateButtonsToursAndHotels(true)
+    }
+
+    fun hotelsButtonCityDialogOnClick() {
+        viewState.switchStateButtonsToursAndHotels(false)
+    }
+
+
+    fun setCities(cities: Array<String>) {
+        this.cities = cities
+    }
+
+    fun findButtonCityDialogOnClick() {
+//        saveValuesForCityDialog()
+        viewState.dismissCityDialog()
+        setCurrentValuesCityDialog()
+        viewState.updateCityButton(savedValuesCityDialog[cityNameKeyCityDialog].toString(), savedValuesCityDialog[nightsKeyCityDialog].toString())
+    }
+
+    fun saveValuesCityDialog(savedValuesCityDialog: MutableMap<String, String>) {
+        this.savedValuesCityDialog = savedValuesCityDialog
+    }
+
+    private fun setCurrentValuesCityDialog() {
+        viewState.setValuesCityDialog(
+            savedValuesCityDialog[cityNameKeyCityDialog].toString(),
+            savedValuesCityDialog[dateKeyCityDialog].toString(),
+            savedValuesCityDialog[cityDepartureNameKeyCityDialog].toString(),
+            savedValuesCityDialog[nightsKeyCityDialog].toString(),
+            savedValuesCityDialog[peoplesKeyCityDialog].toString()
+        )
+    }
+
+    private fun setInitialCityValues() {
+        savedValuesCityDialog.put(cityNameKeyCityDialog, "")
+        savedValuesCityDialog.put(dateKeyCityDialog, getDateOfDeparture())
+        savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, "")
+        savedValuesCityDialog.put(nightsKeyCityDialog, "10")
+        savedValuesCityDialog.put(peoplesKeyCityDialog, "1")
+
+
+    }
+
+    fun getDateOfDeparture() = formatDate(calendar.time)
+
+    fun formatDate(date: Date?): String { // формат даты для выбора числа вылета
+        val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        return format.format(date)
     }
 
 

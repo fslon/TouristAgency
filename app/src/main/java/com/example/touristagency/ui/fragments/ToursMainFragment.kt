@@ -87,28 +87,17 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private var minMonth = 0 // минимальный месяц для выбора даты вылета
     private var minDay = 0 // минимальный день для выбора даты вылета
 
-    private val savedValuesCityDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в cityDialog
-    private val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
-    private val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
-    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
-    private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
-    private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
+    private var minimumNumberOfNights: Int = 1
+    private var maximumNumberOfNights: Int = 30
+    private var minimumNumberOfPeople: Int = 1
+    private var maximumNumberOfPeople: Int = 10
 
-
-    private val savedValuesFiltersDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в меню фильтров
-//    private val priceNumberFromKey = "priceNumberFrom" // ключ для сохранения "цены от" в map
-//    private val priceNumberToKey = "priceNumberTo" // ключ для сохранения "цены до" в map
-//    private val starsNumberFromKey = "starsNumberFrom" // ключ для сохранения "колво звезд от" в map
-//    private val starsNumberToKey = "starsNumberTo" // ключ для сохранения  "колво звезд до" в map
-//    private val foodTypesRadioGroupKey = "foodTypesRadioGroup" // ключ для сохранения checked элемента в radiogroup типов питания
-//    private val foodSystemsRadioGroupKey = "foodSystemsRadioGroup" // ключ для сохранения checked элемента в radiogroup систем питания
-//    private val infrastructureCheckBox1Key = "infrastructureCheckBox1" // ключ для сохранения состояния чекбокса 1
-//    private val infrastructureCheckBox2Key = "infrastructureCheckBox2" // ключ для сохранения состояния чекбокса 2
-//    private val infrastructureCheckBox3Key = "infrastructureCheckBox3" // ключ для сохранения состояния чекбокса 3
-//    private val infrastructureCheckBox4Key = "infrastructureCheckBox4" // ключ для сохранения состояния чекбокса 4
-//    private val infrastructureCheckBox5Key = "infrastructureCheckBox5" // ключ для сохранения состояния чекбокса 5
-//    private val infrastructureCheckBox6Key = "infrastructureCheckBox6" // ключ для сохранения состояния чекбокса 6
-//    private val infrastructureCheckBox7Key = "infrastructureCheckBox7" // ключ для сохранения состояния чекбокса 7
+//    private val savedValuesCityDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в cityDialog
+//    private val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
+//    private val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
+//    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
+//    private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
+//    private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
     private var cities = arrayOf<String>() // массив с городами
 
@@ -134,43 +123,30 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
 
-        cities = resources.getStringArray(R.array.cities)
+    override fun getCitiesArrayFromResourses() {
+        presenter.setCities(resources.getStringArray(R.array.cities))
+    }
 
+    override fun setCitiesList(cities: Array<String>) {
+        this.cities = cities
+    }
 
-//        initMinDate()
+    override fun setMinimumNumberNights(minimumNumberOfNights: Int) {
+        this.minimumNumberOfNights = minimumNumberOfNights
+    }
 
+    override fun setMaximumNumberNights(maximumNumberOfNights: Int) {
+        this.maximumNumberOfNights = maximumNumberOfNights
+    }
 
-//        initCityDialog()
-//        updateCityButton()
-//        binding.cityAndNightsButton.root.setOnClickListener {
-//            cityDialog.show()
-//        }
+    override fun setMinimumNumberPeoples(minimumNumberOfPeoples: Int) {
+        this.minimumNumberOfPeople = minimumNumberOfPeoples
+    }
 
-//        binding.toursButton.setOnClickListener { // кнопка "Туры"
-//            switchStateButtonsToursAndHotels(true)
-//        }
-
-//        binding.hotelsButton.setOnClickListener { // кнопка "Отели"
-//            switchStateButtonsToursAndHotels(false)
-//        }
-
-
-//        binding.sortingButton.text = sortingStrings[0] // присвоение дефолтного способа сортировки
-//        binding.sortingButton.setOnClickListener {
-//            presenter.sortingButtonOnClick()
-////            initSortingMenu()
-//        } // кнопка "Сортировка"
-
-//        binding.filtersButton.setOnClickListener {// кнопка "Фильтры"
-//            filtersDialog.show()
-//        }
-
-
-//        testInitFirstRecyclerItem()
-//        testInitSecondRecyclerItem()
-
-
+    override fun setMaximumNumberPeoples(maximumNumberOfPeoples: Int) {
+        this.maximumNumberOfPeople = maximumNumberOfPeoples
     }
 
     override fun initFiltersButton() {
@@ -252,31 +228,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         popupMenu.show()
     }
 
-
-    override fun updateCityButton() { // обновление текста в кнопке выбора города на главном лэйауте
-
-        val textForCityButtonDaysNumber =
-            savedValuesCityDialog[nightsKeyCityDialog]?.let { makeTextForCityButtonDaysNumber(getDateOfDeparture(), it) }
-        binding.cityAndNightsButton.daysNumberTv.text = textForCityButtonDaysNumber
-
-        if (savedValuesCityDialog[cityNameKeyCityDialog].isNullOrBlank()) binding.cityAndNightsButton.cityNameTv.text =
-            resources.getString(R.string.city_and_nights_button_default_text)
-        else binding.cityAndNightsButton.cityNameTv.text = savedValuesCityDialog[cityNameKeyCityDialog]
-    }
-
-    private fun makeTextForCityButtonDaysNumber(
-        date: String,
-        numberOfNights: String
-    ): String { // форматирует данные для текста в кнопке города в mainLayout
-        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        val parsedDate = dateFormat.parse(date)
-
-        val modifiedFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
-        val modifiedDate = modifiedFormat.format(parsedDate)
-
-        return "$modifiedDate, $numberOfNights ночей"
-
-    }
 
     override fun testInitFirstRecyclerItem() { // прокручивающиеся картинки в recyclerViewItem // todo переработать
 
@@ -361,18 +312,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         initFiltersViews() // init вью из диалога с фильтрами
         initInfrastructureCheckboxes(filtersDialog) // init чекбоксов из фильтров
 
-//        getSavedFiltersValues() // получение сохраненных значений
-
         rangeSliderPriceInit()
-
         rangeSliderStarsInit()
-
         cancelButtonFiltersInit()
-
         clearButtonFiltersInit()
-
         initOnCancelFiltersDialog()
-
     }
 
     override fun setValuesFiltersDialog(
@@ -390,11 +334,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         infrastructureCheckBox6IsChecked: Boolean,
         infrastructureCheckBox7IsChecked: Boolean
     ) {
-        priceNumberFrom.text = priceNumberFromValue.toString()
-        priceNumberTo.text = priceNumberToValue.toString()
+        priceNumberFrom.text = priceNumberFromValue
+        priceNumberTo.text = priceNumberToValue
 
-        starsNumberFrom.text = starsNumberFromValue.toString()
-        starsNumberTo.text = starsNumberToValue.toString()
+        starsNumberFrom.text = starsNumberFromValue
+        starsNumberTo.text = starsNumberToValue
 
         rangeSliderPrice.setValues(priceNumberFromValue.toFloat(), priceNumberToValue.toFloat())
         rangeSliderStars.setValues(starsNumberFromValue.toFloat(), starsNumberToValue.toFloat())
@@ -451,10 +395,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             )
         }
 
-
-//        foodTypesRadioGroupFilters.check(foodTypesRadioGroupCheckedId)
-//        foodSystemsRadioGroupFilters.check(foodSystemsRadioGroupCheckedId)
-
         infrastructureCheckBox1.isChecked = infrastructureCheckBox1IsChecked
         infrastructureCheckBox2.isChecked = infrastructureCheckBox2IsChecked
         infrastructureCheckBox3.isChecked = infrastructureCheckBox3IsChecked
@@ -500,82 +440,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
         return savedValuesFiltersDialog
     }
-
-//
-//    private fun saveValuesForFiltersDialog() { // сохранить значения из диалога с фильтрами
-//        savedValuesFiltersDialog.put(priceNumberFromKey, rangeSliderPrice.values[0].toInt().toString())
-//        savedValuesFiltersDialog.put(priceNumberToKey, rangeSliderPrice.values[1].toInt().toString())
-//
-//        savedValuesFiltersDialog.put(starsNumberFromKey, rangeSliderStars.values[0].toInt().toString())
-//        savedValuesFiltersDialog.put(starsNumberToKey, rangeSliderStars.values[1].toInt().toString())
-//
-//        savedValuesFiltersDialog.put(foodTypesRadioGroupKey, foodTypesRadioGroupFilters.checkedRadioButtonId.toString())
-//        savedValuesFiltersDialog.put(foodSystemsRadioGroupKey, foodSystemsRadioGroupFilters.checkedRadioButtonId.toString())
-//
-//        savedValuesFiltersDialog.put(infrastructureCheckBox1Key, infrastructureCheckBox1.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox2Key, infrastructureCheckBox2.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox3Key, infrastructureCheckBox3.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox4Key, infrastructureCheckBox4.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox5Key, infrastructureCheckBox5.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox6Key, infrastructureCheckBox6.isChecked.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox7Key, infrastructureCheckBox7.isChecked.toString())
-//    }
-//
-//    private fun getInitialValuesFilters() { // init map с дефолтными значениями
-//        savedValuesFiltersDialog.put(priceNumberFromKey, resources.getString(R.string.price_number_from_default))
-//        savedValuesFiltersDialog.put(priceNumberToKey, resources.getString(R.string.price_number_to_default))
-//
-//        savedValuesFiltersDialog.put(starsNumberFromKey, resources.getString(R.string.stars_number_from_default))
-//        savedValuesFiltersDialog.put(starsNumberToKey, resources.getString(R.string.stars_number_to_default))
-//
-//        savedValuesFiltersDialog.put(
-//            foodTypesRadioGroupKey,
-//            filtersDialog.findViewById<RadioButton>(R.id.food_types_radiobutton_1)?.id.toString()
-//        )
-//
-//        savedValuesFiltersDialog.put(
-//            foodSystemsRadioGroupKey,
-//            filtersDialog.findViewById<RadioButton>(R.id.food_radiobutton_1)?.id.toString()
-//        )
-//
-//        savedValuesFiltersDialog.put(infrastructureCheckBox1Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox2Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox3Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox4Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox5Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox6Key, false.toString())
-//        savedValuesFiltersDialog.put(infrastructureCheckBox7Key, false.toString())
-//
-//    }
-//
-//    private fun getSavedFiltersValues() { // присвоить сохраненные значения
-//        if (savedValuesFiltersDialog.isEmpty()) {
-//            getInitialValuesFilters()
-//        }
-//
-//        // присвоение сохраненных значений - вью
-//        priceNumberFrom.text = savedValuesFiltersDialog[priceNumberFromKey] + currentCurrency
-//        priceNumberTo.text = savedValuesFiltersDialog[priceNumberToKey] + currentCurrency
-//
-//        starsNumberFrom.text = savedValuesFiltersDialog[starsNumberFromKey]
-//        starsNumberTo.text = savedValuesFiltersDialog[starsNumberToKey]
-//
-//        rangeSliderPrice.setValues(savedValuesFiltersDialog[priceNumberFromKey]?.toFloat(), savedValuesFiltersDialog[priceNumberToKey]?.toFloat())
-//        rangeSliderStars.setValues(savedValuesFiltersDialog[starsNumberFromKey]?.toFloat(), savedValuesFiltersDialog[starsNumberToKey]?.toFloat())
-//
-//        savedValuesFiltersDialog[foodTypesRadioGroupKey]?.toInt()?.let { foodTypesRadioGroupFilters.check(it) }
-//        savedValuesFiltersDialog[foodSystemsRadioGroupKey]?.toInt()?.let { foodSystemsRadioGroupFilters.check(it) }
-//
-//        infrastructureCheckBox1.isChecked = savedValuesFiltersDialog[infrastructureCheckBox1Key].toBoolean()
-//        infrastructureCheckBox2.isChecked = savedValuesFiltersDialog[infrastructureCheckBox2Key].toBoolean()
-//        infrastructureCheckBox3.isChecked = savedValuesFiltersDialog[infrastructureCheckBox3Key].toBoolean()
-//        infrastructureCheckBox4.isChecked = savedValuesFiltersDialog[infrastructureCheckBox4Key].toBoolean()
-//        infrastructureCheckBox5.isChecked = savedValuesFiltersDialog[infrastructureCheckBox5Key].toBoolean()
-//        infrastructureCheckBox6.isChecked = savedValuesFiltersDialog[infrastructureCheckBox6Key].toBoolean()
-//        infrastructureCheckBox7.isChecked = savedValuesFiltersDialog[infrastructureCheckBox7Key].toBoolean()
-//
-//
-//    }
 
     fun rangeSliderPriceInit() {
         rangeSliderPrice.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
@@ -651,15 +515,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         priceNumberTo.text = text
     }
 
-    //
-//    override fun setValueToRangeSliderPrice(value1: Float, value2: Float) {
-//        rangeSliderPrice.setValues(value1, value2)
-//    }
-//
-//    override fun setValueToRangeSliderStars(value1: Float, value2: Float) {
-//        rangeSliderStars.setValues(value1, value2)
-//    }
-//
     override fun setValueToStarsNumberFrom(text: String) {
         starsNumberFrom.text = text
     }
@@ -667,43 +522,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     override fun setValueToStarsNumberTo(text: String) {
         starsNumberTo.text = text
     }
-//
-//    override fun setValueToFoodTypesRadioGroup(elementId: Int) {
-//        foodTypesRadioGroupFilters.check(elementId)
-//    }
-//
-//    override fun setValueToFoodSystemsRadioGroup(elementId: Int) {
-//        foodSystemsRadioGroupFilters.check(elementId)
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox1(isChecked: Boolean) {
-//        infrastructureCheckBox1.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox2(isChecked: Boolean) {
-//        infrastructureCheckBox2.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox3(isChecked: Boolean) {
-//        infrastructureCheckBox3.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox4(isChecked: Boolean) {
-//        infrastructureCheckBox4.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox5(isChecked: Boolean) {
-//        infrastructureCheckBox5.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox6(isChecked: Boolean) {
-//        infrastructureCheckBox6.isChecked = isChecked
-//    }
-//
-//    override fun setValueToInfrastructureCheckBox7(isChecked: Boolean) {
-//        infrastructureCheckBox7.isChecked = isChecked
-//    }
-
 
     private fun initFiltersViews() { // init вью из диалога с фильтрами
         filtersDialog.findViewById<TextView>(R.id.price_number_from).let {
@@ -803,27 +621,27 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
         initViewsForSaving() // init основных view с данными, которые нужно сохранять
 
-        initCancelButtonCityDialog(cityDialog) // кнопка "Отмена"
+        initCancelButtonCityDialog() // кнопка "Отмена"
 
-        initTourAndHotelsButtonsCityDialog(cityDialog) // кнопки "Туры", "Отели"
+        initTourAndHotelsButtonsCityDialog() // кнопки "Туры", "Отели"
 
-        initAutoCompleteCityDialog(cityDialog) // выбор города
-        initButtonClearAutoCompleteCityDialog(cityDialog) // очистить поле выбора города
+        initAutoCompleteCityDialog() // выбор города
+        initButtonClearAutoCompleteCityDialog() // очистить поле выбора города
 
-        initAutoCompleteCityDestinationCityDialog(cityDialog) // выбор города откуда вылет
-        initButtonClearAutoCompleteDestinationCityDialog(cityDialog) // очистить поле выбора города откуда вылет
+        initAutoCompleteCityDestinationCityDialog() // выбор города откуда вылет
+        initButtonClearAutoCompleteDestinationCityDialog() // очистить поле выбора города откуда вылет
 
-        initDatePickerCityDialog(cityDialog) // выбор даты
+        initDatePickerCityDialog() // выбор даты
 
         initNightsCounter(cityDialog) // количество ночей
         initPeoplesCounter(cityDialog) // количество людей
 
-        initFindButton(cityDialog) // кнопка "Найти туры"/"Найти отели"
+//        initFindButton(cityDialog) // кнопка "Найти туры"/"Найти отели"
 
-        initSavedValueCityDialogMap() // важно чтобы получение сохраненных значений было после initDatePickerCityDialog()
+//        initSavedValueCityDialogMap() // важно чтобы получение сохраненных значений было после initDatePickerCityDialog()
 
         cityDialog.setOnCancelListener { // listener на закрытие диалога с фильтрами
-            getSavedValuesForCityDialog() // получение сохраненных значений, если была нажата кнопка "Отмена", вернутся старые значения, в другом случае ничего не изменится
+//            getSavedValuesForCityDialog() // получение сохраненных значений, если была нажата кнопка "Отмена", вернутся старые значения, в другом случае ничего не изменится
 
             cityDialog.dismiss() // диалог скрывается, но не удаляется
         }
@@ -837,60 +655,84 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         peoplesField = cityDialog.findViewById(R.id.city_menu_peoples_value)
     }
 
-    private fun initFindButton(cityDialog: Dialog) { // init кнопки "Найти туры"/"Найти отели" в диалоге выбора города
+    override fun dismissCityDialog() {
+        cityDialog.dismiss()
+    }
+
+    override fun initFindButtonCityDialog() { // init кнопки "Найти туры"/"Найти отели" в диалоге выбора города
         findButton = cityDialog.findViewById(R.id.city_menu_find_button)
 
         findButton.setOnClickListener {
             if (isSelectedCitiesValid()) { // проверка на валидность полей с городами
                 saveValuesForCityDialog()
-                cityDialog.dismiss()
-                updateCityButton()
+                presenter.findButtonCityDialogOnClick()
+
+//                saveValuesForCityDialog()
+//                cityDialog.dismiss()
+//                updateCityButton()
             }
         }
 
     }
 
-    private fun initSavedValueCityDialogMap() { // важно чтобы получение сохраненных значений было после  initDatePickerCityDialog()
-        // init map с дефолтными значениями
-        savedValuesCityDialog.put(cityNameKeyCityDialog, "")
-        savedValuesCityDialog.put(dateKeyCityDialog, getDateOfDeparture())
-        savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, "")
-        savedValuesCityDialog.put(nightsKeyCityDialog, resources.getString(R.string.nights_value_city_layout))
-        savedValuesCityDialog.put(peoplesKeyCityDialog, resources.getString(R.string.peoples_value_city_layout))
-    }
+//    private fun initSavedValueCityDialogMap() { // важно чтобы получение сохраненных значений было после  initDatePickerCityDialog()
+//        // init map с дефолтными значениями
+//        savedValuesCityDialog.put(cityNameKeyCityDialog, "")
+//        savedValuesCityDialog.put(dateKeyCityDialog, getDateOfDeparture())
+//        savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, "")
+//        savedValuesCityDialog.put(nightsKeyCityDialog, resources.getString(R.string.nights_value_city_layout))
+//        savedValuesCityDialog.put(peoplesKeyCityDialog, resources.getString(R.string.peoples_value_city_layout))
+//    }
 
     private fun saveValuesForCityDialog() { // сохранение значений из основных view из cityDialog в map
+        val savedValuesCityDialog = mutableMapOf<String, String>()
+
+        val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
+        val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
+        val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
+        val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
+        val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
+
         savedValuesCityDialog.put(cityNameKeyCityDialog, cityField.text.toString())
         savedValuesCityDialog.put(dateKeyCityDialog, dateField.text.toString())
         savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, cityDepartureField.text.toString())
         savedValuesCityDialog.put(nightsKeyCityDialog, nightsField.text.toString())
         savedValuesCityDialog.put(peoplesKeyCityDialog, peoplesField.text.toString())
+
+        presenter.saveValuesCityDialog(savedValuesCityDialog)
     }
 
-    private fun getSavedValuesForCityDialog() { // получение сохраненных значений для основных view в диалоге выбора города
-        if (savedValuesCityDialog.isNotEmpty()) {
-            cityField.setText(savedValuesCityDialog[cityNameKeyCityDialog].toString())
-            dateField.setText(savedValuesCityDialog[dateKeyCityDialog].toString())
-            cityDepartureField.setText(savedValuesCityDialog[cityDepartureNameKeyCityDialog].toString())
-            nightsField.setText(savedValuesCityDialog[nightsKeyCityDialog].toString())
-            peoplesField.setText(savedValuesCityDialog[peoplesKeyCityDialog].toString())
-        }
+    override fun setValuesCityDialog(
+        cityName: String,
+        date: String,
+        cityDepartureName: String,
+        nightsNumber: String,
+        peoplesNumber: String
+    ) { // получение сохраненных значений для основных view в диалоге выбора города
+
+        cityField.setText(cityName)
+        dateField.setText(date)
+        cityDepartureField.setText(cityDepartureName)
+        nightsField.setText(nightsNumber)
+        peoplesField.setText(peoplesNumber)
+
     }
 
 
-    private fun initCancelButtonCityDialog(cityDialog: Dialog) { // init кнопки "Отмена" в диалоге выбора города
+    private fun initCancelButtonCityDialog() { // init кнопки "Отмена" в диалоге выбора города
         cityDialog.findViewById<Button>(R.id.city_menu_cancel_button).setOnClickListener {// кнопка "Отмена"
-            cityDialog.cancel()
+            presenter.cancelButtonCityDialogOnClick()
         }
+    }
+
+    override fun cancelCityDialog() {
+        cityDialog.cancel()
     }
 
     private fun initNightsCounter(cityDialog: Dialog) { // инит количества ночей в диалоге выбора города
         val counterTextView = cityDialog.findViewById<EditText>(R.id.city_menu_nights_value)
         val plusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_nights_plus_button)
         val minusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_nights_minus_button)
-
-        val minimumNumberOfNights = 1
-        val maximumNumberOfNights = 30
 
         counterTextView.addTextChangedListener {
             if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
@@ -930,9 +772,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         val plusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_peoples_plus_button)
         val minusButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_peoples_minus_button)
 
-        val minimumNumberOfPeople = 1
-        val maximumNumberOfPeople = 10
-
         counterTextView.addTextChangedListener {
             if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
                 if (counterTextView.text.toString().toInt() > maximumNumberOfPeople) {
@@ -962,18 +801,18 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
-    private fun initDatePickerCityDialog(cityDialog: Dialog) { // выбор даты вылета диалог
+    private fun initDatePickerCityDialog() { // выбор даты вылета диалог
         lateinit var startDatePicker: DatePickerDialog
         var startDate: Date
         val textViewButtonDate = cityDialog.findViewById<TextView>(R.id.city_menu_date_picker_tv)
-        textViewButtonDate.text = getDateOfDeparture() // дата вылета = завтра
+        textViewButtonDate.text = presenter.getDateOfDeparture() // дата вылета = завтра
 
 //        textViewButtonDate.text = formatDate(Date().) // сегодняшняя дата
 
         // Создаем DatePickerDialog для выбора даты вылета
         startDatePicker = createDatePicker { selectedDate ->
             startDate = selectedDate
-            val startDateStr = formatDate(startDate)
+            val startDateStr = presenter.formatDate(startDate)
             textViewButtonDate.text = startDateStr
         }
         textViewButtonDate.setOnClickListener {
@@ -981,7 +820,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
-    private fun getDateOfDeparture() = formatDate(calendar.time)
+//    private fun getDateOfDeparture() = formatDate(calendar.time)
 
     private fun createDatePicker(onDateSelected: (Date) -> Unit): DatePickerDialog { // создание окна выбора даты для кнопки выбора числа вылета
 
@@ -1001,9 +840,35 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         return datePickerDialog
     }
 
-    private fun formatDate(date: Date?): String { // формат даты для выбора числа вылета
-        val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        return format.format(date)
+//    private fun formatDate(date: Date?): String { // формат даты для выбора числа вылета
+//        val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+//        return format.format(date)
+//    }
+
+
+    override fun updateCityButton(cityName: String, nightsNumber: String) { // обновление текста в кнопке выбора города на главном лэйауте
+
+        val textForCityButtonDaysNumber =
+            makeTextForCityButtonDaysNumber(presenter.getDateOfDeparture(), nightsNumber)
+        binding.cityAndNightsButton.daysNumberTv.text = textForCityButtonDaysNumber
+
+        if (cityName.isBlank()) binding.cityAndNightsButton.cityNameTv.text =
+            resources.getString(R.string.city_and_nights_button_default_text)
+        else binding.cityAndNightsButton.cityNameTv.text = cityName
+    }
+
+    private fun makeTextForCityButtonDaysNumber(
+        date: String,
+        numberOfNights: String
+    ): String { // форматирует данные для текста в кнопке города в mainLayout
+        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        val parsedDate = dateFormat.parse(date)
+
+        val modifiedFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
+        val modifiedDate = modifiedFormat.format(parsedDate)
+
+        return "$modifiedDate, $numberOfNights ночей"
+
     }
 
     override fun initMinDate(calendar: Calendar, minYear: Int, minMonth: Int, minDay: Int) { // установка минимальной даты вылета
@@ -1014,21 +879,21 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
-    private fun initButtonClearAutoCompleteCityDialog(cityDialog: Dialog) { // кнопка очистки рядом с полем выбора города, куда планируется тур
+    private fun initButtonClearAutoCompleteCityDialog() { // кнопка очистки рядом с полем выбора города, куда планируется тур
         val clearButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button)
         clearButton.setOnClickListener {
             cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv).text.clear()
         }
     }
 
-    private fun initButtonClearAutoCompleteDestinationCityDialog(cityDialog: Dialog) { // кнопка очистки рядом с полем выбора города, откуда вылет
+    private fun initButtonClearAutoCompleteDestinationCityDialog() { // кнопка очистки рядом с полем выбора города, откуда вылет
         val clearButton = cityDialog.findViewById<AppCompatImageButton>(R.id.city_menu_clear_button_city_from)
         clearButton.setOnClickListener {
             cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from).text.clear()
         }
     }
 
-    private fun initAutoCompleteCityDestinationCityDialog(cityDialog: Dialog) { // инит поля с выбором города, куда планируется тур
+    private fun initAutoCompleteCityDestinationCityDialog() { // инит поля с выбором города, куда планируется тур
 
         val autoCompleteTextView = cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv) // поле с выбором города
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, cities)
@@ -1036,7 +901,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
-    private fun initAutoCompleteCityDialog(cityDialog: Dialog) { // инит поля с выбором города, откуда вылет
+    private fun initAutoCompleteCityDialog() { // инит поля с выбором города, откуда вылет
 
         val autoCompleteTextView =
             cityDialog.findViewById<MaterialAutoCompleteTextView>(R.id.city_menu_autocomplete_tv_city_from) // поле с выбором города
@@ -1045,13 +910,12 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     }
 
-    private fun initTourAndHotelsButtonsCityDialog(cityDialog: Dialog) { // инициализация кнопок "Туры" и "Отели" в диалоге с выбором города и времени
+    private fun initTourAndHotelsButtonsCityDialog() { // инициализация кнопок "Туры" и "Отели" в диалоге с выбором города и времени
         cityDialog.findViewById<Button>(R.id.city_menu_tours_button).setOnClickListener { // кнопка "Туры"
-            switchStateButtonsToursAndHotels(true)
-
+            presenter.toursButtonCityDialogOnClick()
         }
         cityDialog.findViewById<Button>(R.id.city_menu_hotels_button).setOnClickListener { // кнопка "Отели"
-            switchStateButtonsToursAndHotels(false)
+            presenter.hotelsButtonCityDialogOnClick()
         }
     }
 
