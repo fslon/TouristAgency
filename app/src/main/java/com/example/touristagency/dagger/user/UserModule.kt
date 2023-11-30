@@ -1,6 +1,6 @@
 package com.example.touristagency.dagger.user
 
-import com.example.touristagency.dagger.ToursScope
+import com.example.touristagency.dagger.scopes.ToursScope
 import com.example.touristagency.mvp.model.room.Database
 import com.example.touristagency.mvp.model.room.cache.IUsersCache
 import com.example.touristagency.mvp.model.users.IDataSource

@@ -73,6 +73,25 @@
     <string name="city_menu_find_button_text_find_tours">Найти туры</string>
     <string name="city_menu_find_button_text_find_hotels">Найти отели</string>
     <string name="city_and_nights_button_default_text">Россия</string>
+    <string name="profile_login_textview">Логин</string>
+    <string name="profile_login_textfield">Введите логин</string>
+    <string name="profile_password_textview">Пароль</string>
+    <string name="profile_password_textfield">Введите пароль</string>
+    <string name="profile_email_textview">Электронная почта</string>
+    <string name="profile_email_textfield">Введите электронную почту</string>
+    <string name="profile_birth_date_textview">Выберите дату рождения</string>
+    <string name="profile_birth_date_textview_picker">01.01.2000</string>
+    <string name="profile_name_textview">Имя</string>
+    <string name="profile_name_textfield">Введите имя</string>
+    <string name="profile_last_name_textview">Отчество</string>
+    <string name="profile_last_name_textfield">Введите отчество</string>
+    <string name="profile_surname_name_textview">Фамилия</string>
+    <string name="profile_surname_textfield">Введите фамилию</string>
+    <string name="profile_account_status_textview">Статус аккаунта:</string>
+    <string name="profile_account_status_result_textview_not_registered">не зарегистрирован</string>
+    <string name="profile_account_status_result_textview_registered">зарегистрирован</string>
+    <string name="profile_enter_button">Вход</string>
+    <string name="profile_register_button">Регистрация</string>
 
 
 </resources>

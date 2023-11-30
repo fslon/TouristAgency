@@ -21,7 +21,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.addTextChangedListener
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.ToursSubComponent
+import com.example.touristagency.dagger.subComponents.ToursSubComponent
 import com.example.touristagency.databinding.FragmentToursMainBinding
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
 import com.example.touristagency.mvp.view.SlideShowAdapter
@@ -136,7 +136,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     return@setOnItemSelectedListener true
                 }
                 R.id.item_profile -> {
-                    println("item_profile")
+                    presenter.navigationProfileOnClick()
                     return@setOnItemSelectedListener true
                 }
 

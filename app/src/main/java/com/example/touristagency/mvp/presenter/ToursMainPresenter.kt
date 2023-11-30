@@ -143,6 +143,10 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         router.replaceScreen(screens.favourites())
     }
 
+    fun navigationProfileOnClick() {
+        router.replaceScreen(screens.profile())
+    }
+
     private fun initMinDate() {
 
         calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)

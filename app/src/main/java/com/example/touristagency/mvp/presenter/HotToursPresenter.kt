@@ -63,6 +63,10 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
         router.replaceScreen(screens.favourites())
     }
 
+    fun navigationProfileOnClick() {
+        router.replaceScreen(screens.profile())
+    }
+
     fun sortingItemOnClick(item: MenuItem) {
         when (item.title) {
             sortingStrings[0] -> { // Рекомендуемое

@@ -1,5 +1,6 @@
-package com.example.touristagency.dagger
+package com.example.touristagency.dagger.subComponents
 
+import com.example.touristagency.dagger.scopes.ToursScope
 import com.example.touristagency.dagger.user.UserModule
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
 import dagger.Subcomponent

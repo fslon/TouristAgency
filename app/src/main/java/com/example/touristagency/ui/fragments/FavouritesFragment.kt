@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.FavouritesSubComponent
+import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
 import com.example.touristagency.databinding.FragmentFavouritesBinding
 import com.example.touristagency.mvp.presenter.FavouritesPresenter
 import com.example.touristagency.mvp.view.FavouritesView
-import com.example.touristagency.mvp.view.HotToursView
 import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
@@ -88,7 +87,7 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
                 }
 
                 R.id.item_profile -> {
-                    println("item_profile")
+                    presenter.navigationProfileOnClick()
                     return@setOnItemSelectedListener true
                 }
 

@@ -1,4 +1,4 @@
-package com.example.touristagency.dagger
+package com.example.touristagency.dagger.scopes
 
 import javax.inject.Scope
 

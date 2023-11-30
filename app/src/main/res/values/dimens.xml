@@ -48,6 +48,16 @@
     <dimen name="recycler_item_tour_favourite_button_size">35dp</dimen>
     <dimen name="recycler_item_tour_favourite_button_margin_top">10dp</dimen>
     <dimen name="filters_layout_cancel_button_text_size">16sp</dimen>
+    <dimen name="profile_text_input_layouts_margin_horizontal">5dp</dimen>
+    <dimen name="profile_birth_date_textview_picker_margin_start">10dp</dimen>
+    <dimen name="profile_birth_date_textview_picker_margin_top">10dp</dimen>
+    <dimen name="profile_birth_date_textview_picker_text_size">18sp</dimen>
+    <dimen name="profile_text_views_text_size">18sp</dimen>
+    <dimen name="profile_text_views_margin_top">10dp</dimen>
+    <dimen name="profile_text_views_margin_start">10dp</dimen>
+    <dimen name="profile_enter_button_margin_start">10dp</dimen>
+    <dimen name="profile_enter_button_margin_top">10dp</dimen>
+    <dimen name="profile_register_button_margin_start">5dp</dimen>
 
 
 </resources>

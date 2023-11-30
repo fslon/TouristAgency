@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.HotToursSubComponent
+import com.example.touristagency.dagger.subComponents.HotToursSubComponent
 import com.example.touristagency.databinding.FragmentHotToursBinding
 import com.example.touristagency.mvp.presenter.HotToursPresenter
 import com.example.touristagency.mvp.view.HotToursView
@@ -88,7 +88,7 @@ class HotToursFragment : MvpAppCompatFragment(), HotToursView, BackButtonListene
                 }
 
                 R.id.item_profile -> {
-                    println("item_profile")
+                    presenter.navigationProfileOnClick()
                     return@setOnItemSelectedListener true
                 }
 

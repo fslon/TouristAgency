@@ -64,6 +64,9 @@ class FavouritesPresenter : MvpPresenter<FavouritesView>() {
         router.replaceScreen(screens.favourites())
     }
 
+    fun navigationProfileOnClick() {
+        router.replaceScreen(screens.profile())
+    }
 
     fun sortingItemOnClick(item: MenuItem) {
         when (item.title) {

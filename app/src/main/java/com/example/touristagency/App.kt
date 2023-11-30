@@ -4,9 +4,10 @@ import android.app.Application
 import com.example.touristagency.dagger.AppComponent
 import com.example.touristagency.dagger.AppModule
 import com.example.touristagency.dagger.DaggerAppComponent
-import com.example.touristagency.dagger.FavouritesSubComponent
-import com.example.touristagency.dagger.HotToursSubComponent
-import com.example.touristagency.dagger.ToursSubComponent
+import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
+import com.example.touristagency.dagger.subComponents.HotToursSubComponent
+import com.example.touristagency.dagger.subComponents.ProfileSubComponent
+import com.example.touristagency.dagger.subComponents.ToursSubComponent
 
 
 class App : Application() {
@@ -20,6 +21,9 @@ class App : Application() {
         private set
 
     var favouritesSubComponent: FavouritesSubComponent? = null
+        private set
+
+    var profileSubComponent: ProfileSubComponent? = null
         private set
 
     companion object {
@@ -56,6 +60,14 @@ class App : Application() {
 
     fun releaseFavouritesSubComponent() {
         favouritesSubComponent = null
+    }
+
+    fun initProfileSubComponent() = appComponent.profileSubComponent().also {
+        profileSubComponent = it
+    }
+
+    fun releaseProfileSubComponent() {
+        profileSubComponent = null
     }
 
 }

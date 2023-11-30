@@ -1,5 +1,9 @@
 package com.example.touristagency.dagger
 
+import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
+import com.example.touristagency.dagger.subComponents.HotToursSubComponent
+import com.example.touristagency.dagger.subComponents.ProfileSubComponent
+import com.example.touristagency.dagger.subComponents.ToursSubComponent
 import com.example.touristagency.ui.activity.MainActivity
 import com.example.touristagency.mvp.presenter.MainPresenter
 import dagger.Component
@@ -20,6 +24,7 @@ interface AppComponent {
     fun toursSubcomponent(): ToursSubComponent
     fun hotToursSubComponent(): HotToursSubComponent
     fun favouritesSubComponent(): FavouritesSubComponent
+    fun profileSubComponent(): ProfileSubComponent
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)
