@@ -15,8 +15,12 @@ interface ProfileView : MvpView {
 
     fun initDatePicker()
 
-    fun showSnacks()
-    fun showSnacksRegistration()
+    fun showLoginSnacks()
+    fun showRegisterSnacks()
+    fun initLoginButton()
+    fun initRegisterButton()
+
+    fun switchIsRegisteredText(isRegistered: Boolean)
 
 //
 //    fun initSortingMenu(sortingStrings: List<String>)

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.touristagency.App
 import com.example.touristagency.dagger.subComponents.TourSubComponent
 import com.example.touristagency.databinding.FragmentTourBinding
-import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.presenter.TourPresenter
 import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.mvp.view.TourView

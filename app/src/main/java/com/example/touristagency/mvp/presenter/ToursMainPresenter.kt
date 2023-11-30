@@ -1,8 +1,8 @@
 package com.example.touristagency.mvp.presenter
 
 import android.view.MenuItem
-import com.example.touristagency.mvp.model.Tour
-import com.example.touristagency.mvp.model.users.IToursAndUsersRepo
+import com.example.touristagency.mvp.model.tours.Tour
+import com.example.touristagency.mvp.model.tours.IToursRepo
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.mvp.view.list.TourItemView
@@ -25,7 +25,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
     @Inject
-    lateinit var toursRepo: IToursAndUsersRepo
+    lateinit var toursRepo: IToursRepo
 
 
     private val currentCurrency: String = "₽"// текущая валюта
@@ -142,9 +142,9 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 //        viewState.testInitThirdRecyclerItem()
     }
 
-    fun openTourFragment() {
-        router.navigateTo(screens.tour())
-    }
+//    fun openTourFragment() {
+//        router.navigateTo(screens.tour())
+//    }
 
     fun navigationSearchOnClick() {
         router.replaceScreen(screens.mainAllTours())

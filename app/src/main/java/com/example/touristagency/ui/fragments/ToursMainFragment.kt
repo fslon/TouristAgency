@@ -1188,8 +1188,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             }
 
             if (!isCallForMainLayoutButtons) isToursButtonActive = !isToursButtonActive // меняем флаг активна ли кнопка "Туры"
-
-
         }
     }
 

@@ -1,11 +1,9 @@
 package com.example.touristagency.mvp.presenter
 
-import android.view.MenuItem
-import com.example.touristagency.mvp.view.FavouritesView
-import com.example.touristagency.mvp.view.HotToursView
 import com.example.touristagency.mvp.view.ProfileView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpPresenter
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -21,7 +19,6 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
 
 //    private val currentCurrency: String = "₽"// текущая валюта
 
-//    private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
 //    class ToursListPresenter : IUserListPresenter {
 //        val users = mutableListOf<Tour>()
@@ -45,22 +42,40 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
 
         viewState.initDatePicker()
 
-        viewState.showSnacks()
-        viewState.showSnacksRegistration()
-
-//        viewState.setTextSortingButton(sortingStrings[0]) // присвоение дефолтного способа сортировки
-//        viewState.initSortingButton()
-//
-//        viewState.testInitFirstRecyclerItem()
-//        viewState.testInitSecondRecyclerItem()
-//        viewState.testInitThirdRecyclerItem()
+        viewState.showLoginSnacks()
+        viewState.initLoginButton()
 
     }
-//
-//    fun sortingButtonOnClick() {
-//        viewState.initSortingMenu(sortingStrings)
-//    }
 
+
+    fun loginButtonOnClick(login: String, password: String) {
+        //todo вызов
+
+
+
+
+        if (!isRegistered) {
+            Snackbar.make(binding.container, "Вы успешно зарегистрировались", Snackbar.LENGTH_SHORT).show()
+            switchIsRegisteredText(true)
+        } else {
+//               Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
+            switchIsRegisteredText(false)
+        }
+        isRegistered = !isRegistered
+
+
+    }
+
+    fun registerButtonOnClick(login: String, password: String, email: String, birthdate: String, name: String, lastname: String, surname: String) {
+
+    }
+
+
+    //
+    //
+    //
+    //
+    //
     fun navigationSearchOnClick() {
         router.replaceScreen(screens.mainAllTours())
     }
@@ -82,32 +97,6 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
         val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
         return format.format(date)
     }
-
-//    fun sortingItemOnClick(item: MenuItem) {
-//        when (item.title) {
-//            sortingStrings[0] -> { // Рекомендуемое
-//                // TODO Обработка выбранной сортировки
-//                viewState.setTextSortingButton(item.title.toString())
-//            }
-//
-//            sortingStrings[1] -> { // Сначала новое
-//                // TODO Обработка выбранной сортировки
-//                viewState.setTextSortingButton(item.title.toString())
-//            }
-//
-//            sortingStrings[2] -> { // Дешевле
-//                // TODO Обработка выбранной сортировки
-//                viewState.setTextSortingButton(item.title.toString())
-//            }
-//
-//            sortingStrings[3] -> { // Дороже
-//                // TODO Обработка выбранной сортировки
-//                viewState.setTextSortingButton(item.title.toString())
-//            }
-//        }
-//    }
-
-
 
     fun backPressed(): Boolean {
         router.exit()

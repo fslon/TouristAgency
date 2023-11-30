@@ -1,6 +1,6 @@
 package com.example.touristagency.navigation
 
-import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.ui.fragments.FavouritesFragment
 import com.example.touristagency.ui.fragments.HotToursFragment
 import com.example.touristagency.ui.fragments.ProfileFragment

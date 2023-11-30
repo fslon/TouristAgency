@@ -143,40 +143,37 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     }
 
 
-    override fun showSnacks() {
-        var isRegistered = false
-        binding.enterButton.setOnClickListener {
-            if (!isRegistered) {
-                Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
-                switchIsRegisteredText(true)
-            } else {
-//               Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
-                switchIsRegisteredText(false)
-            }
-            isRegistered = !isRegistered
-        }
+    override fun showLoginSnacks() {
+        Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
+    }
 
-
+    override fun showRegisterSnacks() {
+        Snackbar.make(binding.container, "Вы успешно зарегистрировались", Snackbar.LENGTH_SHORT).show()
     }
 
 
-    override fun showSnacksRegistration() {
-        var isRegistered = false
+    override fun initLoginButton() {
+        binding.loginButton.setOnClickListener {
+            presenter.loginButtonOnClick(binding.loginTextfield.editText?.text.toString(), binding.passwordTextfield.editText?.text.toString())
+        }
+    }
+
+    override fun initRegisterButton() {
         binding.registerButton.setOnClickListener {
-            if (!isRegistered) {
-                Snackbar.make(binding.container, "Вы успешно зарегистрировались", Snackbar.LENGTH_SHORT).show()
-                switchIsRegisteredText(true)
-            } else {
-//               Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
-                switchIsRegisteredText(false)
-            }
-            isRegistered = !isRegistered
+
+            presenter.registerButtonOnClick(
+                binding.loginTextfield.editText?.text.toString(), binding.passwordTextfield.editText?.text.toString(),
+                binding.emailTextfield.editText?.text.toString(),
+                binding.birthDateTextviewPicker.text.toString(),
+                binding.nameTextfield.editText?.text.toString(),
+                binding.lastNameTextfield.editText?.text.toString(),
+                binding.surnameTextfield.editText?.text.toString()
+            )
         }
-
-
     }
 
-    fun switchIsRegisteredText(isRegistered: Boolean) {
+
+    override fun switchIsRegisteredText(isRegistered: Boolean) {
         if (isRegistered) {
             binding.accountStatusResultTextview.text = resources.getString(R.string.profile_account_status_result_textview_registered)
             binding.accountStatusResultTextview.setTextColor(

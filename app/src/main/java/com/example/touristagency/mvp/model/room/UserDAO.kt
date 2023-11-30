@@ -10,35 +10,35 @@ import androidx.room.Update
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: RoomGithubUser)
+    fun insert(user: RoomUser)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg users: RoomGithubUser)
+    fun insert(vararg users: RoomUser)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(users: List<RoomGithubUser>)
+    fun insert(users: List<RoomUser>)
 
     @Update
-    fun update(user: RoomGithubUser)
+    fun update(user: RoomUser)
 
     @Update
-    fun update(vararg users: RoomGithubUser)
+    fun update(vararg users: RoomUser)
 
     @Update
-    fun update(users: List<RoomGithubUser>)
+    fun update(users: List<RoomUser>)
 
     @Delete
-    fun delete(user: RoomGithubUser)
+    fun delete(user: RoomUser)
 
     @Delete
-    fun delete(vararg users: RoomGithubUser)
+    fun delete(vararg users: RoomUser)
 
     @Delete
-    fun delete(users: List<RoomGithubUser>)
+    fun delete(users: List<RoomUser>)
 
-    @Query("SELECT * FROM RoomGithubUser")
-    fun getAll(): List<RoomGithubUser>
+    @Query("SELECT * FROM RoomUser")
+    fun getAll(): List<RoomUser>
 
-    @Query("SELECT * FROM RoomGithubUser WHERE login = :login LIMIT 1")
-    fun findByLogin(login: String): RoomGithubUser?
+    @Query("SELECT * FROM RoomUser WHERE login = :login LIMIT 1")
+    fun findByLogin(login: String): RoomUser?
 }

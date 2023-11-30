@@ -1,4 +1,4 @@
-package com.example.touristagency.mvp.model
+package com.example.touristagency.mvp.model.tours
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

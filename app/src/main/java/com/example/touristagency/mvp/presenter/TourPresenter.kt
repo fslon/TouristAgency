@@ -2,7 +2,7 @@ package com.example.touristagency.mvp.presenter
 
 import android.content.Intent
 import android.net.Uri
-import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.view.TourView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router

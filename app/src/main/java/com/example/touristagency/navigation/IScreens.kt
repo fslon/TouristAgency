@@ -1,6 +1,6 @@
 package com.example.touristagency.navigation
 
-import com.example.touristagency.mvp.model.Tour
+import com.example.touristagency.mvp.model.tours.Tour
 import com.github.terrakok.cicerone.Screen
 
 interface IScreens {
