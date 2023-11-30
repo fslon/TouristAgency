@@ -1,5 +1,7 @@
 package com.example.touristagency.mvp.presenter
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.MenuItem
 import com.example.touristagency.mvp.model.Tour
@@ -131,6 +133,11 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.testInitThirdRecyclerItem()
     }
 
+    fun openTourFragment(){
+        router.navigateTo(screens.tour())
+
+    }
+
     fun navigationSearchOnClick() {
         router.replaceScreen(screens.mainAllTours())
     }
@@ -167,7 +174,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     fun hotelsButtonOnClick() {
         // TODO: РАЗОБРАТЬСЯ С МЕСТОМ ИНИЦИАЦИИ ЗАПРОСА
-        Log.e("=========== ", "HERE")
         loadData()
 
 

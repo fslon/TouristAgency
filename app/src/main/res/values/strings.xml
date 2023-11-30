@@ -92,6 +92,8 @@
     <string name="profile_account_status_result_textview_registered">зарегистрирован</string>
     <string name="profile_enter_button">Вход</string>
     <string name="profile_register_button">Регистрация</string>
+    <string name="recycler_item_rating_text_view_text">рейтинг</string>
+    <string name="buy_tour_button_text">Оформить тур</string>
 
 
 </resources>

@@ -255,6 +255,10 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun testInitFirstRecyclerItem() { // прокручивающиеся картинки в recyclerViewItem // todo переработать
 
+        binding.testItem.root.setOnClickListener {
+            presenter.openTourFragment()
+        }
+
         binding.testItem.recyclerItemTourHotelName.text = "«Бургас» пансионат"
         binding.testItem.recyclerItemTourHotelLocation.text = "г. Сочи, п. Кудепста"
         binding.testItem.recyclerItemTourHotelRating.text = "9.1"

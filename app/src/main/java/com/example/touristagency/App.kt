@@ -7,6 +7,7 @@ import com.example.touristagency.dagger.DaggerAppComponent
 import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
 import com.example.touristagency.dagger.subComponents.HotToursSubComponent
 import com.example.touristagency.dagger.subComponents.ProfileSubComponent
+import com.example.touristagency.dagger.subComponents.TourSubComponent
 import com.example.touristagency.dagger.subComponents.ToursSubComponent
 
 
@@ -24,6 +25,9 @@ class App : Application() {
         private set
 
     var profileSubComponent: ProfileSubComponent? = null
+        private set
+
+    var tourSubComponent: TourSubComponent? = null
         private set
 
     companion object {
@@ -68,6 +72,14 @@ class App : Application() {
 
     fun releaseProfileSubComponent() {
         profileSubComponent = null
+    }
+
+    fun initTourSubComponent() = appComponent.tourSubComponent().also {
+        tourSubComponent = it
+    }
+
+    fun releaseTourSubComponent() {
+        tourSubComponent = null
     }
 
 }

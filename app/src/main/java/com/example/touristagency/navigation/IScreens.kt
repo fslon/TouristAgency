@@ -7,5 +7,6 @@ interface IScreens {
     fun hotTours(): Screen
     fun favourites(): Screen
     fun profile(): Screen
+    fun tour(): Screen
 //    fun repository(repository: GithubUserProfile): Screen
 }
