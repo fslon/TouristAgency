@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.touristagency.App
-import com.example.touristagency.R
 import com.example.touristagency.dagger.subComponents.TourSubComponent
 import com.example.touristagency.databinding.FragmentTourBinding
+import com.example.touristagency.mvp.model.Tour
 import com.example.touristagency.mvp.presenter.TourPresenter
 import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.mvp.view.TourView
@@ -16,7 +16,7 @@ import com.example.touristagency.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class TourFragment : MvpAppCompatFragment(), TourView, BackButtonListener {
+class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonListener {
     private var _binding: FragmentTourBinding? = null
     private val binding get() = _binding!!
 
@@ -29,12 +29,11 @@ class TourFragment : MvpAppCompatFragment(), TourView, BackButtonListener {
     val presenter: TourPresenter by moxyPresenter {
         tourSubComponent = App.instance.initTourSubComponent()
 
-        TourPresenter().apply {
+        TourPresenter(tour).apply {
             tourSubComponent?.inject(this)
         }
     }
 
-//    var adapter: UsersRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,47 +48,51 @@ class TourFragment : MvpAppCompatFragment(), TourView, BackButtonListener {
         this.currentCurrency = currentCurrency
     }
 
+    override fun startCall(intent: Intent) {
+        // запускаем намерение
+        startActivity(intent)
+    }
 
-    override fun testInitFirstRecyclerItem() { // прокручивающиеся картинки в recyclerViewItem // todo переработать
-
-        binding.recyclerItemTourHotelName.text = "«Бургас» пансионат"
-        binding.recyclerItemTourHotelLocation.text = "г. Сочи, п. Кудепста"
-        binding.recyclerItemTourHotelRating.text = "9.1"
-
-        binding.recyclerItemTourAirportTextView.text = "в 6 км"
-        binding.recyclerItemTourBeachTextView.text = "150 м"
-
-        binding.recyclerItemTourPriceTextView.text = "96 583 $currentCurrency"
-
-
-        binding.recyclerItemTourFavouriteButton.setOnClickListener {
-            // todo прокинуть метод в presenter
-        }
-        // Создаем список изображений
-        val images = listOf(
-            R.drawable.burgas_1,
-            R.drawable.burgas_2,
-            R.drawable.burgas_3
-        )
-
-        binding.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
-
-// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
-        val adapter = SlideShowAdapter(images)
-        binding.recyclerItemTourImageLayoutViewpager2.adapter = adapter
-
-        binding.recyclerItemTourFavouriteButton.setOnClickListener {
-            binding.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
-        }
-
+    override fun initBuyButton() {
         binding.buyTourButton.setOnClickListener {
             presenter.buyTourButtonOnClick()
         }
     }
 
-    override fun startCall(intent: Intent) {
-        // запускаем намерение
-        startActivity(intent)
+    override fun initName(text: String) {
+        binding.recyclerItemTourHotelName.text = text
+    }
+
+    override fun initPlace(text: String) {
+        binding.recyclerItemTourHotelLocation.text = text
+    }
+
+    override fun initRating(text: String) {
+        binding.recyclerItemTourHotelRating.text = text
+    }
+
+    override fun initAirport(text: String) {
+        binding.recyclerItemTourAirportTextView.text = "в $text км"
+    }
+
+    override fun initBeach(text: String) {
+        if (text != "0") binding.recyclerItemTourBeachTextView.text = "$text м"
+        else binding.recyclerItemTourBeachTextView.text = "далеко"
+    }
+
+    override fun initParking(text: String) {
+        if (text == "+") binding.recyclerItemTourParkingTextView.text = "есть"
+        else binding.recyclerItemTourParkingTextView.text = "нет"
+    }
+
+    override fun initPrice(text: String) {
+        binding.recyclerItemTourPriceTextView.text = "$text ₽ "
+    }
+
+    override fun initPictures(picture1: String, picture2: String, picture3: String) {
+        val images = listOf(picture1, picture2, picture3)
+        val adapter = SlideShowAdapter(images)
+        binding.recyclerItemTourImageLayoutViewpager2.adapter = adapter
     }
 
 
@@ -107,7 +110,7 @@ class TourFragment : MvpAppCompatFragment(), TourView, BackButtonListener {
 
 
     companion object {
-        fun newInstance() = TourFragment()
+        fun newInstance(tour: Tour) = TourFragment(tour)
     }
 
 

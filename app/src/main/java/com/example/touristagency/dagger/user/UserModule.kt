@@ -4,7 +4,7 @@ import com.example.touristagency.dagger.scopes.ToursScope
 import com.example.touristagency.mvp.model.room.Database
 import com.example.touristagency.mvp.model.room.cache.IUsersCache
 import com.example.touristagency.mvp.model.users.IDataSource
-import com.example.touristagency.mvp.model.users.IGithubUsersRepo
+import com.example.touristagency.mvp.model.users.IToursAndUsersRepo
 import com.example.touristagency.mvp.model.users.RetrofitGithubUsersRepo
 import com.example.touristagency.ui.network.INetworkStatus
 import dagger.Module
@@ -23,6 +23,6 @@ class UserModule {
     fun usersRepo(
         api: IDataSource, networkStatus: INetworkStatus, db: Database, cache:
         IUsersCache
-    ): IGithubUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, db, cache)
+    ): IToursAndUsersRepo = RetrofitGithubUsersRepo(api, networkStatus, db, cache)
 
 }

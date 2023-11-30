@@ -3,6 +3,7 @@ package com.example.touristagency.dagger.subComponents
 import com.example.touristagency.dagger.scopes.ToursScope
 import com.example.touristagency.dagger.user.UserModule
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
+import com.example.touristagency.ui.adapter.ToursRVAdapter
 import dagger.Subcomponent
 
 @ToursScope
@@ -16,6 +17,6 @@ interface ToursSubComponent {
 
 
     fun inject(toursMainPresenter: ToursMainPresenter)
-//    fun inject(usersRVAdapter: UsersRVAdapter)
+    fun inject(toursRVAdapter: ToursRVAdapter)
 
 }

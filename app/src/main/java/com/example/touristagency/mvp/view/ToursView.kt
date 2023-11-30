@@ -75,9 +75,9 @@ interface ToursView : MvpView {
     )
 
 
-    fun testInitFirstRecyclerItem()
-    fun testInitSecondRecyclerItem()
-    fun testInitThirdRecyclerItem()
+//    fun testInitFirstRecyclerItem()
+//    fun testInitSecondRecyclerItem()
+//    fun testInitThirdRecyclerItem()
 
 
 

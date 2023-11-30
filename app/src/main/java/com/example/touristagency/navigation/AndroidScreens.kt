@@ -1,5 +1,6 @@
 package com.example.touristagency.navigation
 
+import com.example.touristagency.mvp.model.Tour
 import com.example.touristagency.ui.fragments.FavouritesFragment
 import com.example.touristagency.ui.fragments.HotToursFragment
 import com.example.touristagency.ui.fragments.ProfileFragment
@@ -12,7 +13,7 @@ class AndroidScreens : IScreens {
     override fun hotTours() = FragmentScreen { HotToursFragment.newInstance() }
     override fun favourites() = FragmentScreen { FavouritesFragment.newInstance() }
     override fun profile() = FragmentScreen { ProfileFragment.newInstance() }
-    override fun tour() = FragmentScreen { TourFragment.newInstance() }
+    override fun tour(tour: Tour) = FragmentScreen { TourFragment.newInstance(tour) }
 
 //    override fun profileUser(user: GithubUser) = FragmentScreen { ProfileFragment.newInstance(user) }
 //    override fun repository(repository: GithubUserProfile) = FragmentScreen { RepositoryFragment.newInstance(repository) }

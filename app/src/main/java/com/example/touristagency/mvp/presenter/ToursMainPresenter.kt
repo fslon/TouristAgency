@@ -1,14 +1,11 @@
 package com.example.touristagency.mvp.presenter
 
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import android.view.MenuItem
 import com.example.touristagency.mvp.model.Tour
-import com.example.touristagency.mvp.model.users.IGithubUsersRepo
-import com.example.touristagency.mvp.presenter.list.IUserListPresenter
+import com.example.touristagency.mvp.model.users.IToursAndUsersRepo
+import com.example.touristagency.mvp.presenter.list.ITourListPresenter
 import com.example.touristagency.mvp.view.ToursView
-import com.example.touristagency.mvp.view.list.UserItemView
+import com.example.touristagency.mvp.view.list.TourItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -28,7 +25,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
     @Inject
-    lateinit var usersRepo: IGithubUsersRepo
+    lateinit var toursRepo: IToursAndUsersRepo
 
 
     private val currentCurrency: String = "₽"// текущая валюта
@@ -65,17 +62,28 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
 
-    class ToursListPresenter : IUserListPresenter {
+    class ToursListPresenter : ITourListPresenter {
 
-        val users = mutableListOf<Tour>()
+        val tours = mutableListOf<Tour>()
 
-        override var itemClickListener: ((UserItemView) -> Unit)? = null
-        override fun getCount() = users.size
-        override fun bindView(view: UserItemView) {
-            val user = users[view.pos]
-            user.login?.let { view.setLogin(it) }
-            user.avatarUrl?.let { view.loadAvatar(it) }
+        override var itemClickListener: ((TourItemView) -> Unit)? = null
+        override fun getCount() = tours.size
+        override fun bindView(view: TourItemView) {
+            val tour = tours[view.pos]
+            tour.place?.let { view.setPlace(it) }
+            tour.price?.let { view.setPrice(it) }
+            tour.airportDistance?.let { view.setAirportDistance(it) }
+            tour.beachDistance?.let { view.setBeachDistance(it) }
+            tour.rating?.let { view.setRating(it) }
+            tour.parking?.let { view.setParking(it) }
+            tour.stars?.let { view.setStars(it) }
+            tour.foodSystem?.let { view.setFoodSystem(it) }
+            tour.foodSystem?.let { view.setFoodSystem(it) }
+            tour.foodType?.let { view.setFoodType(it) }
 
+            tour.picture1?.let { view.loadPicture1(it) }
+            tour.picture2?.let { view.loadPicture2(it) }
+            tour.picture3?.let { view.loadPicture3(it) }
         }
     }
 
@@ -97,10 +105,11 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
         viewState.init()
-//        loadData()
+        loadData()
         toursListPresenter.itemClickListener = { itemView ->
-            val user = toursListPresenter.users[itemView.pos]
+            val tour = toursListPresenter.tours[itemView.pos]
 
+            router.navigateTo(screens.tour(tour))
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
 
@@ -128,14 +137,13 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.initSortingButton()
         viewState.initFiltersButton()
 
-        viewState.testInitFirstRecyclerItem()
-        viewState.testInitSecondRecyclerItem()
-        viewState.testInitThirdRecyclerItem()
+//        viewState.testInitFirstRecyclerItem()
+//        viewState.testInitSecondRecyclerItem()
+//        viewState.testInitThirdRecyclerItem()
     }
 
-    fun openTourFragment(){
+    fun openTourFragment() {
         router.navigateTo(screens.tour())
-
     }
 
     fun navigationSearchOnClick() {
@@ -186,11 +194,10 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     private fun loadData() {
 
-        usersRepo.getUsers().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
-            Log.e("-------------- ", repos.toString())
-//            usersListPresenter.users.clear()
-//            usersListPresenter.users.addAll(repos)
-//            viewState.updateList()
+        toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+            toursListPresenter.tours.clear()
+            toursListPresenter.tours.addAll(repos)
+            viewState.updateList()
 
         }, {
             println("Error: ${it.message}")

@@ -7,21 +7,23 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Tour(
     @Expose val id: String? = null,
-    @Expose val login: String? = null,
-    @Expose val avatarUrl: String? = null,
+    @Expose val city: String? = null,
+    @Expose val name: String? = null,
+    @Expose val place: String? = null,
+    @Expose val price: String? = null,
+    @Expose val categoryId: String? = null,
+    @Expose val airportDistance: String? = null,
+    @Expose val beachDistance: String? = null,
+    @Expose val rating: String? = null,
+    @Expose val parking: String? = null,
+    @Expose val stars: String? = null,
+    @Expose val foodSystem: String? = null,
+    @Expose val foodType: String? = null,
 
     @Expose val picture1: String? = null,
     @Expose val picture2: String? = null,
-    @Expose val picture3: String? = null,
-    @Expose val picture4: String? = null,
-    @Expose val picture5: String? = null,
-    @Expose val picture6: String? = null,
-    @Expose val picture7: String? = null,
-    @Expose val picture8: String? = null,
-    @Expose val picture9: String? = null,
-    @Expose val picture10: String? = null
+    @Expose val picture3: String? = null
 
-    // todo добавить еще поля
 
 ) : Parcelable
 

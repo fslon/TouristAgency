@@ -1,5 +1,6 @@
 package com.example.touristagency.navigation
 
+import com.example.touristagency.mvp.model.Tour
 import com.github.terrakok.cicerone.Screen
 
 interface IScreens {
@@ -7,6 +8,6 @@ interface IScreens {
     fun hotTours(): Screen
     fun favourites(): Screen
     fun profile(): Screen
-    fun tour(): Screen
+    fun tour(tour: Tour): Screen
 //    fun repository(repository: GithubUserProfile): Screen
 }

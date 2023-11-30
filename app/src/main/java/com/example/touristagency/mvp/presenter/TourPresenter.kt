@@ -2,15 +2,14 @@ package com.example.touristagency.mvp.presenter
 
 import android.content.Intent
 import android.net.Uri
-import android.view.MenuItem
-import com.example.touristagency.mvp.view.HotToursView
+import com.example.touristagency.mvp.model.Tour
 import com.example.touristagency.mvp.view.TourView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class TourPresenter : MvpPresenter<TourView>() {
+class TourPresenter(val tour: Tour) : MvpPresenter<TourView>() {
     @Inject
     lateinit var router: Router
 
@@ -19,30 +18,30 @@ class TourPresenter : MvpPresenter<TourView>() {
 
     private val currentCurrency: String = "₽"// текущая валюта
 
-//    private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
-
-//    class ToursListPresenter : IUserListPresenter {
-//        val users = mutableListOf<Tour>()
-//        override var itemClickListener: ((UserItemView) -> Unit)? = null
-//        override fun getCount() = users.size
-//        override fun bindView(view: UserItemView) {
-//            val user = users[view.pos]
-//            user.login?.let { view.setLogin(it) }
-//            user.avatarUrl?.let { view.loadAvatar(it) }
-//        }
-//    }
-//    val toursListPresenter = ToursListPresenter()
-//
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
         viewState.initCurrentCurrency(currentCurrency)
 
-        viewState.testInitFirstRecyclerItem()
+        viewState.initBuyButton()
+
+        initViews()
+
     }
 
-    fun buyTourButtonOnClick(){
+    private fun initViews() {
+        viewState.initName(tour.name.toString())
+        viewState.initPlace(tour.place.toString())
+        viewState.initRating(tour.rating.toString())
+        viewState.initAirport(tour.airportDistance.toString())
+        viewState.initBeach(tour.beachDistance.toString())
+        viewState.initParking(tour.parking.toString())
+        viewState.initPrice(tour.price.toString())
+        viewState.initPictures(tour.picture1.toString(), tour.picture2.toString(), tour.picture3.toString())
+    }
+
+    fun buyTourButtonOnClick() {
         // создаем намерение для открытия приложения звонки
         val intent = Intent(Intent.ACTION_DIAL)
 
