@@ -5,18 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
 import com.example.touristagency.databinding.FragmentFavouritesBinding
+import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.presenter.FavouritesPresenter
 import com.example.touristagency.mvp.view.FavouritesView
 import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.BackButtonListener
+import com.example.touristagency.ui.adapter.ToursRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonListener {
+class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFragment(), FavouritesView, BackButtonListener {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
@@ -29,12 +32,12 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
     val presenter: FavouritesPresenter by moxyPresenter {
         favouritesSubComponent = App.instance.initFavouritesSubComponent()
 
-        FavouritesPresenter().apply {
+        FavouritesPresenter(favouriteTours).apply {
             favouritesSubComponent?.inject(this)
         }
     }
 
-//    var adapter: UsersRVAdapter? = null
+    var adapter: ToursRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,17 +52,16 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
         this.currentCurrency = currentCurrency
     }
 
-
     override fun init() {
-//        vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
-//        adapter = UsersRVAdapter(presenter.usersListPresenter).apply {
-//            userSubComponent?.inject(this)
-//        }
-//        vb?.rvUsers?.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = ToursRVAdapter(presenter.toursListPresenter).apply {
+            favouritesSubComponent?.inject(this)
+        }
+        binding.recyclerView.adapter = adapter
     }
 
     override fun updateList() {
-//        adapter?.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
     }
 
     override fun release() {
@@ -100,122 +102,6 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
     }
 
 
-    override fun testInitFirstRecyclerItem() { // прокручивающиеся картинки в recyclerViewItem // todo переработать
-
-        binding.testItem.recyclerItemTourHotelName.text = "«Бургас» пансионат"
-        binding.testItem.recyclerItemTourHotelLocation.text = "г. Сочи, п. Кудепста"
-        binding.testItem.recyclerItemTourHotelRating.text = "9.1"
-
-        binding.testItem.recyclerItemTourAirportTextView.text = "в 6 км"
-        binding.testItem.recyclerItemTourBeachTextView.text = "150 м"
-
-        binding.testItem.recyclerItemTourPriceTextView.text = "96 583 $currentCurrency"
-
-
-        binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
-            // todo прокинуть метод в presenter
-        }
-        // Создаем список изображений
-        val images = listOf(
-            R.drawable.burgas_1,
-            R.drawable.burgas_2,
-            R.drawable.burgas_3
-        )
-
-        binding.testItem.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
-
-// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
-        val adapter = SlideShowAdapter(images)
-        binding.testItem.recyclerItemTourImageLayoutViewpager2.adapter = adapter
-
-        binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
-
-        binding.testItem.recyclerItemTourFavouriteButton.setOnClickListener {
-            binding.testItem.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
-        }
-
-    }
-
-    override fun testInitSecondRecyclerItem() {
-        binding.testItem2.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
-
-        binding.testItem2.recyclerItemTourHotelName.text = "«Сочи Парк Отель»"
-        binding.testItem2.recyclerItemTourHotelLocation.text = "Краснодарский край, пгт. Сириус"
-        binding.testItem2.recyclerItemTourHotelRating.text = "9.6"
-
-        binding.testItem2.recyclerItemTourAirportTextView.text = "в 5 км"
-        binding.testItem2.recyclerItemTourBeachTextView.text = "1000 м"
-
-        binding.testItem2.recyclerItemTourPriceTextView.text = "121 254 $currentCurrency"
-
-
-        binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
-        binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
-
-        binding.testItem2.recyclerItemTourFavouriteButton.setOnClickListener {
-            // todo прокинуть метод в presenter
-        }
-        // Создаем список изображений
-        val images = listOf(
-            R.drawable.sochi_hotel_1,
-            R.drawable.sochi_hotel_2,
-            R.drawable.sochi_hotel_3,
-
-            )
-
-// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
-        val adapter = SlideShowAdapter(images)
-        binding.testItem2.recyclerItemTourImageLayoutViewpager2.adapter = adapter
-
-        binding.testItem2.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
-
-        binding.testItem2.recyclerItemTourFavouriteButton.setOnClickListener {
-            binding.testItem2.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
-        }
-
-    }
-
-
-    override fun testInitThirdRecyclerItem() {
-
-        binding.testItem3.recyclerItemTourHotelName.text = "«Алеан Фэмили Спутник» отель"
-        binding.testItem3.recyclerItemTourHotelLocation.text = "г.Сочи, Новороссийское шоссе, д. 17/1"
-        binding.testItem3.recyclerItemTourHotelRating.text = "9.2"
-
-        binding.testItem3.recyclerItemTourLineImage.setImageResource(R.drawable.second_24)
-        binding.testItem3.recyclerItemTourAirportTextView.text = "в 15 км"
-        binding.testItem3.recyclerItemTourBeachTextView.text = "150 м"
-
-        binding.testItem3.recyclerItemTourPriceTextView.text = "152 965 $currentCurrency"
-
-
-//        binding.testItem2.recyclerItemTourParkingTextView.visibility = View.GONE
-//        binding.testItem2.recyclerItemTourParkingImage.visibility = View.GONE
-
-        binding.testItem3.recyclerItemTourFavouriteButton.setOnClickListener {
-            // todo прокинуть метод в presenter
-        }
-        // Создаем список изображений
-        val images = listOf(
-            R.drawable.alean_sochi_1,
-            R.drawable.alean_sochi_2,
-            R.drawable.alean_sochi_3,
-
-            )
-
-// Создаем экземпляр PagerAdapter и устанавливаем его во ViewPager2
-        val adapter = SlideShowAdapter(images)
-        binding.testItem3.recyclerItemTourImageLayoutViewpager2.adapter = adapter
-
-
-        binding.testItem3.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_24)
-
-        binding.testItem3.recyclerItemTourFavouriteButton.setOnClickListener {
-            binding.testItem3.recyclerItemTourFavouriteButton.setImageResource(R.drawable.baseline_favorite_border_24)
-        }
-
-
-    }
 
     override fun setTextSortingButton(text: String) {
         binding.sortingButton.text = text
@@ -261,6 +147,14 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
     }
 
 
+    override fun updateImage(position: Int) {
+        val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
+        if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
+            viewHolder.favouriteImageView.setImageResource(R.drawable.baseline_favorite_24)
+        }
+    }
+
+
     override fun backPressed() = presenter.backPressed()
 
     override fun onDestroyView() {
@@ -270,7 +164,7 @@ class FavouritesFragment : MvpAppCompatFragment(), FavouritesView, BackButtonLis
 
 
     companion object {
-        fun newInstance() = FavouritesFragment()
+        fun newInstance(favouriteTours: MutableList<Tour>) = FavouritesFragment(favouriteTours)
     }
 
 

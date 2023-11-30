@@ -17,9 +17,10 @@ interface HotToursView : MvpView {
     fun setTextSortingButton(text: String)
     fun initSortingButton()
 
+    fun updateImage(position: Int)
 
-    fun testInitFirstRecyclerItem()
-    fun testInitSecondRecyclerItem()
-    fun testInitThirdRecyclerItem()
+//    fun testInitFirstRecyclerItem()
+//    fun testInitSecondRecyclerItem()
+//    fun testInitThirdRecyclerItem()
 
 }

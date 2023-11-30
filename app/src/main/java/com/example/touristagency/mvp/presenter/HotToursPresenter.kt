@@ -1,13 +1,16 @@
 package com.example.touristagency.mvp.presenter
 
 import android.view.MenuItem
+import com.example.touristagency.mvp.model.tours.Tour
+import com.example.touristagency.mvp.presenter.list.ITourListPresenter
 import com.example.touristagency.mvp.view.HotToursView
+import com.example.touristagency.mvp.view.list.TourItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class HotToursPresenter : MvpPresenter<HotToursView>() {
+class HotToursPresenter(val hotTours: MutableList<Tour>) : MvpPresenter<HotToursView>() {
     @Inject
     lateinit var router: Router
 
@@ -18,18 +21,30 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
-//    class ToursListPresenter : IUserListPresenter {
-//        val users = mutableListOf<Tour>()
-//        override var itemClickListener: ((UserItemView) -> Unit)? = null
-//        override fun getCount() = users.size
-//        override fun bindView(view: UserItemView) {
-//            val user = users[view.pos]
-//            user.login?.let { view.setLogin(it) }
-//            user.avatarUrl?.let { view.loadAvatar(it) }
-//        }
-//    }
-//    val toursListPresenter = ToursListPresenter()
-//
+    class HotToursListPresenter(val hotTours: MutableList<Tour>) : ITourListPresenter {
+        override var itemClickListener: ((TourItemView) -> Unit)? = null
+        override var favouriteButtonClickListener: ((TourItemView) -> Unit)? = null
+        override fun getCount() = hotTours.size
+        override fun bindView(view: TourItemView) {
+            val tour = hotTours[view.pos]
+            tour.place?.let { view.setPlace(it) }
+            tour.price?.let { view.setPrice(it) }
+            tour.airportDistance?.let { view.setAirportDistance(it) }
+            tour.beachDistance?.let { view.setBeachDistance(it) }
+            tour.rating?.let { view.setRating(it) }
+            tour.parking?.let { view.setParking(it) }
+            tour.stars?.let { view.setStars(it) }
+            tour.foodSystem?.let { view.setFoodSystem(it) }
+            tour.foodSystem?.let { view.setFoodSystem(it) }
+            tour.foodType?.let { view.setFoodType(it) }
+
+            tour.picture1?.let { view.loadPicture1(it) }
+            tour.picture2?.let { view.loadPicture2(it) }
+            tour.picture3?.let { view.loadPicture3(it) }
+        }
+    }
+
+    val toursListPresenter = HotToursListPresenter(hotTours)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -41,11 +56,25 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
         viewState.setTextSortingButton(sortingStrings[0]) // присвоение дефолтного способа сортировки
         viewState.initSortingButton()
 
-        viewState.testInitFirstRecyclerItem()
-        viewState.testInitSecondRecyclerItem()
-        viewState.testInitThirdRecyclerItem()
+        viewState.init()
+        toursListPresenter.itemClickListener = { itemView ->
+            val tour = toursListPresenter.hotTours[itemView.pos]
+
+            router.navigateTo(screens.tour(tour))
+//            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
+        }
+
+
+//        viewState.testInitFirstRecyclerItem()
+//        viewState.testInitSecondRecyclerItem()
+//        viewState.testInitThirdRecyclerItem()
 
     }
+
+    private fun updateImage(position: Int) {
+        viewState.updateImage(position)
+    }
+
 
     fun sortingButtonOnClick() {
         viewState.initSortingMenu(sortingStrings)
@@ -56,7 +85,7 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
     }
 
     fun navigationHotToursOnClick() {
-        router.replaceScreen(screens.hotTours())
+//        router.replaceScreen(screens.hotTours())
     }
 
     fun navigationFavouriteOnClick() {
@@ -90,7 +119,6 @@ class HotToursPresenter : MvpPresenter<HotToursView>() {
             }
         }
     }
-
 
 
     fun backPressed(): Boolean {

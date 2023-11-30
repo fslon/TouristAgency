@@ -75,6 +75,9 @@ interface ToursView : MvpView {
     )
 
 
+    fun updateImage(position: Int)
+
+
 //    fun testInitFirstRecyclerItem()
 //    fun testInitSecondRecyclerItem()
 //    fun testInitThirdRecyclerItem()

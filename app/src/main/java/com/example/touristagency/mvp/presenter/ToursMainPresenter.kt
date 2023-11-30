@@ -1,8 +1,8 @@
 package com.example.touristagency.mvp.presenter
 
 import android.view.MenuItem
-import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.model.tours.IToursRepo
+import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.mvp.view.list.TourItemView
@@ -61,12 +61,15 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
+    val favouriteTours = mutableListOf<Tour>()
+
 
     class ToursListPresenter : ITourListPresenter {
 
         val tours = mutableListOf<Tour>()
 
         override var itemClickListener: ((TourItemView) -> Unit)? = null
+        override var favouriteButtonClickListener: ((TourItemView) -> Unit)? = null
         override fun getCount() = tours.size
         override fun bindView(view: TourItemView) {
             val tour = tours[view.pos]
@@ -113,9 +116,19 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
 
+        toursListPresenter.favouriteButtonClickListener = { itemView ->
+            updateImage(itemView.pos)
+
+            favouriteTours.add(toursListPresenter.tours[itemView.pos]) // добавление текущего тура в любимые
+        }
+
 
         initViews()
 
+    }
+
+    private fun updateImage(position: Int) {
+        viewState.updateImage(position)
     }
 
     private fun initViews() {
@@ -151,11 +164,11 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
     fun navigationHotToursOnClick() {
-        router.replaceScreen(screens.hotTours())
+        router.replaceScreen(screens.hotTours(toursListPresenter.tours))
     }
 
     fun navigationFavouriteOnClick() {
-        router.replaceScreen(screens.favourites())
+        router.replaceScreen(screens.favourites(favouriteTours))
     }
 
     fun navigationProfileOnClick() {
@@ -182,13 +195,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     fun hotelsButtonOnClick() {
         // TODO: РАЗОБРАТЬСЯ С МЕСТОМ ИНИЦИАЦИИ ЗАПРОСА
-        loadData()
-
-
-
-
+//        loadData()
         viewState.switchStateButtonsToursAndHotels(false)
-
     }
 
 

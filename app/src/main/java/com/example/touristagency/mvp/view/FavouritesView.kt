@@ -18,8 +18,6 @@ interface FavouritesView : MvpView {
     fun initSortingButton()
 
 
-    fun testInitFirstRecyclerItem()
-    fun testInitSecondRecyclerItem()
-    fun testInitThirdRecyclerItem()
+    fun updateImage(position: Int)
 
 }

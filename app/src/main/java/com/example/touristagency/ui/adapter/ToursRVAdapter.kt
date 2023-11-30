@@ -3,7 +3,9 @@ package com.example.touristagency.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.touristagency.R
 import com.example.touristagency.databinding.RecyclerItemTourBinding
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
 import com.example.touristagency.mvp.view.glide.IImageLoader
@@ -20,15 +22,25 @@ class ToursRVAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(RecyclerItemTourBinding.inflate(LayoutInflater.from(parent.context), parent, false)).apply {
             itemView.setOnClickListener { presenter.itemClickListener?.invoke(this) }
+            itemView.findViewById<AppCompatImageView>(R.id.recycler_item_tour_favourite_button).setOnClickListener {
+                presenter.favouriteButtonClickListener?.invoke(this)
+            }
         }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         presenter.bindView(holder.apply { pos = position })
+//        holder.favouriteImageView.setOnClickListener {
+//            presenter.updateImage(position)
+//        }
+
+    }
 
     override fun getItemCount() = presenter.getCount()
 
 
     inner class ViewHolder(val vb: RecyclerItemTourBinding) : RecyclerView.ViewHolder(vb.root), TourItemView {
+        val favouriteImageView: AppCompatImageView = itemView.findViewById(R.id.recycler_item_tour_favourite_button)
+
         override fun setPlace(text: String) {
             vb.recyclerItemTourHotelLocation.text = text
         }

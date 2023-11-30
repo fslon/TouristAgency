@@ -1191,6 +1191,15 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
+
+    override fun updateImage(position: Int) {
+        val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
+        if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
+            viewHolder.favouriteImageView.setImageResource(R.drawable.baseline_favorite_24)
+        }
+    }
+
+
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ToursRVAdapter(presenter.toursListPresenter).apply {

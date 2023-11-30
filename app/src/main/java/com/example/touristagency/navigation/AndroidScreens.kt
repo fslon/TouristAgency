@@ -10,8 +10,8 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 class AndroidScreens : IScreens {
     override fun mainAllTours() = FragmentScreen { ToursMainFragment.newInstance() }
-    override fun hotTours() = FragmentScreen { HotToursFragment.newInstance() }
-    override fun favourites() = FragmentScreen { FavouritesFragment.newInstance() }
+    override fun hotTours(hotTours: MutableList<Tour>) = FragmentScreen { HotToursFragment.newInstance(hotTours) }
+    override fun favourites(favouriteTours: MutableList<Tour>) = FragmentScreen { FavouritesFragment.newInstance(favouriteTours) }
     override fun profile() = FragmentScreen { ProfileFragment.newInstance() }
     override fun tour(tour: Tour) = FragmentScreen { TourFragment.newInstance(tour) }
 
