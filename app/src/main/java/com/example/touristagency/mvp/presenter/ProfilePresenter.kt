@@ -1,10 +1,13 @@
 package com.example.touristagency.mvp.presenter
 
+import com.example.touristagency.mvp.model.users.IDataSourceUser
 import com.example.touristagency.mvp.view.ProfileView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
-import com.google.android.material.snackbar.Snackbar
 import moxy.MvpPresenter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -16,6 +19,9 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
 
     @Inject
     lateinit var screens: IScreens
+
+    @Inject
+    lateinit var usersRepo: IDataSourceUser
 
 //    private val currentCurrency: String = "₽"// текущая валюта
 
@@ -42,32 +48,59 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
 
         viewState.initDatePicker()
 
-        viewState.showLoginSnacks()
         viewState.initLoginButton()
 
     }
 
+    private fun loginQuery(login: String, password: String) {
+        usersRepo.loginUser(login, password).enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                if (response.isSuccessful) { // Обработка успешного ответа
+                    val responseData = response.body()
+                    val token = responseData
+
+                    viewState.switchIsRegisteredText(true)
+                    viewState.showSnack("Вы успешно вошли в аккаунт")
+
+                } else { // Обработка ошибочного ответа
+                    viewState.showSnack("Неправильное имя пользователя или пароль")
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) { // Обработка ошибки
+                viewState.showSnack("Ошибка доступа к серверу")
+            }
+        })
+    }
+
+    private fun registerQuery(login: String, password: String, email: String, birthdate: String, name: String, lastname: String, surname: String) {
+        usersRepo.registerUser(login, password, email, birthdate, name, lastname, surname).enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                if (response.isSuccessful) { // Обработка успешного ответа
+                    val responseData = response.body()
+                    val token = responseData
+
+                    viewState.switchIsRegisteredText(true)
+                    viewState.showSnack("Вы успешно зарегистрировали аккаунт")
+
+                } else { // Обработка ошибочного ответа
+                    viewState.showSnack("Такой пользователь уже существует")
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) { // Обработка ошибки
+                viewState.showSnack("Ошибка доступа к серверу")
+            }
+        })
+    }
+
 
     fun loginButtonOnClick(login: String, password: String) {
-        //todo вызов
-
-
-
-
-        if (!isRegistered) {
-            Snackbar.make(binding.container, "Вы успешно зарегистрировались", Snackbar.LENGTH_SHORT).show()
-            switchIsRegisteredText(true)
-        } else {
-//               Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
-            switchIsRegisteredText(false)
-        }
-        isRegistered = !isRegistered
-
-
+        loginQuery(login, password)
     }
 
     fun registerButtonOnClick(login: String, password: String, email: String, birthdate: String, name: String, lastname: String, surname: String) {
-
+        registerQuery(login, password, email, birthdate, name, lastname, surname)
     }
 
 

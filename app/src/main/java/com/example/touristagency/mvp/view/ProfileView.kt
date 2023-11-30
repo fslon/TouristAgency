@@ -6,17 +6,17 @@ import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ProfileView : MvpView {
-//    fun init()
+    //    fun init()
 //    fun updateList()
     fun release()
-//
+
+    //
 //    fun initCurrentCurrency(currentCurrency: String)
     fun initBottomNavigationMenu()
 
     fun initDatePicker()
 
-    fun showLoginSnacks()
-    fun showRegisterSnacks()
+    fun showSnack(text: String)
     fun initLoginButton()
     fun initRegisterButton()
 

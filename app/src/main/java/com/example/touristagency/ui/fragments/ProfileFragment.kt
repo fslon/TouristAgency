@@ -143,12 +143,9 @@ class ProfileFragment : MvpAppCompatFragment(), ProfileView, BackButtonListener 
     }
 
 
-    override fun showLoginSnacks() {
-        Snackbar.make(binding.container, "Вы успешно вошли в аккаунт", Snackbar.LENGTH_SHORT).show()
-    }
 
-    override fun showRegisterSnacks() {
-        Snackbar.make(binding.container, "Вы успешно зарегистрировались", Snackbar.LENGTH_SHORT).show()
+    override fun showSnack(text: String) {
+        Snackbar.make(binding.container, text, Snackbar.LENGTH_SHORT).show()
     }
 
 
