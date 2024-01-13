@@ -39,9 +39,9 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
             tour.foodSystem?.let { view.setFoodSystem(it) }
             tour.foodType?.let { view.setFoodType(it) }
 
-            tour.picture1?.let { view.loadPicture1(it) }
-            tour.picture2?.let { view.loadPicture2(it) }
-            tour.picture3?.let { view.loadPicture3(it) }
+            tour.photo1?.let { view.loadPicture1(it) }
+            tour.photo2?.let { view.loadPicture2(it) }
+            tour.photo3?.let { view.loadPicture3(it) }
         }
     }
 
@@ -90,7 +90,7 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
     }
 
     fun navigationHotToursOnClick() {
-        router.replaceScreen(screens.hotTours())
+//        router.replaceScreen(screens.hotTours(favouriteTours))
     }
 
     fun navigationFavouriteOnClick() {
@@ -98,7 +98,7 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
     }
 
     fun navigationProfileOnClick() {
-        router.replaceScreen(screens.profile())
+//        router.replaceScreen(screens.profile(favouriteTours))
     }
 
     fun sortingItemOnClick(item: MenuItem) {

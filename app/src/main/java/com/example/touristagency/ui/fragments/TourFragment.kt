@@ -90,9 +90,9 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
     }
 
     override fun initPictures(picture1: String, picture2: String, picture3: String) {
-        val images = listOf(picture1, picture2, picture3)
-        val adapter = SlideShowAdapter(images)
-        binding.recyclerItemTourImageLayoutViewpager2.adapter = adapter
+//        val images = listOf(picture1.toInt(), picture2.toInt(), picture3.toInt())
+//        val adapter = SlideShowAdapter(images)
+//        binding.recyclerItemTourImageLayoutViewpager2.adapter = adapter
     }
 
 

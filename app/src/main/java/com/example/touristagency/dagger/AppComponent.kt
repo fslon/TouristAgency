@@ -5,8 +5,8 @@ import com.example.touristagency.dagger.subComponents.HotToursSubComponent
 import com.example.touristagency.dagger.subComponents.ProfileSubComponent
 import com.example.touristagency.dagger.subComponents.TourSubComponent
 import com.example.touristagency.dagger.subComponents.ToursSubComponent
-import com.example.touristagency.ui.activity.MainActivity
 import com.example.touristagency.mvp.presenter.MainPresenter
+import com.example.touristagency.ui.activity.MainActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -17,9 +17,8 @@ import javax.inject.Singleton
         AppModule::class,
         CacheModule::class,
         CiceroneModule::class,
-        TourModule::class
-//        ImageModule::class
-////        RepoModule::class
+//        TourModule::class
+        ImageModule::class
     ]
 )
 interface AppComponent {

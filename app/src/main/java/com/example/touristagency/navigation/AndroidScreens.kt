@@ -12,7 +12,7 @@ class AndroidScreens : IScreens {
     override fun mainAllTours() = FragmentScreen { ToursMainFragment.newInstance() }
     override fun hotTours(hotTours: MutableList<Tour>) = FragmentScreen { HotToursFragment.newInstance(hotTours) }
     override fun favourites(favouriteTours: MutableList<Tour>) = FragmentScreen { FavouritesFragment.newInstance(favouriteTours) }
-    override fun profile() = FragmentScreen { ProfileFragment.newInstance() }
+    override fun profile(favouriteTours: MutableList<Tour>) = FragmentScreen { ProfileFragment.newInstance() }
     override fun tour(tour: Tour) = FragmentScreen { TourFragment.newInstance(tour) }
 
 //    override fun profileUser(user: GithubUser) = FragmentScreen { ProfileFragment.newInstance(user) }

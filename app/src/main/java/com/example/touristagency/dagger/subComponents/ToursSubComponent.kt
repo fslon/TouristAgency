@@ -15,7 +15,6 @@ import dagger.Subcomponent
 
 interface ToursSubComponent {
 
-
     fun inject(toursMainPresenter: ToursMainPresenter)
     fun inject(toursRVAdapter: ToursRVAdapter)
 

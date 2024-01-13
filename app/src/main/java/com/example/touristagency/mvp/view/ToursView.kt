@@ -43,7 +43,6 @@ interface ToursView : MvpView {
     fun setValueToStarsNumberFrom(text: String)
     fun setValueToStarsNumberTo(text: String)
 
-
     fun switchStateButtonsToursAndHotels(fromTours: Boolean)
     fun initMinDate(calendar: Calendar, minYear: Int, minMonth: Int, minDay: Int)
     fun setValuesFiltersDialog(
@@ -62,7 +61,6 @@ interface ToursView : MvpView {
         infrastructureCheckBox7IsChecked: Boolean
     )
 
-
     fun cancelCityDialog()
     fun dismissCityDialog()
     fun initFindButtonCityDialog()
@@ -73,8 +71,6 @@ interface ToursView : MvpView {
         nightsNumber: String,
         peoplesNumber: String
     )
-
-
     fun updateImage(position: Int)
 
 

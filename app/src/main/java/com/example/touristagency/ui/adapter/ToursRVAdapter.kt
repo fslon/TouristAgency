@@ -40,6 +40,9 @@ class ToursRVAdapter(
 
     inner class ViewHolder(val vb: RecyclerItemTourBinding) : RecyclerView.ViewHolder(vb.root), TourItemView {
         val favouriteImageView: AppCompatImageView = itemView.findViewById(R.id.recycler_item_tour_favourite_button)
+        override fun setName(text: String) {
+            vb.recyclerItemTourHotelName.text = text
+        }
 
         override fun setPlace(text: String) {
             vb.recyclerItemTourHotelLocation.text = text
@@ -68,27 +71,27 @@ class ToursRVAdapter(
         }
 
         override fun setStars(text: String) {
-            TODO("Not yet implemented")
+            //todo
         }
 
         override fun setFoodSystem(text: String) {
-            TODO("Not yet implemented")
+            //todo
         }
 
         override fun setFoodType(text: String) {
-            TODO("Not yet implemented")
+            //todo
         }
 
         override fun loadPicture1(url: String) {
-            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
+//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2.)
         }
 
         override fun loadPicture2(url: String) {
-            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
+//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
         }
 
         override fun loadPicture3(url: String) {
-            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
+//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
         }
 
         override var pos = -1

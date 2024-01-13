@@ -7,7 +7,7 @@ interface IScreens {
     fun mainAllTours(): Screen
     fun hotTours(hotTours: MutableList<Tour>): Screen
     fun favourites(favouriteTours: MutableList<Tour>): Screen
-    fun profile(): Screen
+    fun profile(favouriteTours: MutableList<Tour>): Screen
     fun tour(tour: Tour): Screen
 //    fun repository(repository: GithubUserProfile): Screen
 }

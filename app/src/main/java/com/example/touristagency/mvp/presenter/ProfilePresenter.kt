@@ -20,29 +20,11 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
     @Inject
     lateinit var screens: IScreens
 
-    @Inject
+//    @Inject
     lateinit var usersRepo: IDataSourceUser
-
-//    private val currentCurrency: String = "₽"// текущая валюта
-
-
-//    class ToursListPresenter : IUserListPresenter {
-//        val users = mutableListOf<Tour>()
-//        override var itemClickListener: ((UserItemView) -> Unit)? = null
-//        override fun getCount() = users.size
-//        override fun bindView(view: UserItemView) {
-//            val user = users[view.pos]
-//            user.login?.let { view.setLogin(it) }
-//            user.avatarUrl?.let { view.loadAvatar(it) }
-//        }
-//    }
-//    val toursListPresenter = ToursListPresenter()
-//
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-
-//        viewState.initCurrentCurrency(currentCurrency)
 
         viewState.initBottomNavigationMenu()
 
@@ -103,26 +85,20 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
         registerQuery(login, password, email, birthdate, name, lastname, surname)
     }
 
-
-    //
-    //
-    //
-    //
-    //
     fun navigationSearchOnClick() {
         router.replaceScreen(screens.mainAllTours())
     }
 
     fun navigationHotToursOnClick() {
-        router.replaceScreen(screens.hotTours())
+//        router.replaceScreen(screens.hotTours())
     }
 
     fun navigationFavouriteOnClick() {
-        router.replaceScreen(screens.favourites())
+//        router.replaceScreen(screens.favourites())
     }
 
     fun navigationProfileOnClick() {
-        router.replaceScreen(screens.profile())
+//        router.replaceScreen(screens.profile())
     }
 
 

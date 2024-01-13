@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class ApiModule {
     @Named("baseUrl")
     @Provides
-    fun baseUrl(): String = "http://10.0.2.2:8611/"
+    fun baseUrl(): String = "http://192.168.1.4:5001/"
 
     @Provides
     fun api(@Named("baseUrl") baseUrl: String, gson: Gson): IDataSource =
@@ -29,15 +29,6 @@ class ApiModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(IDataSource::class.java)
-
-//    @Provides
-//    fun apiProfile(@Named("baseUrl") baseUrl: String, gson: Gson): IDataSourceProfile =
-//        Retrofit.Builder()
-//            .baseUrl(baseUrl)
-//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build()
-//            .create(IDataSourceProfile::class.java)
 
     @Singleton
     @Provides

@@ -21,9 +21,9 @@ class RoomToursCache() : IToursCache {
                     tour.stars ?: "",
                     tour.foodSystem ?: "",
                     tour.foodType ?: "",
-                    tour.picture1 ?: "",
-                    tour.picture2 ?: "",
-                    tour.picture3 ?: ""
+                    tour.photo1 ?: "",
+                    tour.photo2 ?: "",
+                    tour.photo3 ?: ""
                 )
 
             }

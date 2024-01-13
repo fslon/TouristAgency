@@ -1,5 +1,6 @@
 package com.example.touristagency.mvp.presenter
 
+import android.util.Log
 import android.view.MenuItem
 import com.example.touristagency.mvp.model.tours.IToursRepo
 import com.example.touristagency.mvp.model.tours.Tour
@@ -22,7 +23,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     @Inject
     lateinit var screens: IScreens
-
 
     @Inject
     lateinit var toursRepo: IToursRepo
@@ -62,6 +62,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
     val favouriteTours = mutableListOf<Tour>()
+    val hotTours = mutableListOf<Tour>()
 
 
     class ToursListPresenter : ITourListPresenter {
@@ -73,6 +74,10 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         override fun getCount() = tours.size
         override fun bindView(view: TourItemView) {
             val tour = tours[view.pos]
+
+            Log.e("+++++ ", tour.toString() )
+
+            tour.name?.let { view.setName(it) }
             tour.place?.let { view.setPlace(it) }
             tour.price?.let { view.setPrice(it) }
             tour.airportDistance?.let { view.setAirportDistance(it) }
@@ -84,9 +89,9 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
             tour.foodSystem?.let { view.setFoodSystem(it) }
             tour.foodType?.let { view.setFoodType(it) }
 
-            tour.picture1?.let { view.loadPicture1(it) }
-            tour.picture2?.let { view.loadPicture2(it) }
-            tour.picture3?.let { view.loadPicture3(it) }
+            tour.photo1?.let { view.loadPicture1(it) }
+            tour.photo2?.let { view.loadPicture2(it) }
+            tour.photo3?.let { view.loadPicture3(it) }
         }
     }
 
@@ -164,15 +169,15 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
     fun navigationHotToursOnClick() {
-        router.replaceScreen(screens.hotTours(toursListPresenter.tours))
+//        router.replaceScreen(screens.hotTours(hotTours))
     }
 
     fun navigationFavouriteOnClick() {
-        router.replaceScreen(screens.favourites(favouriteTours))
+//        router.replaceScreen(screens.favourites(favouriteTours))
     }
 
     fun navigationProfileOnClick() {
-        router.replaceScreen(screens.profile())
+//        router.replaceScreen(screens.profile(favouriteTours))
     }
 
     private fun initMinDate() {
@@ -203,12 +208,16 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private fun loadData() {
 
         toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+
+            Log.e("--------------- ",  repos.toString())
+
             toursListPresenter.tours.clear()
             toursListPresenter.tours.addAll(repos)
             viewState.updateList()
 
         }, {
             println("Error: ${it.message}")
+//            Log.e("!!Error ", " ToursMainPresenter: ${it.message}")
 
         })
 
@@ -379,19 +388,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         val format = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
         return format.format(date)
     }
-
-
-//    fun loadData() {
-//        usersRepo.getUsers().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
-//            usersListPresenter.users.clear()
-//            usersListPresenter.users.addAll(repos)
-//            viewState.updateList()
-//
-//        }, {
-//            println("Error: ${it.message}")
-//
-//        })
-//    }
 
     fun backPressed(): Boolean {
         router.exit()
