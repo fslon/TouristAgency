@@ -24,7 +24,7 @@ interface TourView : MvpView {
     fun initBeach(text: String)
     fun initParking(text: String)
     fun initPrice(text: String)
-    fun initPictures(picture1: String, picture2: String, picture3: String)
+    fun initPictures(pictures: List<String>)
 
 
 }

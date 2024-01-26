@@ -75,7 +75,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         override fun bindView(view: TourItemView) {
             val tour = tours[view.pos]
 
-            Log.e("+++++ ", tour.toString() )
+            Log.e("+++++ ", tour.toString())
 
             tour.name?.let { view.setName(it) }
             tour.place?.let { view.setPlace(it) }
@@ -89,9 +89,15 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
             tour.foodSystem?.let { view.setFoodSystem(it) }
             tour.foodType?.let { view.setFoodType(it) }
 
-            tour.photo1?.let { view.loadPicture1(it) }
-            tour.photo2?.let { view.loadPicture2(it) }
-            tour.photo3?.let { view.loadPicture3(it) }
+            val pictures = mutableListOf<String>()
+            pictures.add(tour.photo1.toString())
+            pictures.add(tour.photo2.toString())
+            pictures.add(tour.photo3.toString())
+            view.loadPictures(pictures)
+
+            tour.wifi?.let { view.setWifi(it) }
+            tour.lineNumber?.let { view.setLine(it) }
+
         }
     }
 
@@ -209,7 +215,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
         toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
 
-            Log.e("--------------- ",  repos.toString())
+            Log.e("--------------- ", repos.toString())
 
             toursListPresenter.tours.clear()
             toursListPresenter.tours.addAll(repos)

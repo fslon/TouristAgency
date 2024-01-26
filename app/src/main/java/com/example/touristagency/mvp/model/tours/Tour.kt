@@ -36,6 +36,10 @@ data class Tour(
     @Expose val photo2: String? = null,
     @Expose val photo3: String? = null,
 
+    @Expose val wifi: String? = null,
+    @SerializedName("lineNumber")
+    @Expose val lineNumber: Int? = null
+
 
     ) : Parcelable
 

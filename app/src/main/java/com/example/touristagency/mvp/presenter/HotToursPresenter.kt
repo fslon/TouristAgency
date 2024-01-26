@@ -10,7 +10,7 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class HotToursPresenter(val hotTours: MutableList<Tour>) : MvpPresenter<HotToursView>() {
+class HotToursPresenter(val hotTours: MutableList<Tour>) : MvpPresenter<HotToursView>() { // todo убрать получение массива с турами
     @Inject
     lateinit var router: Router
 
@@ -38,9 +38,9 @@ class HotToursPresenter(val hotTours: MutableList<Tour>) : MvpPresenter<HotTours
             tour.foodSystem?.let { view.setFoodSystem(it) }
             tour.foodType?.let { view.setFoodType(it) }
 
-            tour.photo1?.let { view.loadPicture1(it) }
-            tour.photo2?.let { view.loadPicture2(it) }
-            tour.photo3?.let { view.loadPicture3(it) }
+//            tour.photo1?.let { view.loadPicture1(it) }
+//            tour.photo2?.let { view.loadPicture2(it) }
+//            tour.photo3?.let { view.loadPicture3(it) }
         }
     }
 
@@ -96,7 +96,7 @@ class HotToursPresenter(val hotTours: MutableList<Tour>) : MvpPresenter<HotTours
 //        router.replaceScreen(screens.profile())
     }
 
-    fun sortingItemOnClick(item: MenuItem) {
+    fun sortingItemOnClick(item: MenuItem) { // todo убрать отсюда item, view не должно быть в presenter
         when (item.title) {
             sortingStrings[0] -> { // Рекомендуемое
                 // TODO Обработка выбранной сортировки

@@ -12,8 +12,13 @@ interface TourItemView : IItemView {
     fun setFoodSystem(text: String)
     fun setFoodType(text: String)
 
-    fun loadPicture1(url: String)
-    fun loadPicture2(url: String)
-    fun loadPicture3(url: String)
+//    fun loadPicture1(url: String)
+//    fun loadPicture2(url: String)
+//    fun loadPicture3(url: String)
+
+    fun loadPictures(images: List<String>)
+
+    fun setWifi(text: String)
+    fun setLine(number: Int)
 
 }

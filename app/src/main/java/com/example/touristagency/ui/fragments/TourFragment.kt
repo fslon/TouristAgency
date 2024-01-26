@@ -89,10 +89,11 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
         binding.recyclerItemTourPriceTextView.text = "$text ₽ "
     }
 
-    override fun initPictures(picture1: String, picture2: String, picture3: String) {
+    override fun initPictures(pictures: List<String>) {
 //        val images = listOf(picture1.toInt(), picture2.toInt(), picture3.toInt())
 //        val adapter = SlideShowAdapter(images)
 //        binding.recyclerItemTourImageLayoutViewpager2.adapter = adapter
+        binding.recyclerItemTourImageLayoutViewpager2.adapter = SlideShowAdapter(pictures)
     }
 
 

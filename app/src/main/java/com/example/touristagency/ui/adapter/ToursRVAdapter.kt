@@ -1,31 +1,35 @@
 package com.example.touristagency.ui.adapter
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.touristagency.R
 import com.example.touristagency.databinding.RecyclerItemTourBinding
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
-import com.example.touristagency.mvp.view.glide.IImageLoader
+import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.mvp.view.list.TourItemView
-import javax.inject.Inject
 
 class ToursRVAdapter(
     val presenter: ITourListPresenter
 ) : RecyclerView.Adapter<ToursRVAdapter.ViewHolder>() {
 
-    @Inject
-    lateinit var imageLoader: IImageLoader<ImageView>
+    private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(RecyclerItemTourBinding.inflate(LayoutInflater.from(parent.context), parent, false)).apply {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        context = parent.context
+
+        return ViewHolder(RecyclerItemTourBinding.inflate(LayoutInflater.from(parent.context), parent, false)).apply {
             itemView.setOnClickListener { presenter.itemClickListener?.invoke(this) }
             itemView.findViewById<AppCompatImageView>(R.id.recycler_item_tour_favourite_button).setOnClickListener {
                 presenter.favouriteButtonClickListener?.invoke(this)
             }
         }
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         presenter.bindView(holder.apply { pos = position })
@@ -39,7 +43,9 @@ class ToursRVAdapter(
 
 
     inner class ViewHolder(val vb: RecyclerItemTourBinding) : RecyclerView.ViewHolder(vb.root), TourItemView {
+
         val favouriteImageView: AppCompatImageView = itemView.findViewById(R.id.recycler_item_tour_favourite_button)
+
         override fun setName(text: String) {
             vb.recyclerItemTourHotelName.text = text
         }
@@ -57,8 +63,14 @@ class ToursRVAdapter(
         }
 
         override fun setBeachDistance(text: String) {
+            Log.e("--------------------- ", text)
             if (text != "0") vb.recyclerItemTourBeachTextView.text = "$text м"
-            else vb.recyclerItemTourBeachTextView.text = "далеко"
+            else {
+//                vb.recyclerItemTourBeachTextView.text = "далеко"
+
+                vb.recyclerItemTourBeachImage.isVisible = false
+                vb.recyclerItemTourBeachTextView.isVisible = false
+            }
         }
 
         override fun setRating(text: String) {
@@ -71,7 +83,7 @@ class ToursRVAdapter(
         }
 
         override fun setStars(text: String) {
-            //todo
+            showStars(text)
         }
 
         override fun setFoodSystem(text: String) {
@@ -82,19 +94,90 @@ class ToursRVAdapter(
             //todo
         }
 
-        override fun loadPicture1(url: String) {
-//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2.)
+        override fun loadPictures(images: List<String>) {
+            vb.recyclerItemTourImageLayoutViewpager2.adapter = SlideShowAdapter(images)
         }
 
-        override fun loadPicture2(url: String) {
-//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
+        override fun setWifi(text: String) {
+            if (text == "+") {
+                vb.recyclerItemTourWifiTextView.text = "везде"
+            } else if (text == "-") {
+                vb.recyclerItemTourWifiTextView.text = "нет"
+            }
         }
 
-        override fun loadPicture3(url: String) {
-//            imageLoader.loadInto(url, vb.recyclerItemTourImageLayoutViewpager2)
+        override fun setLine(number: Int) {
+
+            when (number) {
+                1 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
+                2 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.second_24)
+                3 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.third_24)
+                0 -> {
+                    vb.recyclerItemTourLineImage.isVisible = false
+                    vb.recyclerItemTourLineTextView.isVisible = false
+                }
+            }
+
+
         }
+
 
         override var pos = -1
+
+
+        private fun showStars(numberOfStars: String) {
+            when (numberOfStars) {
+                "1" -> {
+                    vb.recyclerItemTourStar1.isVisible = true
+                    vb.recyclerItemTourStar2.isVisible = false
+                    vb.recyclerItemTourStar3.isVisible = false
+                    vb.recyclerItemTourStar4.isVisible = false
+                    vb.recyclerItemTourStar5.isVisible = false
+                }
+
+                "2" -> {
+                    vb.recyclerItemTourStar1.isVisible = true
+                    vb.recyclerItemTourStar2.isVisible = true
+                    vb.recyclerItemTourStar3.isVisible = false
+                    vb.recyclerItemTourStar4.isVisible = false
+                    vb.recyclerItemTourStar5.isVisible = false
+                }
+
+                "3" -> {
+                    vb.recyclerItemTourStar1.isVisible = true
+                    vb.recyclerItemTourStar2.isVisible = true
+                    vb.recyclerItemTourStar3.isVisible = true
+                    vb.recyclerItemTourStar4.isVisible = false
+                    vb.recyclerItemTourStar5.isVisible = false
+                }
+
+                "4" -> {
+                    vb.recyclerItemTourStar1.isVisible = true
+                    vb.recyclerItemTourStar2.isVisible = true
+                    vb.recyclerItemTourStar3.isVisible = true
+                    vb.recyclerItemTourStar4.isVisible = true
+                    vb.recyclerItemTourStar5.isVisible = false
+                }
+
+                "5" -> {
+                    vb.recyclerItemTourStar1.isVisible = true
+                    vb.recyclerItemTourStar2.isVisible = true
+                    vb.recyclerItemTourStar3.isVisible = true
+                    vb.recyclerItemTourStar4.isVisible = true
+                    vb.recyclerItemTourStar5.isVisible = true
+                }
+
+                else -> {
+                    vb.recyclerItemTourStar1.isVisible = false
+                    vb.recyclerItemTourStar2.isVisible = false
+                    vb.recyclerItemTourStar3.isVisible = false
+                    vb.recyclerItemTourStar4.isVisible = false
+                    vb.recyclerItemTourStar5.isVisible = false
+                }
+
+            }
+
+        }
 
 
     }

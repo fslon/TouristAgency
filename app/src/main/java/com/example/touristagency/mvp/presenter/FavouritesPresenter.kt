@@ -39,9 +39,9 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
             tour.foodSystem?.let { view.setFoodSystem(it) }
             tour.foodType?.let { view.setFoodType(it) }
 
-            tour.photo1?.let { view.loadPicture1(it) }
-            tour.photo2?.let { view.loadPicture2(it) }
-            tour.photo3?.let { view.loadPicture3(it) }
+//            tour.photo1?.let { view.loadPicture1(it) }
+//            tour.photo2?.let { view.loadPicture2(it) }
+//            tour.photo3?.let { view.loadPicture3(it) }
         }
     }
 

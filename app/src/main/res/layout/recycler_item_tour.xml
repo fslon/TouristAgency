@@ -71,17 +71,20 @@
 
             <TextView
                 android:id="@+id/recycler_item_tour_hotel_rating"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/recycler_item_tour_hotel_rating_margin_end"
                 android:layout_marginBottom="@dimen/recycler_item_tour_hotel_rating_margin_bottom"
                 android:background="@drawable/rating_background"
                 android:backgroundTint="@color/background_color_rating_high"
+                android:maxLines="1"
                 android:padding="@dimen/recycler_item_tour_hotel_rating_padding"
                 android:text="@string/recycler_item_tour_hotel_rating_default_text"
+                android:textAlignment="center"
                 android:textColor="@color/recycler_item_tour_main_text_color"
                 android:textSize="@dimen/recycler_item_tour_hotel_rating_text_size"
                 app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_image_layout"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_image_layout" />
 
 
@@ -214,6 +217,48 @@
                 app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_line_text_view"
 
                 />
+
+
+            <LinearLayout
+                android:id="@+id/recycler_item_tour_stars_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_image_layout"
+                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_image_layout" >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/recycler_item_tour_star_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_24"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/recycler_item_tour_star_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_24"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/recycler_item_tour_star_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_24"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/recycler_item_tour_star_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_24"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/recycler_item_tour_star_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_24"/>
+
+
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

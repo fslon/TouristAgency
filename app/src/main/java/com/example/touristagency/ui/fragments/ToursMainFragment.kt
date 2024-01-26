@@ -25,7 +25,6 @@ import com.example.touristagency.R
 import com.example.touristagency.dagger.subComponents.ToursSubComponent
 import com.example.touristagency.databinding.FragmentToursMainBinding
 import com.example.touristagency.mvp.presenter.ToursMainPresenter
-import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.mvp.view.ToursView
 import com.example.touristagency.ui.activity.BackButtonListener
 import com.example.touristagency.ui.adapter.ToursRVAdapter
@@ -129,14 +128,17 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
                     presenter.navigationSearchOnClick()
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.item_hot_tours -> {
                     presenter.navigationHotToursOnClick()
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.item_favourite -> {
                     presenter.navigationFavouriteOnClick()
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.item_profile -> {
                     presenter.navigationProfileOnClick()
                     return@setOnItemSelectedListener true
@@ -1202,9 +1204,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ToursRVAdapter(presenter.toursListPresenter).apply {
-            toursSubComponent?.inject(this)
-        }
+        adapter = ToursRVAdapter(presenter.toursListPresenter)
         binding.recyclerView.adapter = adapter
     }
 

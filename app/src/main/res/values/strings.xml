@@ -61,7 +61,7 @@
     <string name="autocomplete_tv_city_departure_city_layout">Город вылета</string>
     <string name="peoples_number_tv_city_layout">Количество человек</string>
     <string name="peoples_value_city_layout">1</string>
-    <string name="recycler_item_tour_hotel_rating_default_text">9.8</string>
+    <string name="recycler_item_tour_hotel_rating_default_text">9</string>
     <string name="recycler_item_tour_line_text_view_default_text">линия</string>
     <string name="recycler_item_tour_wifi_text_view_default_text">везде</string>
     <string name="recycler_item_tour_parking_text_view_default_text">есть</string>

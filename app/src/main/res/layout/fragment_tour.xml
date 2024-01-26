@@ -71,19 +71,22 @@
 
         <TextView
             android:id="@+id/recycler_item_tour_hotel_rating"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/recycler_item_tour_line_image_margin_top"
             android:layout_marginEnd="@dimen/recycler_item_tour_hotel_rating_margin_end"
             android:layout_marginBottom="@dimen/recycler_item_tour_hotel_rating_margin_bottom"
             android:background="@drawable/rating_background"
             android:backgroundTint="@color/background_color_rating_high"
+            android:maxLines="1"
             android:padding="@dimen/recycler_item_tour_hotel_rating_padding"
             android:text="@string/recycler_item_tour_hotel_rating_default_text"
+            android:textAlignment="center"
             android:textColor="@color/recycler_item_tour_main_text_color"
             android:textSize="@dimen/recycler_item_tour_hotel_rating_text_size"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="@dimen/recycler_item_tour_line_image_margin_top"
             app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_image_layout" />
 
         <TextView

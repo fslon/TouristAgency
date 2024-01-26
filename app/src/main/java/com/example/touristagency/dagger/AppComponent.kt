@@ -6,6 +6,7 @@ import com.example.touristagency.dagger.subComponents.ProfileSubComponent
 import com.example.touristagency.dagger.subComponents.TourSubComponent
 import com.example.touristagency.dagger.subComponents.ToursSubComponent
 import com.example.touristagency.mvp.presenter.MainPresenter
+import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -30,6 +31,8 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)
+
+//    fun inject(slideShowAdapter: SlideShowAdapter)
 
 //    fun inject(usersPresenter: UsersPresenter)
 //    fun inject(repositoryPresenter: RepositoryPresenter)

@@ -38,7 +38,12 @@ class TourPresenter(val tour: Tour) : MvpPresenter<TourView>() {
         viewState.initBeach(tour.beachDistance.toString())
         viewState.initParking(tour.parking.toString())
         viewState.initPrice(tour.price.toString())
-        viewState.initPictures(tour.photo1.toString(), tour.photo2.toString(), tour.photo3.toString())
+
+        val pictures = mutableListOf<String>()
+        pictures.add(tour.photo1.toString())
+        pictures.add(tour.photo2.toString())
+        pictures.add(tour.photo3.toString())
+        viewState.initPictures(pictures)
     }
 
     fun buyTourButtonOnClick() {
