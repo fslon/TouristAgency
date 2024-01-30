@@ -1,7 +1,6 @@
 package com.example.touristagency.mvp.presenter
 
 import android.util.Log
-import android.view.MenuItem
 import com.example.touristagency.mvp.model.tours.IToursRepo
 import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
@@ -38,6 +37,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     val calendar = Calendar.getInstance()
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
+    private var currentSortingValue = sortingStrings[0] // текущий выбранный способ сортировки (по дефолту нулевой)
 
     private var savedValuesFiltersDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в меню фильтров
     private val priceNumberFromKey = "priceNumberFrom" // ключ для сохранения "цены от" в map
@@ -63,7 +63,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     val favouriteTours = mutableListOf<Tour>()
     val hotTours = mutableListOf<Tour>()
-
 
     class ToursListPresenter : ITourListPresenter {
 
@@ -138,12 +137,17 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     }
 
+    fun onRefreshAction() { // метод, используемый при вытягивании сверху обновления страницы
+        loadData()
+    }
+
+
     private fun updateImage(position: Int) {
         viewState.updateImage(position)
     }
 
     private fun initViews() {
-        viewState.setTextSortingButton(sortingStrings[0]) // присвоение дефолтного способа сортировки
+        viewState.setTextSortingButton(currentSortingValue) // присвоение дефолтного способа сортировки
 
 
         viewState.initCityDialog()
@@ -161,9 +165,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.initSortingButton()
         viewState.initFiltersButton()
 
-//        viewState.testInitFirstRecyclerItem()
-//        viewState.testInitSecondRecyclerItem()
-//        viewState.testInitThirdRecyclerItem()
     }
 
 //    fun openTourFragment() {
@@ -219,14 +220,34 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
             toursListPresenter.tours.clear()
             toursListPresenter.tours.addAll(repos)
+
+            sortingItemOnClick(currentSortingValue) // для применения текущей сортировки
+
             viewState.updateList()
 
+            showOrHideNotFoundLayout()
+
+            viewState.stopRefreshing()
         }, {
             println("Error: ${it.message}")
-//            Log.e("!!Error ", " ToursMainPresenter: ${it.message}")
 
+            viewState.setVisibilityNotFoundLayout(true)
+            viewState.setVisibilityRecyclerView(false)
+            viewState.showSnackbar("Произошла ошибка при получении данных")
+
+            viewState.stopRefreshing()
         })
 
+    }
+
+    private fun showOrHideNotFoundLayout() { // скрывает или показывает "ничего не найдено" в зависимости от наполнения массива с отелями
+        if (toursListPresenter.getCount() == 0) {
+            viewState.setVisibilityNotFoundLayout(true)
+            viewState.setVisibilityRecyclerView(false)
+        } else {
+            viewState.setVisibilityNotFoundLayout(false)
+            viewState.setVisibilityRecyclerView(true)
+        }
     }
 
 
@@ -238,28 +259,46 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.initSortingMenu(sortingStrings)
     }
 
-    fun sortingItemOnClick(item: MenuItem) {
-        when (item.title) {
+    fun sortingItemOnClick(titleOfItem: String) {
+        when (titleOfItem) { // может не работать, если названия кнопок в макете будут не совпадать с названиями способов сортировки в массиве (например если язык поменять)
             sortingStrings[0] -> { // Рекомендуемое
                 // TODO Обработка выбранной сортировки
-                viewState.setTextSortingButton(item.title.toString())
+                currentSortingValue = titleOfItem
+
+                viewState.setTextSortingButton(titleOfItem)
+
+                toursListPresenter.tours.sortBy { it.id?.toInt() }
             }
 
-            sortingStrings[1] -> { // Сначала новое
+            sortingStrings[1] -> { // По рейтингу
                 // TODO Обработка выбранной сортировки
-                viewState.setTextSortingButton(item.title.toString())
+                currentSortingValue = titleOfItem
+
+                viewState.setTextSortingButton(titleOfItem)
+
+                toursListPresenter.tours.sortByDescending { it.rating?.toInt() }
             }
 
             sortingStrings[2] -> { // Дешевле
                 // TODO Обработка выбранной сортировки
-                viewState.setTextSortingButton(item.title.toString())
+                currentSortingValue = titleOfItem
+
+                viewState.setTextSortingButton(titleOfItem)
+
+                toursListPresenter.tours.sortBy { it.price?.toInt() }
+
             }
 
             sortingStrings[3] -> { // Дороже
                 // TODO Обработка выбранной сортировки
-                viewState.setTextSortingButton(item.title.toString())
+                currentSortingValue = titleOfItem
+
+                viewState.setTextSortingButton(titleOfItem)
+
+                toursListPresenter.tours.sortByDescending { it.price?.toInt() }
             }
         }
+        viewState.updateList()
     }
 
     fun priceSliderOnChange(value1: String, value2: String) {

@@ -117,6 +117,12 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            presenter.onRefreshAction()
+        }
+
+
     }
 
 
@@ -152,6 +158,23 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
+    override fun showSnackbar(text: String) {
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun setVisibilityNotFoundLayout(visibility: Boolean) {
+        if (visibility) binding.notFoundLayout.visibility = View.VISIBLE
+        else binding.notFoundLayout.visibility = View.GONE
+    }
+
+    override fun setVisibilityRecyclerView(visibility: Boolean) {
+        if (visibility) binding.recyclerView.visibility = View.VISIBLE
+        else binding.recyclerView.visibility = View.GONE
+    }
+
+    override fun stopRefreshing() {
+        binding.swipeRefreshLayout.isRefreshing = false
+    }
 
     override fun getCitiesArrayFromResourses() {
         presenter.setCities(resources.getStringArray(R.array.cities))
@@ -231,22 +254,22 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         popupMenu.setOnMenuItemClickListener {// нажатие на один из элементов меню сортировки
             when (it.title) {
                 sortingStrings[0] -> { // Рекомендуемое
-                    presenter.sortingItemOnClick(it)
+                    presenter.sortingItemOnClick(it.title.toString())
                     true
                 }
 
                 sortingStrings[1] -> { // Сначала новое
-                    presenter.sortingItemOnClick(it)
+                    presenter.sortingItemOnClick(it.title.toString())
                     true
                 }
 
                 sortingStrings[2] -> { // Дешевле
-                    presenter.sortingItemOnClick(it)
+                    presenter.sortingItemOnClick(it.title.toString())
                     true
                 }
 
                 sortingStrings[3] -> { // Дороже
-                    presenter.sortingItemOnClick(it)
+                    presenter.sortingItemOnClick(it.title.toString())
                     true
                 }
 

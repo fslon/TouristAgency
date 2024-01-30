@@ -45,5 +45,6 @@
     <color name="profile_account_status_textview_text_color">#717171</color>
     <color name="profile_account_status_result_textview_not_registered_color">#FFA726</color>
     <color name="profile_account_status_result_textview_registered_color">#66BB6A</color>
+    <color name="not_found_text_color">#61647C</color>
 
 </resources>

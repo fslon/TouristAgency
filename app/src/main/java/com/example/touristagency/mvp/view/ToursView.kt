@@ -71,13 +71,19 @@ interface ToursView : MvpView {
         nightsNumber: String,
         peoplesNumber: String
     )
+
     fun updateImage(position: Int)
 
+    fun showSnackbar(text: String)
+
+    fun setVisibilityNotFoundLayout(visibility: Boolean)
+    fun setVisibilityRecyclerView(visibility: Boolean)
+
+    fun stopRefreshing()
 
 //    fun testInitFirstRecyclerItem()
 //    fun testInitSecondRecyclerItem()
 //    fun testInitThirdRecyclerItem()
-
 
 
 }

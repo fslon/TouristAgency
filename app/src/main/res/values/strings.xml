@@ -94,6 +94,7 @@
     <string name="profile_register_button">Регистрация</string>
     <string name="recycler_item_rating_text_view_text">рейтинг</string>
     <string name="buy_tour_button_text">Оформить тур</string>
+    <string name="not_found_text">Ничего не найдено</string>
 
 
 </resources>

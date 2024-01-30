@@ -5,110 +5,147 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_for_background">
+        android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <include
-            android:id="@+id/city_and_nights_button"
-            layout="@layout/city_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/city_button_margin_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/tours_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="@dimen/tours_button_margin_top"
-            android:backgroundTint="@color/background_color_for_active_buttons"
-            android:clickable="true"
-            android:text="@string/button_tours_text"
-            android:textColor="@color/text_color_active_button"
-            app:icon="@drawable/baseline_tsunami_24"
-            app:iconTint="@color/text_color_active_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city_and_nights_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/hotels_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/hotels_button_margin_start"
-            android:backgroundTint="@color/color_for_background"
-            android:clickable="true"
-            android:text="@string/button_hotels_text"
-            android:textColor="@color/text_color_inactive_button"
-            app:icon="@drawable/baseline_hotel_24"
-            app:iconTint="@color/inactive_text_color"
-            app:layout_constraintStart_toEndOf="@id/tours_button"
-            app:layout_constraintTop_toTopOf="@id/tours_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/sortingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_sorting_and_filters_buttons_from_parent"
-            android:backgroundTint="@color/background_color_sorting_and_filters_buttons"
-            android:text="@string/sorting_button_text"
-            android:textColor="@color/text_color_active_button"
-            app:cornerRadius="@dimen/corner_radius_sorting_and_filters_buttons"
-            app:icon="@drawable/baseline_sort_24"
-            app:iconGravity="textStart"
-            app:iconTint="@color/inactive_text_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tours_button" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/filters_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_sorting_and_filters_buttons_from_parent"
-            android:backgroundTint="@color/background_color_sorting_and_filters_buttons"
-            android:text="@string/filters_button_text"
-            android:textColor="@color/text_color_active_button"
-            app:cornerRadius="@dimen/corner_radius_sorting_and_filters_buttons"
-            app:icon="@drawable/baseline_filter_alt_24"
-            app:iconGravity="textStart"
-            app:iconTint="@color/inactive_text_color"
-            app:layout_constraintBottom_toBottomOf="@id/sortingButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sortingButton" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sortingButton" />
+            android:layout_height="match_parent"
+            android:background="@color/color_for_background">
 
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_for_background"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/main_fragment_botton_navigation_menu" />
+            <include
+                android:id="@+id/city_and_nights_button"
+                layout="@layout/city_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/city_button_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tours_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="@dimen/tours_button_margin_top"
+                android:backgroundTint="@color/background_color_for_active_buttons"
+                android:clickable="true"
+                android:text="@string/button_tours_text"
+                android:textColor="@color/text_color_active_button"
+                app:icon="@drawable/baseline_tsunami_24"
+                app:iconTint="@color/text_color_active_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/city_and_nights_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hotels_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/hotels_button_margin_start"
+                android:backgroundTint="@color/color_for_background"
+                android:clickable="true"
+                android:text="@string/button_hotels_text"
+                android:textColor="@color/text_color_inactive_button"
+                app:icon="@drawable/baseline_hotel_24"
+                app:iconTint="@color/inactive_text_color"
+                app:layout_constraintStart_toEndOf="@id/tours_button"
+                app:layout_constraintTop_toTopOf="@id/tours_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sortingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/margin_sorting_and_filters_buttons_from_parent"
+                android:backgroundTint="@color/background_color_sorting_and_filters_buttons"
+                android:text="@string/sorting_button_text"
+                android:textColor="@color/text_color_active_button"
+                app:cornerRadius="@dimen/corner_radius_sorting_and_filters_buttons"
+                app:icon="@drawable/baseline_sort_24"
+                app:iconGravity="textStart"
+                app:iconTint="@color/inactive_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tours_button" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filters_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_sorting_and_filters_buttons_from_parent"
+                android:backgroundTint="@color/background_color_sorting_and_filters_buttons"
+                android:text="@string/filters_button_text"
+                android:textColor="@color/text_color_active_button"
+                app:cornerRadius="@dimen/corner_radius_sorting_and_filters_buttons"
+                app:icon="@drawable/baseline_filter_alt_24"
+                app:iconGravity="textStart"
+                app:iconTint="@color/inactive_text_color"
+                app:layout_constraintBottom_toBottomOf="@id/sortingButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sortingButton" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sortingButton"
+
+                />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/not_found_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/recycler_view"
+                app:layout_constraintEnd_toEndOf="@id/recycler_view"
+                app:layout_constraintStart_toStartOf="@id/recycler_view"
+                app:layout_constraintTop_toTopOf="@id/recycler_view">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/not_found_image_size"
+                    android:layout_height="@dimen/not_found_image_size"
+                    android:src="@drawable/not_found" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_found_text"
+                    android:textColor="@color/not_found_text_color"
+                    android:textSize="@dimen/not_found_text_size"
+
+                    />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_for_background"
+                app:labelVisibilityMode="labeled"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/main_fragment_botton_navigation_menu" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
