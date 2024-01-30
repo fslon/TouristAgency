@@ -159,9 +159,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
         initFiltersDialogFun()
 
-        viewState.initToursButton()
-        viewState.initHotelsButton()
-
         viewState.initSortingButton()
         viewState.initFiltersButton()
 
@@ -199,16 +196,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     fun filtersButtonOnClick() {
         viewState.showFiltersDialog()
-    }
-
-    fun toursButtonOnClick() {
-        viewState.switchStateButtonsToursAndHotels(true)
-    }
-
-    fun hotelsButtonOnClick() {
-        // TODO: РАЗОБРАТЬСЯ С МЕСТОМ ИНИЦИАЦИИ ЗАПРОСА
-//        loadData()
-        viewState.switchStateButtonsToursAndHotels(false)
     }
 
 
@@ -383,14 +370,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.cancelCityDialog()
     }
 
-    fun toursButtonCityDialogOnClick() {
-        viewState.switchStateButtonsToursAndHotels(true)
-    }
-
-    fun hotelsButtonCityDialogOnClick() {
-        viewState.switchStateButtonsToursAndHotels(false)
-    }
-
 
     fun setCities(cities: Array<String>) {
         this.cities = cities
@@ -411,7 +390,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.setValuesCityDialog(
             savedValuesCityDialog[cityNameKeyCityDialog].toString(),
             savedValuesCityDialog[dateKeyCityDialog].toString(),
-            savedValuesCityDialog[cityDepartureNameKeyCityDialog].toString(),
             savedValuesCityDialog[nightsKeyCityDialog].toString(),
             savedValuesCityDialog[peoplesKeyCityDialog].toString()
         )

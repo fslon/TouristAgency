@@ -31,8 +31,6 @@ interface ToursView : MvpView {
     fun updateCityButton(cityName: String, nightsNumber: String)
     fun initCityAndNightsButton()
     fun showCityDialog()
-    fun initToursButton()
-    fun initHotelsButton()
     fun initSortingButton()
     fun initFiltersButton()
     fun showFiltersDialog()
@@ -43,7 +41,6 @@ interface ToursView : MvpView {
     fun setValueToStarsNumberFrom(text: String)
     fun setValueToStarsNumberTo(text: String)
 
-    fun switchStateButtonsToursAndHotels(fromTours: Boolean)
     fun initMinDate(calendar: Calendar, minYear: Int, minMonth: Int, minDay: Int)
     fun setValuesFiltersDialog(
         priceNumberFromValue: String,
@@ -67,7 +64,6 @@ interface ToursView : MvpView {
     fun setValuesCityDialog(
         cityName: String,
         date: String,
-        cityDepartureName: String,
         nightsNumber: String,
         peoplesNumber: String
     )
@@ -80,10 +76,5 @@ interface ToursView : MvpView {
     fun setVisibilityRecyclerView(visibility: Boolean)
 
     fun stopRefreshing()
-
-//    fun testInitFirstRecyclerItem()
-//    fun testInitSecondRecyclerItem()
-//    fun testInitThirdRecyclerItem()
-
 
 }

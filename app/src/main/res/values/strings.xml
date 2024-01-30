@@ -54,7 +54,7 @@
     <string name="filters_infrastructure_tv_7_text">Дискотека/ночной клуб</string>
     <string name="city_menu_cancel_button_text">Отмена</string>
     <string name="autocomplete_tv_city_layout">Введите город</string>
-    <string name="date_departure_city_layout">Дата вылета</string>
+    <string name="date_departure_city_layout">Дата заселения</string>
     <string name="date_picker_tv_city_layout">date null</string>
     <string name="nights_number_tv_city_layout">Количество ночей</string>
     <string name="nights_value_city_layout">10</string>

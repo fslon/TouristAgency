@@ -16,47 +16,18 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_bottom_city_layout_container">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/city_menu_tours_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_tours_hotels_city_layout"
-            android:backgroundTint="@color/city_menu_background_color_for_active_buttons"
-            android:clickable="true"
-            android:text="@string/button_tours_text"
-            android:textColor="@color/text_color_active_button"
-            app:icon="@drawable/baseline_tsunami_24"
-            app:iconTint="@color/text_color_active_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/city_menu_hotels_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_tours_hotels_city_layout"
-            android:backgroundTint="@color/city_menu_background_color_for_inactive_buttons"
-            android:clickable="true"
-            android:text="@string/button_hotels_text"
-            android:textColor="@color/text_color_inactive_button"
-            app:icon="@drawable/baseline_hotel_24"
-            app:iconTint="@color/inactive_text_color"
-            app:layout_constraintBottom_toBottomOf="@id/city_menu_tours_button"
-            app:layout_constraintStart_toEndOf="@id/city_menu_tours_button"
-            app:layout_constraintTop_toTopOf="@id/city_menu_tours_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/city_menu_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_end_cancel_city_layout"
             android:backgroundTint="@color/city_menu_background_color_for_inactive_buttons"
             android:clickable="true"
             android:text="@string/city_menu_cancel_button_text"
             android:textColor="@color/city_menu_cancel_color_selector"
-            app:layout_constraintBottom_toBottomOf="@id/city_menu_tours_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/city_menu_tours_button" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <AutoCompleteTextView
@@ -72,7 +43,7 @@
             android:textSize="@dimen/text_size_city_layout"
             app:layout_constraintEnd_toStartOf="@id/city_menu_clear_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city_menu_tours_button"
+            app:layout_constraintTop_toBottomOf="@id/city_menu_cancel_button"
 
             />
 
@@ -176,36 +147,6 @@
             app:layout_constraintTop_toTopOf="@id/city_menu_nights_value" />
 
 
-        <AutoCompleteTextView
-            android:id="@+id/city_menu_autocomplete_tv_city_from"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_autocomplete_tv_city_departure_city_menu"
-            android:layout_marginTop="@dimen/margin_top_autocomplete_tv_city_departure_city_menu"
-            android:completionThreshold="1"
-            android:dropDownHeight="@dimen/city_tips_height_city_layout"
-            android:hint="@string/autocomplete_tv_city_departure_city_layout"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="@dimen/text_size_city_layout"
-            app:layout_constraintEnd_toStartOf="@id/city_menu_clear_button_city_from"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city_menu_date_picker_tv"
-
-            />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/city_menu_clear_button_city_from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/baseline_highlight_off_24"
-            android:tint="@color/city_menu_button_color"
-            app:layout_constraintBottom_toBottomOf="@id/city_menu_autocomplete_tv_city_from"
-            app:layout_constraintEnd_toStartOf="@id/city_menu_dates_guideline"
-            app:layout_constraintStart_toEndOf="@id/city_menu_autocomplete_tv_city_from"
-            app:layout_constraintTop_toTopOf="@id/city_menu_autocomplete_tv_city_from" />
-
 
         <TextView
             android:id="@+id/city_menu_peoples_number_tv"
@@ -214,10 +155,11 @@
             android:layout_marginHorizontal="@dimen/margin_horizontal_date_and_others_city_layout"
             android:text="@string/peoples_number_tv_city_layout"
             android:textSize="@dimen/text_size_city_layout"
-            app:layout_constraintBottom_toBottomOf="@id/city_menu_autocomplete_tv_city_from"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/city_menu_nights_plus_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/city_menu_dates_guideline"
-            app:layout_constraintTop_toTopOf="@id/city_menu_autocomplete_tv_city_from" />
+             />
 
 
         <EditText
@@ -267,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/city_menu_find_button_margin_horizontal"
             android:layout_marginTop="@dimen/city_menu_find_button_margin_top"
-            android:text="@string/city_menu_find_button_text_find_tours"
+            android:text="@string/city_menu_find_button_text_find_hotels"
             android:textColor="@color/black"
             android:textSize="@dimen/city_menu_find_button_text_size"
             app:layout_constraintBottom_toBottomOf="parent"

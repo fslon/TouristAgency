@@ -28,34 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/tours_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="@dimen/tours_button_margin_top"
-                android:backgroundTint="@color/background_color_for_active_buttons"
-                android:clickable="true"
-                android:text="@string/button_tours_text"
-                android:textColor="@color/text_color_active_button"
-                app:icon="@drawable/baseline_tsunami_24"
-                app:iconTint="@color/text_color_active_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/city_and_nights_button" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/hotels_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/hotels_button_margin_start"
-                android:backgroundTint="@color/color_for_background"
-                android:clickable="true"
-                android:text="@string/button_hotels_text"
-                android:textColor="@color/text_color_inactive_button"
-                app:icon="@drawable/baseline_hotel_24"
-                app:iconTint="@color/inactive_text_color"
-                app:layout_constraintStart_toEndOf="@id/tours_button"
-                app:layout_constraintTop_toTopOf="@id/tours_button" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/sortingButton"
@@ -63,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/margin_sorting_and_filters_buttons_from_parent"
+
                 android:backgroundTint="@color/background_color_sorting_and_filters_buttons"
                 android:text="@string/sorting_button_text"
                 android:textColor="@color/text_color_active_button"
@@ -71,7 +45,7 @@
                 app:iconGravity="textStart"
                 app:iconTint="@color/inactive_text_color"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tours_button" />
+                app:layout_constraintTop_toBottomOf="@id/city_and_nights_button" />
 
 
             <com.google.android.material.button.MaterialButton
