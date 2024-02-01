@@ -1,6 +1,7 @@
 package com.example.touristagency.mvp.presenter
 
 import android.util.Log
+import com.example.touristagency.mvp.model.cities.ICitiesRepo
 import com.example.touristagency.mvp.model.tours.IToursRepo
 import com.example.touristagency.mvp.model.tours.Tour
 import com.example.touristagency.mvp.presenter.list.ITourListPresenter
@@ -9,6 +10,7 @@ import com.example.touristagency.mvp.view.list.TourItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -26,9 +28,15 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     @Inject
     lateinit var toursRepo: IToursRepo
 
+    @Inject
+    lateinit var citiesRepo: ICitiesRepo
+
+    private val compositeDisposable = CompositeDisposable()
 
     private val currentCurrency: String = "₽"// текущая валюта
-    private lateinit var cities: Array<String>
+
+    private var cities = mutableListOf<String>()
+
     private val minimumNumberOfNights = 1
     private val maximumNumberOfNights = 30
     private val minimumNumberOfPeople: Int = 1
@@ -62,7 +70,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
     val favouriteTours = mutableListOf<Tour>()
-    val hotTours = mutableListOf<Tour>()
+//    val hotTours = mutableListOf<Tour>()
 
     class ToursListPresenter : ITourListPresenter {
 
@@ -106,8 +114,10 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         super.onFirstViewAttach()
 
         viewState.initCurrentCurrency(currentCurrency)
-        viewState.getCitiesArrayFromResourses()
+
+        loadCities()
         viewState.setCitiesList(cities)
+
         initMinDate()
         viewState.setMinimumNumberNights(minimumNumberOfNights)
         viewState.setMaximumNumberNights(maximumNumberOfNights)
@@ -118,7 +128,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
         viewState.init()
-        loadData()
+
+        loadTours()
         toursListPresenter.itemClickListener = { itemView ->
             val tour = toursListPresenter.tours[itemView.pos]
 
@@ -138,7 +149,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
     fun onRefreshAction() { // метод, используемый при вытягивании сверху обновления страницы
-        loadData()
+        loadCities()
+        loadTours()
     }
 
 
@@ -198,10 +210,27 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         viewState.showFiltersDialog()
     }
 
+    private fun loadCities() { // получение списка городов
 
-    private fun loadData() {
+        val disposableCities = citiesRepo.getCities().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+            Log.e("--------------- ", repos.toString())
 
-        toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+            for (city in repos) {
+                cities.add(city.cityName.toString())
+            }
+
+        }, {
+            println("Error: ${it.message}")
+//            viewState.setVisibilityNotFoundLayout(true)
+//            viewState.setVisibilityRecyclerView(false)
+            viewState.showSnackbar("Произошла ошибка при получении данных")
+        })
+        compositeDisposable.add(disposableCities)
+    }
+
+
+    private fun loadTours() { // получение списка туров
+        val disposableTours = toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
 
             Log.e("--------------- ", repos.toString())
 
@@ -224,6 +253,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
             viewState.stopRefreshing()
         })
+        compositeDisposable.add(disposableTours)
 
     }
 
@@ -371,9 +401,9 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     }
 
 
-    fun setCities(cities: Array<String>) {
-        this.cities = cities
-    }
+//    fun setCities(cities: Array<String>) {
+//        this.cities = cities
+//    }
 
     fun findButtonCityDialogOnClick() {
 //        saveValuesForCityDialog()
@@ -420,5 +450,6 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     override fun onDestroy() {
         super.onDestroy()
         viewState.release()
+        compositeDisposable.dispose()
     }
 }

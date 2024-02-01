@@ -11,18 +11,15 @@ interface ToursView : MvpView {
     fun updateList()
     fun release()
 
-
     fun initBottomNavigationMenu()
 
-
     fun initCurrentCurrency(currentCurrency: String)
-    fun setCitiesList(cities: Array<String>)
-    fun getCitiesArrayFromResourses()
+    fun setCitiesList(cities: MutableList<String>)
+//    fun getCitiesArrayFromResourses()
     fun setMinimumNumberNights(minimumNumberOfNights: Int)
     fun setMaximumNumberNights(maximumNumberOfNights: Int)
     fun setMinimumNumberPeoples(minimumNumberOfPeople: Int)
     fun setMaximumNumberPeoples(maximumNumberOfPeople: Int)
-
 
     fun initSortingMenu(sortingStrings: List<String>)
     fun setTextSortingButton(text: String)

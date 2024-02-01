@@ -1,8 +1,8 @@
 package com.example.touristagency.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
@@ -63,13 +63,14 @@ class ToursRVAdapter(
         }
 
         override fun setBeachDistance(text: String) {
-            Log.e("--------------------- ", text)
-            if (text != "0") vb.recyclerItemTourBeachTextView.text = "$text м"
+            if (text != "0"){
+                vb.recyclerViewBeachLayout.visibility = View.VISIBLE
+                vb.recyclerItemTourBeachTextView.text = "$text м"}
             else {
 //                vb.recyclerItemTourBeachTextView.text = "далеко"
 
-                vb.recyclerItemTourBeachImage.isVisible = false
-                vb.recyclerItemTourBeachTextView.isVisible = false
+                vb.recyclerViewBeachLayout.visibility = View.GONE
+
             }
         }
 
@@ -107,14 +108,14 @@ class ToursRVAdapter(
         }
 
         override fun setLine(number: Int) {
-
+            vb.recyclerViewLineLayout.visibility = View.VISIBLE
             when (number) {
                 1 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.first_24)
                 2 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.second_24)
                 3 -> vb.recyclerItemTourLineImage.setImageResource(R.drawable.third_24)
                 0 -> {
-                    vb.recyclerItemTourLineImage.isVisible = false
-                    vb.recyclerItemTourLineTextView.isVisible = false
+                    vb.recyclerViewLineLayout.visibility = View.GONE
+
                 }
             }
 

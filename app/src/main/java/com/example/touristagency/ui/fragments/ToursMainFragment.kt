@@ -90,7 +90,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private var minimumNumberOfPeople: Int = 1
     private var maximumNumberOfPeople: Int = 10
 
-    private var cities = arrayOf<String>() // массив с городами
+    private var cities = mutableListOf<String>() // массив с городами
 
 
     val presenter: ToursMainPresenter by moxyPresenter {
@@ -173,11 +173,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         binding.swipeRefreshLayout.isRefreshing = false
     }
 
-    override fun getCitiesArrayFromResourses() {
-        presenter.setCities(resources.getStringArray(R.array.cities))
-    }
+//    override fun getCitiesArrayFromResourses() {
+//        presenter.setCities(resources.getStringArray(R.array.cities))
+//    }
 
-    override fun setCitiesList(cities: Array<String>) {
+    override fun setCitiesList(cities: MutableList<String>) {
         this.cities = cities
     }
 

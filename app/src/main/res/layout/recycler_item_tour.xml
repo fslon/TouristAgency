@@ -88,119 +88,156 @@
                 app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_image_layout" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recycler_item_tour_line_image"
-                android:layout_width="@dimen/recycler_item_tour_icons_size"
-                android:layout_height="@dimen/recycler_item_tour_icons_size"
+            <LinearLayout
+                android:id="@+id/recycler_item_tour_options_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="start|bottom"
                 android:layout_marginTop="@dimen/recycler_item_tour_line_image_margin_top"
-                android:src="@drawable/first_24"
-                app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_airport_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_image_layout" />
+                android:orientation="horizontal"
 
-            <TextView
-                android:id="@+id/recycler_item_tour_line_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_item_tour_line_text_view_default_text"
-                android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
-                android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_line_image"
-                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_image"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_line_image" />
-
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recycler_item_tour_airport_image"
-                android:layout_width="@dimen/recycler_item_tour_icons_size"
-                android:layout_height="@dimen/recycler_item_tour_icons_size"
-                android:src="@drawable/airplane"
-                app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_line_image"
-                app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_beach_image"
-                app:layout_constraintStart_toEndOf="@id/recycler_item_tour_line_image"
-                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_line_image" />
-
-            <TextView
-                android:id="@+id/recycler_item_tour_airport_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_item_tour_airport_text_view_default_text"
-                android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
-                android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_airport_image"
-                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_airport_image"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_airport_image"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recycler_item_tour_beach_image"
-                android:layout_width="@dimen/recycler_item_tour_icons_size"
-                android:layout_height="@dimen/recycler_item_tour_icons_size"
-                android:src="@drawable/beach"
-                app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_airport_image"
-                app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_parking_image"
-                app:layout_constraintStart_toEndOf="@id/recycler_item_tour_airport_image"
-                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_airport_image" />
-
-            <TextView
-                android:id="@+id/recycler_item_tour_beach_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_item_tour_beach_text_view_default_text"
-                android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
-                android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_beach_image"
-                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_beach_image"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_beach_image"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recycler_item_tour_parking_image"
-                android:layout_width="@dimen/recycler_item_tour_icons_size"
-                android:layout_height="@dimen/recycler_item_tour_icons_size"
-                android:src="@drawable/parking"
-                app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_beach_image"
-                app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_wifi_image"
-                app:layout_constraintStart_toEndOf="@id/recycler_item_tour_beach_image"
-                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_beach_image" />
-
-            <TextView
-                android:id="@+id/recycler_item_tour_parking_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_item_tour_parking_text_view_default_text"
-                android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
-                android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_parking_image"
-                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_parking_image"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_parking_image"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/recycler_item_tour_wifi_image"
-                android:layout_width="@dimen/recycler_item_tour_icons_size"
-                android:layout_height="@dimen/recycler_item_tour_icons_size"
-                android:src="@drawable/wifi"
-                app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_parking_image"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/recycler_item_tour_parking_image"
-                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_parking_image" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_image_layout">
 
-            <TextView
-                android:id="@+id/recycler_item_tour_wifi_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_item_tour_wifi_text_view_default_text"
-                android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
-                android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-                app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_wifi_image"
-                app:layout_constraintStart_toStartOf="@id/recycler_item_tour_wifi_image"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_wifi_image"
+                <LinearLayout
+                    android:id="@+id/recycler_view_line_layout"
+                    style="@style/LinearLayoutRecyclerItemTourStyle">
 
-                />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recycler_item_tour_line_image"
+                        android:layout_width="@dimen/recycler_item_tour_icons_size"
+                        android:layout_height="@dimen/recycler_item_tour_icons_size"
+
+                        android:src="@drawable/first_24" />
+
+                    <TextView
+                        android:id="@+id/recycler_item_tour_line_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recycler_item_tour_line_text_view_default_text"
+                        android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
+                        android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recycler_view_airport_layout"
+                    style="@style/LinearLayoutRecyclerItemTourStyle">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recycler_item_tour_airport_image"
+                        android:layout_width="@dimen/recycler_item_tour_icons_size"
+                        android:layout_height="@dimen/recycler_item_tour_icons_size"
+                        android:src="@drawable/airplane"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_line_image"
+                        app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_beach_image"
+                        app:layout_constraintStart_toEndOf="@id/recycler_item_tour_line_image"
+                        app:layout_constraintTop_toTopOf="@id/recycler_item_tour_line_image" />
+
+                    <TextView
+                        android:id="@+id/recycler_item_tour_airport_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recycler_item_tour_airport_text_view_default_text"
+                        android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
+                        android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_airport_image"
+                        app:layout_constraintStart_toStartOf="@id/recycler_item_tour_airport_image"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_airport_image"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recycler_view_beach_layout"
+                    style="@style/LinearLayoutRecyclerItemTourStyle">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recycler_item_tour_beach_image"
+                        android:layout_width="@dimen/recycler_item_tour_icons_size"
+                        android:layout_height="@dimen/recycler_item_tour_icons_size"
+                        android:src="@drawable/beach"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_airport_image"
+                        app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_parking_image"
+                        app:layout_constraintStart_toEndOf="@id/recycler_item_tour_airport_image"
+                        app:layout_constraintTop_toTopOf="@id/recycler_item_tour_airport_image" />
+
+                    <TextView
+                        android:id="@+id/recycler_item_tour_beach_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recycler_item_tour_beach_text_view_default_text"
+                        android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
+                        android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_beach_image"
+                        app:layout_constraintStart_toStartOf="@id/recycler_item_tour_beach_image"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_beach_image"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recycler_view_parking_layout"
+                    style="@style/LinearLayoutRecyclerItemTourStyle">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recycler_item_tour_parking_image"
+                        android:layout_width="@dimen/recycler_item_tour_icons_size"
+                        android:layout_height="@dimen/recycler_item_tour_icons_size"
+                        android:src="@drawable/parking"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_beach_image"
+                        app:layout_constraintEnd_toStartOf="@id/recycler_item_tour_wifi_image"
+                        app:layout_constraintStart_toEndOf="@id/recycler_item_tour_beach_image"
+                        app:layout_constraintTop_toTopOf="@id/recycler_item_tour_beach_image" />
+
+                    <TextView
+                        android:id="@+id/recycler_item_tour_parking_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recycler_item_tour_parking_text_view_default_text"
+                        android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
+                        android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_parking_image"
+                        app:layout_constraintStart_toStartOf="@id/recycler_item_tour_parking_image"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_parking_image"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recycler_view_wifi_layout"
+                    style="@style/LinearLayoutRecyclerItemTourStyle">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/recycler_item_tour_wifi_image"
+                        android:layout_width="@dimen/recycler_item_tour_icons_size"
+                        android:layout_height="@dimen/recycler_item_tour_icons_size"
+                        android:src="@drawable/wifi"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_parking_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/recycler_item_tour_parking_image"
+                        app:layout_constraintTop_toTopOf="@id/recycler_item_tour_parking_image" />
+
+                    <TextView
+                        android:id="@+id/recycler_item_tour_wifi_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recycler_item_tour_wifi_text_view_default_text"
+                        android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
+                        android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_item_tour_wifi_image"
+                        app:layout_constraintStart_toStartOf="@id/recycler_item_tour_wifi_image"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_wifi_image"
+
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
 
             <TextView
@@ -214,7 +251,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_line_text_view"
+                app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_options_container"
 
                 />
 
@@ -226,36 +263,37 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@id/recycler_item_tour_image_layout"
-                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_image_layout" >
+                app:layout_constraintTop_toTopOf="@id/recycler_item_tour_image_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/recycler_item_tour_star_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_24"/>
+                    android:src="@drawable/baseline_star_24" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/recycler_item_tour_star_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_24"/>
+                    android:src="@drawable/baseline_star_24" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/recycler_item_tour_star_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_24"/>
+                    android:src="@drawable/baseline_star_24" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/recycler_item_tour_star_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_24"/>
+                    android:src="@drawable/baseline_star_24" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/recycler_item_tour_star_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_24"/>
-
+                    android:src="@drawable/baseline_star_24" />
 
 
             </LinearLayout>
