@@ -65,7 +65,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private var savedValuesCityDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в cityDialog
     private val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
     private val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
-    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
+
+    //    private val cityDepartureNameKeyCityDialog = "cityDeparture" // ключ для сохранения города вылета в map
     private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
@@ -150,7 +151,10 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     fun onRefreshAction() { // метод, используемый при вытягивании сверху обновления страницы
         loadCities()
-        loadTours()
+
+        if (savedValuesCityDialog[cityNameKeyCityDialog]?.isNotBlank() == true and (savedValuesCityDialog[cityNameKeyCityDialog]?.isNotEmpty() == true)) {
+            savedValuesCityDialog[cityNameKeyCityDialog]?.let { loadHotelsByCity(it) }
+        } else loadTours()
     }
 
 
@@ -254,6 +258,35 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
             viewState.stopRefreshing()
         })
         compositeDisposable.add(disposableTours)
+
+    }
+
+
+    private fun loadHotelsByCity(cityName: String) { // получение списка туров
+        val disposableHotelsByCity = toursRepo.getHotelsByCity(cityName).observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+
+            Log.e("!!!!!!!!! ", repos.toString())
+
+            toursListPresenter.tours.clear()
+            toursListPresenter.tours.addAll(repos)
+
+            sortingItemOnClick(currentSortingValue) // для применения текущей сортировки
+
+            viewState.updateList()
+
+            showOrHideNotFoundLayout()
+
+            viewState.stopRefreshing()
+        }, {
+            println("Error: ${it.message}")
+
+            viewState.setVisibilityNotFoundLayout(true)
+            viewState.setVisibilityRecyclerView(false)
+            viewState.showSnackbar("Произошла ошибка при получении данных")
+
+            viewState.stopRefreshing()
+        })
+        compositeDisposable.add(disposableHotelsByCity)
 
     }
 
@@ -396,25 +429,62 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
     }
 
+
     fun cancelButtonCityDialogOnClick() {
         viewState.cancelCityDialog()
     }
 
-
-//    fun setCities(cities: Array<String>) {
-//        this.cities = cities
-//    }
-
-    fun findButtonCityDialogOnClick() {
+    fun findButtonCityDialogOnClick(
+        cityFieldText: String,
+        dateFieldText: String,
+        nightsFieldText: String,
+        peoplesFieldText: String
+    ) { // вызывается при нажатии кнопки "Найти отели", принимает данные из полей меню выбора города, обрабаывает их
 //        saveValuesForCityDialog()
-        viewState.dismissCityDialog()
-        setCurrentValuesCityDialog()
-        viewState.updateCityButton(savedValuesCityDialog[cityNameKeyCityDialog].toString(), savedValuesCityDialog[nightsKeyCityDialog].toString())
+
+        if (isSelectedCitiesValid(cityFieldText)) {
+            saveValuesForCityDialog(cityFieldText, dateFieldText, nightsFieldText, peoplesFieldText)
+
+            viewState.dismissCityDialog()
+            setCurrentValuesCityDialog()
+            viewState.updateCityButton(cityFieldText, nightsFieldText)
+
+            loadHotelsByCity(cityFieldText)
+
+        }
+
+
     }
 
-    fun saveValuesCityDialog(savedValuesCityDialog: MutableMap<String, String>) {
-        this.savedValuesCityDialog = savedValuesCityDialog
+
+    private fun saveValuesForCityDialog(
+        cityFieldText: String,
+        dateFieldText: String,
+        nightsFieldText: String,
+        peoplesFieldText: String
+    ) { // сохранение значений из основных view из cityDialog в map
+        savedValuesCityDialog[cityNameKeyCityDialog] = cityFieldText
+        savedValuesCityDialog[dateKeyCityDialog] = dateFieldText
+        savedValuesCityDialog[nightsKeyCityDialog] = nightsFieldText
+        savedValuesCityDialog[peoplesKeyCityDialog] = peoplesFieldText
     }
+
+    private fun isSelectedCitiesValid(cityFieldText: String): Boolean { // проверка на валидность поля с выбором города с городами
+        if (cityFieldText.isBlank()
+        ) return true // если поле города назначения пустое, то пропускаем, будет "Россия"
+
+        for (item in cities) { // проверка, есть ли в списке городов город назначения
+            if (item == cityFieldText) return true
+        }
+
+        viewState.showSnackBarAboutValueCityDialog("Некорректное название города, пожалуйста, выберите из выпадающего списка")
+        return false
+    }
+
+
+//    fun saveValuesCityDialog(savedValuesCityDialog: MutableMap<String, String>) {
+//        this.savedValuesCityDialog = savedValuesCityDialog
+//    }
 
     private fun setCurrentValuesCityDialog() {
         viewState.setValuesCityDialog(
@@ -428,11 +498,8 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private fun setInitialCityValues() {
         savedValuesCityDialog.put(cityNameKeyCityDialog, "")
         savedValuesCityDialog.put(dateKeyCityDialog, getDateOfDeparture())
-        savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, "")
         savedValuesCityDialog.put(nightsKeyCityDialog, "10")
         savedValuesCityDialog.put(peoplesKeyCityDialog, "1")
-
-
     }
 
     fun getDateOfDeparture() = formatDate(calendar.time)

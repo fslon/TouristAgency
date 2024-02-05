@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
@@ -624,42 +623,31 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         findButton = cityDialog.findViewById(R.id.city_menu_find_button)
 
         findButton.setOnClickListener {
-            if (isSelectedCitiesValid()) { // проверка на валидность полей с городами
-                saveValuesForCityDialog()
-                presenter.findButtonCityDialogOnClick()
+            presenter.findButtonCityDialogOnClick(cityField.text.toString(), dateField.text.toString(), nightsField.text.toString(), peoplesField.text.toString())
 
+
+//            if (isSelectedCitiesValid()) { // проверка на валидность полей с городами
 //                saveValuesForCityDialog()
-//                cityDialog.dismiss()
-//                updateCityButton()
-            }
+//                presenter.findButtonCityDialogOnClick()
+//            }
         }
-
     }
 
-//    private fun initSavedValueCityDialogMap() { // важно чтобы получение сохраненных значений было после  initDatePickerCityDialog()
-//        // init map с дефолтными значениями
-//        savedValuesCityDialog.put(cityNameKeyCityDialog, "")
-//        savedValuesCityDialog.put(dateKeyCityDialog, getDateOfDeparture())
-//        savedValuesCityDialog.put(cityDepartureNameKeyCityDialog, "")
-//        savedValuesCityDialog.put(nightsKeyCityDialog, resources.getString(R.string.nights_value_city_layout))
-//        savedValuesCityDialog.put(peoplesKeyCityDialog, resources.getString(R.string.peoples_value_city_layout))
+//    private fun saveValuesForCityDialog() { // сохранение значений из основных view из cityDialog в map
+//        val savedValuesCityDialog = mutableMapOf<String, String>()
+//
+//        val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
+//        val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
+//        val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
+//        val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
+//
+//        savedValuesCityDialog.put(cityNameKeyCityDialog, cityField.text.toString())
+//        savedValuesCityDialog.put(dateKeyCityDialog, dateField.text.toString())
+//        savedValuesCityDialog.put(nightsKeyCityDialog, nightsField.text.toString())
+//        savedValuesCityDialog.put(peoplesKeyCityDialog, peoplesField.text.toString())
+//
+//        presenter.saveValuesCityDialog(savedValuesCityDialog)
 //    }
-
-    private fun saveValuesForCityDialog() { // сохранение значений из основных view из cityDialog в map
-        val savedValuesCityDialog = mutableMapOf<String, String>()
-
-        val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
-        val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
-        val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
-        val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
-
-        savedValuesCityDialog.put(cityNameKeyCityDialog, cityField.text.toString())
-        savedValuesCityDialog.put(dateKeyCityDialog, dateField.text.toString())
-        savedValuesCityDialog.put(nightsKeyCityDialog, nightsField.text.toString())
-        savedValuesCityDialog.put(peoplesKeyCityDialog, peoplesField.text.toString())
-
-        presenter.saveValuesCityDialog(savedValuesCityDialog)
-    }
 
     override fun setValuesCityDialog(
         cityName: String,
@@ -669,7 +657,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     ) { // получение сохраненных значений для основных view в диалоге выбора города
 
         cityField.setText(cityName)
-        dateField.setText(date)
+        dateField.text = date
         nightsField.setText(nightsNumber)
         peoplesField.setText(peoplesNumber)
 
@@ -695,11 +683,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
                 if (counterTextView.text.toString().toInt() > maximumNumberOfNights) {
                     counterTextView.setText("$maximumNumberOfNights")
-                    showSnackBarAboutValue("Максимальное количество ночей - $maximumNumberOfNights")
+                    showSnackBarAboutValueCityDialog("Максимальное количество ночей - $maximumNumberOfNights")
                 }
                 if (counterTextView.text.toString().toInt() < minimumNumberOfNights) {
                     counterTextView.setText("$minimumNumberOfNights")
-                    showSnackBarAboutValue("Минимальное количество ночей - $minimumNumberOfNights")
+                    showSnackBarAboutValueCityDialog("Минимальное количество ночей - $minimumNumberOfNights")
                 }
                 counterTextView.setSelection(counterTextView.text.length)
             }
@@ -720,7 +708,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
         }
     }
 
-    private fun showSnackBarAboutValue(text: String) { // показать снекбар, что количество неверное, сделано для выбора количества людей и ночей в диалоге выбора города
+    override fun showSnackBarAboutValueCityDialog(text: String) { // показать снекбар, что количество неверное, сделано для выбора количества людей и ночей в диалоге выбора города
         Snackbar.make(citySheet, text, Snackbar.LENGTH_SHORT).show()
     }
 
@@ -733,11 +721,11 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
             if (counterTextView.text.toString().isNotBlank() and counterTextView.text.toString().isNotEmpty()) {
                 if (counterTextView.text.toString().toInt() > maximumNumberOfPeople) {
                     counterTextView.setText("$maximumNumberOfPeople")
-                    showSnackBarAboutValue("Максимальное количество человек - $maximumNumberOfPeople")
+                    showSnackBarAboutValueCityDialog("Максимальное количество человек - $maximumNumberOfPeople")
                 }
                 if (counterTextView.text.toString().toInt() < minimumNumberOfPeople) {
                     counterTextView.setText("$minimumNumberOfPeople")
-                    showSnackBarAboutValue("Минимальное количество человек - $minimumNumberOfPeople")
+                    showSnackBarAboutValueCityDialog("Минимальное количество человек - $minimumNumberOfPeople")
                 }
                 counterTextView.setSelection(counterTextView.text.length)
             }
@@ -853,18 +841,18 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     }
 
 
-    private fun isSelectedCitiesValid(): Boolean { // проверка на валидность полея с выбором города с городами
-
-        if (cityField.text.toString().isBlank()
-        ) return true // если поле города назначения пустое, то пропускаем, будет "Россия"
-
-        for (item in cities) { // проверка, есть ли в списке городов город назначения
-            if (item.toString() == cityField.text.toString()) return true
-        }
-
-        showSnackBarAboutValue("Некорректное название города, пожалуйста, выберите из выпадающего списка")
-        return false
-    }
+//    private fun isSelectedCitiesValid(): Boolean { // проверка на валидность полея с выбором города с городами
+//
+//        if (cityField.text.toString().isBlank()
+//        ) return true // если поле города назначения пустое, то пропускаем, будет "Россия"
+//
+//        for (item in cities) { // проверка, есть ли в списке городов город назначения
+//            if (item.toString() == cityField.text.toString()) return true
+//        }
+//
+//        showSnackBarAboutValue("Некорректное название города, пожалуйста, выберите из выпадающего списка")
+//        return false
+//    }
 
 
     private fun initInfrastructureCheckboxes(filtersDialog: BottomSheetDialog) { // init checkboxes + textviews в фильтрах
@@ -907,7 +895,6 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     }
 
 
-
     override fun updateImage(position: Int) {
         val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
         if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
@@ -924,6 +911,8 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+
+        binding.recyclerView.smoothScrollToPosition(0) // при обновлении списка, прокручивается к нулевой позиции
     }
 
     override fun release() {

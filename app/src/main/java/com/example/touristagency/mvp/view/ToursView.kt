@@ -68,6 +68,7 @@ interface ToursView : MvpView {
     fun updateImage(position: Int)
 
     fun showSnackbar(text: String)
+    fun showSnackBarAboutValueCityDialog(text: String)
 
     fun setVisibilityNotFoundLayout(visibility: Boolean)
     fun setVisibilityRecyclerView(visibility: Boolean)

@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class ApiModule {
     @Named("baseUrl")
     @Provides
-    fun baseUrl(): String = "http://192.168.1.104:5001/"
+    fun baseUrl(): String = "http://192.168.1.4:5001/"
 
     @Provides
     fun api(@Named("baseUrl") baseUrl: String, gson: Gson): IDataSource =
