@@ -1,17 +1,16 @@
 package com.example.touristagency.mvp.presenter
 
 import android.view.MenuItem
-import com.example.touristagency.mvp.model.tours.Tour
-import com.example.touristagency.mvp.presenter.list.ITourListPresenter
+import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.presenter.list.IHotelListPresenter
 import com.example.touristagency.mvp.view.FavouritesView
-import com.example.touristagency.mvp.view.HotToursView
-import com.example.touristagency.mvp.view.list.TourItemView
+import com.example.touristagency.mvp.view.list.HotelItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<FavouritesView>() {
+class FavouritesPresenter(val favouriteTours: MutableList<Hotel>) : MvpPresenter<FavouritesView>() {
     @Inject
     lateinit var router: Router
 
@@ -22,11 +21,11 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
 
-    class FavouriteToursListPresenter(val favouriteTours: MutableList<Tour>) : ITourListPresenter {
-        override var itemClickListener: ((TourItemView) -> Unit)? = null
-        override var favouriteButtonClickListener: ((TourItemView) -> Unit)? = null
+    class FavouriteToursListPresenter(val favouriteTours: MutableList<Hotel>) : IHotelListPresenter {
+        override var itemClickListener: ((HotelItemView) -> Unit)? = null
+        override var favouriteButtonClickListener: ((HotelItemView) -> Unit)? = null
         override fun getCount() = favouriteTours.size
-        override fun bindView(view: TourItemView) {
+        override fun bindView(view: HotelItemView) {
             val tour = favouriteTours[view.pos]
             tour.place?.let { view.setPlace(it) }
             tour.price?.let { view.setPrice(it) }
@@ -63,7 +62,7 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
         toursListPresenter.itemClickListener = { itemView ->
             val tour = toursListPresenter.favouriteTours[itemView.pos]
 
-            router.navigateTo(screens.tour(tour))
+            router.navigateTo(screens.hotel(tour))
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
 
@@ -86,7 +85,7 @@ class FavouritesPresenter(val favouriteTours: MutableList<Tour>) : MvpPresenter<
     }
 
     fun navigationSearchOnClick() {
-        router.replaceScreen(screens.mainAllTours())
+        router.replaceScreen(screens.mainAllHotels())
     }
 
     fun navigationHotToursOnClick() {

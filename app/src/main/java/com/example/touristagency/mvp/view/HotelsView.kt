@@ -6,7 +6,7 @@ import moxy.viewstate.strategy.StateStrategyType
 import java.util.Calendar
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface ToursView : MvpView {
+interface HotelsView : MvpView {
     fun init()
     fun updateList()
     fun release()

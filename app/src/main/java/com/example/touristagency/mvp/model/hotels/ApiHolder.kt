@@ -1,4 +1,4 @@
-package com.example.touristagency.mvp.model.tours
+package com.example.touristagency.mvp.model.hotels
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

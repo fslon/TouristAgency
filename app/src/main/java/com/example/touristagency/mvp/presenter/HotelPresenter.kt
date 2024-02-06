@@ -2,14 +2,14 @@ package com.example.touristagency.mvp.presenter
 
 import android.content.Intent
 import android.net.Uri
-import com.example.touristagency.mvp.model.tours.Tour
-import com.example.touristagency.mvp.view.TourView
+import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.view.HotelView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class TourPresenter(val tour: Tour) : MvpPresenter<TourView>() {
+class HotelPresenter(val tour: Hotel) : MvpPresenter<HotelView>() {
     @Inject
     lateinit var router: Router
 

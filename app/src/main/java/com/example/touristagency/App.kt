@@ -5,20 +5,20 @@ import com.example.touristagency.dagger.AppComponent
 import com.example.touristagency.dagger.AppModule
 import com.example.touristagency.dagger.DaggerAppComponent
 import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
-import com.example.touristagency.dagger.subComponents.HotToursSubComponent
+import com.example.touristagency.dagger.subComponents.HotHotelsSubComponent
 import com.example.touristagency.dagger.subComponents.ProfileSubComponent
-import com.example.touristagency.dagger.subComponents.TourSubComponent
-import com.example.touristagency.dagger.subComponents.ToursSubComponent
+import com.example.touristagency.dagger.subComponents.HotelSubComponent
+import com.example.touristagency.dagger.subComponents.HotelsSubComponent
 
 
 class App : Application() {
     lateinit var appComponent: AppComponent
         private set
 
-    var toursSubComponent: ToursSubComponent? = null
+    var toursSubComponent: HotelsSubComponent? = null
         private set
 
-    var hotToursSubComponent: HotToursSubComponent? = null
+    var hotHotelsSubComponent: HotHotelsSubComponent? = null
         private set
 
     var favouritesSubComponent: FavouritesSubComponent? = null
@@ -27,7 +27,7 @@ class App : Application() {
     var profileSubComponent: ProfileSubComponent? = null
         private set
 
-    var tourSubComponent: TourSubComponent? = null
+    var hotelSubComponent: HotelSubComponent? = null
         private set
 
     companion object {
@@ -42,7 +42,7 @@ class App : Application() {
             .build()
     }
 
-    fun initUserSubComponent() = appComponent.toursSubcomponent().also {
+    fun initUserSubComponent() = appComponent.hotelsSubComponent().also {
         toursSubComponent = it
     }
 
@@ -50,12 +50,12 @@ class App : Application() {
         toursSubComponent = null
     }
 
-    fun initHotToursSubComponent() = appComponent.hotToursSubComponent().also {
-        hotToursSubComponent = it
+    fun initHotHotelsSubComponent() = appComponent.hotHotelsSubComponent().also {
+        hotHotelsSubComponent = it
     }
 
-    fun releaseHotToursSubComponent() {
-        hotToursSubComponent = null
+    fun releaseHotHotelsSubComponent() {
+        hotHotelsSubComponent = null
     }
 
     fun initFavouritesSubComponent() = appComponent.favouritesSubComponent().also {
@@ -74,12 +74,12 @@ class App : Application() {
         profileSubComponent = null
     }
 
-    fun initTourSubComponent() = appComponent.tourSubComponent().also {
-        tourSubComponent = it
+    fun initHotelSubComponent() = appComponent.hotelSubComponent().also {
+        hotelSubComponent = it
     }
 
-    fun releaseTourSubComponent() {
-        tourSubComponent = null
+    fun releaseHotelSubComponent() {
+        hotelSubComponent = null
     }
 
 }

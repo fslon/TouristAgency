@@ -1,6 +1,6 @@
 package com.example.touristagency.mvp.view.list
 
-interface TourItemView : IItemView {
+interface HotelItemView : IItemView {
     fun setName(text: String)
     fun setPlace(text: String)
     fun setPrice(text: String)

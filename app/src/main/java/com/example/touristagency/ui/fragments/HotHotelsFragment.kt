@@ -1,6 +1,5 @@
 package com.example.touristagency.ui.fragments
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,43 +8,42 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.subComponents.HotToursSubComponent
-import com.example.touristagency.databinding.FragmentHotToursBinding
-import com.example.touristagency.mvp.model.tours.Tour
-import com.example.touristagency.mvp.presenter.HotToursPresenter
-import com.example.touristagency.mvp.view.HotToursView
-import com.example.touristagency.mvp.view.SlideShowAdapter
+import com.example.touristagency.dagger.subComponents.HotHotelsSubComponent
+import com.example.touristagency.databinding.FragmentHotHotelsBinding
+import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.presenter.HotHotelsPresenter
+import com.example.touristagency.mvp.view.HotHotelsView
 import com.example.touristagency.ui.activity.BackButtonListener
-import com.example.touristagency.ui.adapter.ToursRVAdapter
+import com.example.touristagency.ui.adapter.HotelsRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment(), HotToursView, BackButtonListener {
-    private var _binding: FragmentHotToursBinding? = null
+class HotHotelsFragment(val hotTours: MutableList<Hotel>) : MvpAppCompatFragment(), HotHotelsView, BackButtonListener {
+    private var _binding: FragmentHotHotelsBinding? = null
     private val binding get() = _binding!!
 
-    private var hotToursSubComponent: HotToursSubComponent? = null
+    private var hotToursSubComponent: HotHotelsSubComponent? = null
 
 
     private lateinit var currentCurrency: String // текущая валюта
 
 
-    val presenter: HotToursPresenter by moxyPresenter {
-        hotToursSubComponent = App.instance.initHotToursSubComponent()
+    val presenter: HotHotelsPresenter by moxyPresenter {
+        hotToursSubComponent = App.instance.initHotHotelsSubComponent()
 
-        HotToursPresenter(hotTours).apply {
+        HotHotelsPresenter(hotTours).apply {
             hotToursSubComponent?.inject(this)
         }
     }
 
-    var adapter: ToursRVAdapter? = null
+    var adapter: HotelsRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHotToursBinding.inflate(inflater, container, false)
+        _binding = FragmentHotHotelsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -55,7 +53,7 @@ class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment()
 
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ToursRVAdapter(presenter.toursListPresenter).apply {
+        adapter = HotelsRVAdapter(presenter.toursListPresenter).apply {
             hotToursSubComponent?.inject(this)
         }
         binding.recyclerView.adapter = adapter
@@ -67,7 +65,7 @@ class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment()
 
     override fun release() {
         hotToursSubComponent = null
-        App.instance.releaseHotToursSubComponent()
+        App.instance.releaseHotHotelsSubComponent()
     }
 
     override fun initBottomNavigationMenu() {
@@ -101,8 +99,6 @@ class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment()
 
         }
     }
-
-
 
 
     override fun setTextSortingButton(text: String) {
@@ -150,7 +146,7 @@ class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment()
 
     override fun updateImage(position: Int) {
         val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
-        if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
+        if (viewHolder != null && viewHolder is HotelsRVAdapter.ViewHolder) {
             viewHolder.favouriteImageView.setImageResource(R.drawable.baseline_favorite_24)
         }
     }
@@ -165,7 +161,7 @@ class HotToursFragment(val hotTours: MutableList<Tour>) : MvpAppCompatFragment()
 
 
     companion object {
-        fun newInstance(hotTours: MutableList<Tour>) = HotToursFragment(hotTours)
+        fun newInstance(hotTours: MutableList<Hotel>) = HotHotelsFragment(hotTours)
     }
 
 

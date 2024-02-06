@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.TourFragment">
+    tools:context=".ui.fragments.HotelFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_favourite_button"
+            android:id="@+id/recycler_item_hotel_favourite_button"
             android:layout_width="@dimen/recycler_item_tour_favourite_button_size"
             android:layout_height="@dimen/recycler_item_tour_favourite_button_size"
             android:layout_margin="@dimen/recycler_item_tour_favourite_button_margin_top"
@@ -24,7 +24,7 @@
 
 
         <TextView
-            android:id="@+id/recycler_item_tour_hotel_name"
+            android:id="@+id/recycler_item_hotel_hotel_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/recycler_item_tour_hotel_location_margin_start"
@@ -33,12 +33,12 @@
             android:textSize="@dimen/recycler_item_tour_hotel_name_text_size"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_favourite_button"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_favourite_button"
 
             />
 
         <TextView
-            android:id="@+id/recycler_item_tour_hotel_location"
+            android:id="@+id/recycler_item_hotel_hotel_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/recycler_item_tour_hotel_location_margin_start"
@@ -47,18 +47,18 @@
             android:textColor="@color/black"
             android:textSize="@dimen/recycler_item_tour_hotel_location_text_size"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_hotel_name" />
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_hotel_name" />
 
 
         <LinearLayout
-            android:id="@+id/recycler_item_tour_image_layout"
+            android:id="@+id/recycler_item_hotel_image_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/slide_item_image_view_height"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_hotel_location">
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_hotel_location">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/recycler_item_tour_image_layout_viewpager_2"
@@ -70,7 +70,7 @@
 
 
         <TextView
-            android:id="@+id/recycler_item_tour_hotel_rating"
+            android:id="@+id/recycler_item_hotel_hotel_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -87,7 +87,7 @@
             android:textSize="@dimen/recycler_item_tour_hotel_rating_text_size"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_image_layout" />
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_image_layout" />
 
         <TextView
             android:id="@+id/recycler_item_rating_text_view"
@@ -97,128 +97,128 @@
             android:text="@string/recycler_item_rating_text_view_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_hotel_rating"
-            app:layout_constraintStart_toEndOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_hotel_rating"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_hotel_rating"
+            app:layout_constraintStart_toEndOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_hotel_rating"
 
             />
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_line_image"
+            android:id="@+id/recycler_item_hotel_line_image"
             android:layout_width="@dimen/recycler_item_tour_icons_size"
             android:layout_height="@dimen/recycler_item_tour_icons_size"
             android:layout_marginTop="@dimen/recycler_item_tour_line_image_margin_top"
             android:src="@drawable/first_24"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_hotel_rating"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_hotel_rating" />
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_hotel_rating"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_hotel_rating" />
 
         <TextView
-            android:id="@+id/recycler_item_tour_line_text_view"
+            android:id="@+id/recycler_item_hotel_line_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/recycler_item_tour_line_text_view_default_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintStart_toEndOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_line_image"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintStart_toEndOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_line_image"
 
             />
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_airport_image"
+            android:id="@+id/recycler_item_hotel_airport_image"
             android:layout_width="@dimen/recycler_item_tour_icons_size"
             android:layout_height="@dimen/recycler_item_tour_icons_size"
             android:layout_marginTop="10dp"
             android:src="@drawable/airplane"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_line_image" />
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_line_image" />
 
         <TextView
-            android:id="@+id/recycler_item_tour_airport_text_view"
+            android:id="@+id/recycler_item_hotel_airport_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recycler_item_tour_airport_text_view_default_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_airport_image"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_text_view"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_airport_image"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_airport_image"
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_text_view"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_airport_image"
 
             />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_beach_image"
+            android:id="@+id/recycler_item_hotel_beach_image"
             android:layout_width="@dimen/recycler_item_tour_icons_size"
             android:layout_height="@dimen/recycler_item_tour_icons_size"
             android:layout_marginTop="10dp"
             android:src="@drawable/beach"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_airport_image" />
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_airport_image" />
 
         <TextView
-            android:id="@+id/recycler_item_tour_beach_text_view"
+            android:id="@+id/recycler_item_hotel_beach_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recycler_item_tour_beach_text_view_default_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_beach_image"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_text_view"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_beach_image"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_beach_image"
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_text_view"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_beach_image"
 
             />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_parking_image"
+            android:id="@+id/recycler_item_hotel_parking_image"
             android:layout_width="@dimen/recycler_item_tour_icons_size"
             android:layout_height="@dimen/recycler_item_tour_icons_size"
             android:layout_marginTop="10dp"
             android:src="@drawable/parking"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_beach_image" />
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_beach_image" />
 
         <TextView
-            android:id="@+id/recycler_item_tour_parking_text_view"
+            android:id="@+id/recycler_item_hotel_parking_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recycler_item_tour_parking_text_view_default_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_parking_image"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_text_view"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_parking_image"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_parking_image"
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_text_view"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_parking_image"
 
             />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/recycler_item_tour_wifi_image"
+            android:id="@+id/recycler_item_hotel_wifi_image"
             android:layout_width="@dimen/recycler_item_tour_icons_size"
             android:layout_height="@dimen/recycler_item_tour_icons_size"
             android:layout_marginTop="10dp"
             android:src="@drawable/wifi"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_image"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_parking_image" />
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_image"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_parking_image" />
 
         <TextView
-            android:id="@+id/recycler_item_tour_wifi_text_view"
+            android:id="@+id/recycler_item_hotel_wifi_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recycler_item_tour_wifi_text_view_default_text"
             android:textColor="@color/recycler_item_tour_icons_bottom_text_color"
             android:textSize="@dimen/recycler_item_tour_icons_bottom_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/recycler_item_tour_wifi_image"
-            app:layout_constraintStart_toStartOf="@id/recycler_item_tour_line_text_view"
-            app:layout_constraintTop_toTopOf="@id/recycler_item_tour_wifi_image"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_item_hotel_wifi_image"
+            app:layout_constraintStart_toStartOf="@id/recycler_item_hotel_line_text_view"
+            app:layout_constraintTop_toTopOf="@id/recycler_item_hotel_wifi_image"
 
             />
 
 
         <TextView
-            android:id="@+id/recycler_item_tour_price_text_view"
+            android:id="@+id/recycler_item_hotel_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/recycler_item_tour_price_text_view_margin"
@@ -227,7 +227,7 @@
             android:textSize="@dimen/recycler_item_tour_price_text_view_text_size"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_item_tour_wifi_image"
+            app:layout_constraintTop_toBottomOf="@id/recycler_item_hotel_wifi_image"
 
             />
 

@@ -21,12 +21,12 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.touristagency.App
 import com.example.touristagency.R
-import com.example.touristagency.dagger.subComponents.ToursSubComponent
-import com.example.touristagency.databinding.FragmentToursMainBinding
-import com.example.touristagency.mvp.presenter.ToursMainPresenter
-import com.example.touristagency.mvp.view.ToursView
+import com.example.touristagency.dagger.subComponents.HotelsSubComponent
+import com.example.touristagency.databinding.FragmentHotelsMainBinding
+import com.example.touristagency.mvp.presenter.HotelsMainPresenter
+import com.example.touristagency.mvp.view.HotelsView
 import com.example.touristagency.ui.activity.BackButtonListener
-import com.example.touristagency.ui.adapter.ToursRVAdapter
+import com.example.touristagency.ui.adapter.HotelsRVAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -43,11 +43,11 @@ import java.util.Date
 import java.util.Locale
 
 
-class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener {
-    private var _binding: FragmentToursMainBinding? = null
+class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListener {
+    private var _binding: FragmentHotelsMainBinding? = null
     private val binding get() = _binding!!
 
-    private var toursSubComponent: ToursSubComponent? = null
+    private var toursSubComponent: HotelsSubComponent? = null
 
 
     private lateinit var cityDialog: Dialog // диалог с выбором города и даты
@@ -92,22 +92,22 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     private var cities = mutableListOf<String>() // массив с городами
 
 
-    val presenter: ToursMainPresenter by moxyPresenter {
+    val presenter: HotelsMainPresenter by moxyPresenter {
         toursSubComponent = App.instance.initUserSubComponent()
 
-        ToursMainPresenter().apply {
+        HotelsMainPresenter().apply {
             toursSubComponent?.inject(this)
         }
     }
 
-    var adapter: ToursRVAdapter? = null
+    var adapter: HotelsRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentToursMainBinding.inflate(inflater, container, false)
+        _binding = FragmentHotelsMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -897,7 +897,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun updateImage(position: Int) {
         val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
-        if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
+        if (viewHolder != null && viewHolder is HotelsRVAdapter.ViewHolder) {
             viewHolder.favouriteImageView.setImageResource(R.drawable.baseline_favorite_24)
         }
     }
@@ -905,7 +905,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
 
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ToursRVAdapter(presenter.toursListPresenter)
+        adapter = HotelsRVAdapter(presenter.toursListPresenter)
         binding.recyclerView.adapter = adapter
     }
 
@@ -928,7 +928,7 @@ class ToursMainFragment : MvpAppCompatFragment(), ToursView, BackButtonListener 
     }
 
     companion object {
-        fun newInstance() = ToursMainFragment()
+        fun newInstance() = HotelsMainFragment()
     }
 
 

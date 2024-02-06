@@ -10,16 +10,15 @@ import com.example.touristagency.App
 import com.example.touristagency.R
 import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
 import com.example.touristagency.databinding.FragmentFavouritesBinding
-import com.example.touristagency.mvp.model.tours.Tour
+import com.example.touristagency.mvp.model.hotels.Hotel
 import com.example.touristagency.mvp.presenter.FavouritesPresenter
 import com.example.touristagency.mvp.view.FavouritesView
-import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.BackButtonListener
-import com.example.touristagency.ui.adapter.ToursRVAdapter
+import com.example.touristagency.ui.adapter.HotelsRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFragment(), FavouritesView, BackButtonListener {
+class FavouritesFragment(val favouriteTours: MutableList<Hotel>) : MvpAppCompatFragment(), FavouritesView, BackButtonListener {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
 
@@ -37,7 +36,7 @@ class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFr
         }
     }
 
-    var adapter: ToursRVAdapter? = null
+    var adapter: HotelsRVAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +53,7 @@ class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFr
 
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ToursRVAdapter(presenter.toursListPresenter).apply {
+        adapter = HotelsRVAdapter(presenter.toursListPresenter).apply {
             favouritesSubComponent?.inject(this)
         }
         binding.recyclerView.adapter = adapter
@@ -149,7 +148,7 @@ class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFr
 
     override fun updateImage(position: Int) {
         val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(position)
-        if (viewHolder != null && viewHolder is ToursRVAdapter.ViewHolder) {
+        if (viewHolder != null && viewHolder is HotelsRVAdapter.ViewHolder) {
             viewHolder.favouriteImageView.setImageResource(R.drawable.baseline_favorite_24)
         }
     }
@@ -164,7 +163,7 @@ class FavouritesFragment(val favouriteTours: MutableList<Tour>) : MvpAppCompatFr
 
 
     companion object {
-        fun newInstance(favouriteTours: MutableList<Tour>) = FavouritesFragment(favouriteTours)
+        fun newInstance(favouriteTours: MutableList<Hotel>) = FavouritesFragment(favouriteTours)
     }
 
 

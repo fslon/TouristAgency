@@ -1,15 +1,13 @@
-package com.example.touristagency.mvp.model.tours
+package com.example.touristagency.mvp.model.hotels
 
-import android.util.Log
-import com.example.touristagency.dagger.tours.IToursCache
+import com.example.touristagency.dagger.tours.IHotelsCache
 import com.example.touristagency.ui.network.INetworkStatus
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class RetrofitToursRepo(
-    val api: IDataSource, val networkStatus: INetworkStatus, val cacheInterface: IToursCache
-//    val api: IDataSource, val networkStatus: INetworkStatus
-) : IToursRepo {
-    override fun getTours() = networkStatus.isOnlineSingle().flatMap { isOnline
+class RetrofitHotelsRepo(
+    val api: IDataSource, val networkStatus: INetworkStatus, val cacheInterface: IHotelsCache
+) : IHotelsRepo {
+    override fun getHotels() = networkStatus.isOnlineSingle().flatMap { isOnline
         ->
         api.getTours()
             .flatMap { tours ->
@@ -20,9 +18,9 @@ class RetrofitToursRepo(
     override fun getHotelsByCity(city: String) = networkStatus.isOnlineSingle().flatMap { isOnline
         ->
         api.getHotelsByCity(city).flatMap { hotels ->
-            Log.e("========== ",  city)
+//            Log.e("========== ",  city)
             cacheInterface.insertTours(hotels)
         }
     }.subscribeOn(Schedulers.io())
 
-}
+} // todo переименовать файлы на hotels

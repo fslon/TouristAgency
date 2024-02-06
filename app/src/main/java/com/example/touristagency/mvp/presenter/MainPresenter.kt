@@ -3,7 +3,6 @@ package com.example.touristagency.mvp.presenter
 import com.example.touristagency.mvp.view.MainView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
 import javax.inject.Inject
 
@@ -14,7 +13,7 @@ class MainPresenter() : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.replaceScreen(screens.mainAllTours())
+        router.replaceScreen(screens.mainAllHotels())
     }
     fun backClicked() {
         router.exit()

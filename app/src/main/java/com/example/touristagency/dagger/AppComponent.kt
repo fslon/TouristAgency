@@ -1,12 +1,11 @@
 package com.example.touristagency.dagger
 
 import com.example.touristagency.dagger.subComponents.FavouritesSubComponent
-import com.example.touristagency.dagger.subComponents.HotToursSubComponent
+import com.example.touristagency.dagger.subComponents.HotHotelsSubComponent
 import com.example.touristagency.dagger.subComponents.ProfileSubComponent
-import com.example.touristagency.dagger.subComponents.TourSubComponent
-import com.example.touristagency.dagger.subComponents.ToursSubComponent
+import com.example.touristagency.dagger.subComponents.HotelSubComponent
+import com.example.touristagency.dagger.subComponents.HotelsSubComponent
 import com.example.touristagency.mvp.presenter.MainPresenter
-import com.example.touristagency.mvp.view.SlideShowAdapter
 import com.example.touristagency.ui.activity.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -23,11 +22,11 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
-    fun toursSubcomponent(): ToursSubComponent
-    fun hotToursSubComponent(): HotToursSubComponent
+    fun hotelsSubComponent(): HotelsSubComponent
+    fun hotHotelsSubComponent(): HotHotelsSubComponent
     fun favouritesSubComponent(): FavouritesSubComponent
     fun profileSubComponent(): ProfileSubComponent
-    fun tourSubComponent(): TourSubComponent
+    fun hotelSubComponent(): HotelSubComponent
 
     fun inject(mainActivity: MainActivity)
     fun inject(mainPresenter: MainPresenter)

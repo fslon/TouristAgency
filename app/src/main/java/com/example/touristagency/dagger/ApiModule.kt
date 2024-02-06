@@ -1,7 +1,7 @@
 package com.example.touristagency.dagger
 
 import com.example.touristagency.App
-import com.example.touristagency.mvp.model.tours.IDataSource
+import com.example.touristagency.mvp.model.hotels.IDataSource
 import com.example.touristagency.ui.network.AndroidNetworkStatus
 import com.example.touristagency.ui.network.INetworkStatus
 import com.google.gson.FieldNamingPolicy

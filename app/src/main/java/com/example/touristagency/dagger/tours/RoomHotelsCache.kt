@@ -1,13 +1,13 @@
 package com.example.touristagency.dagger.tours
 
-import com.example.touristagency.mvp.model.tours.Tour
+import com.example.touristagency.mvp.model.hotels.Hotel
 import io.reactivex.rxjava3.core.Single
 
-class RoomToursCache() : IToursCache {
-    override fun insertTours(tours: List<Tour>): Single<List<Tour>> {
+class RoomHotelsCache() : IHotelsCache {
+    override fun insertTours(tours: List<Hotel>): Single<List<Hotel>> {
         return Single.fromCallable {
             tours.map { tour ->
-                Tour(
+                Hotel(
                     tour.id ?: "",
                     tour.city ?: "",
                     tour.name ?: "",
@@ -24,6 +24,7 @@ class RoomToursCache() : IToursCache {
                     tour.photo1 ?: "",
                     tour.photo2 ?: "",
                     tour.photo3 ?: ""
+                    // todo добавить поля
                 )
 
             }

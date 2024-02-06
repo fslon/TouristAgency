@@ -6,30 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.touristagency.App
-import com.example.touristagency.dagger.subComponents.TourSubComponent
-import com.example.touristagency.databinding.FragmentTourBinding
-import com.example.touristagency.mvp.model.tours.Tour
-import com.example.touristagency.mvp.presenter.TourPresenter
+import com.example.touristagency.dagger.subComponents.HotelSubComponent
+import com.example.touristagency.databinding.FragmentHotelBinding
+import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.presenter.HotelPresenter
 import com.example.touristagency.mvp.view.SlideShowAdapter
-import com.example.touristagency.mvp.view.TourView
+import com.example.touristagency.mvp.view.HotelView
 import com.example.touristagency.ui.activity.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonListener {
-    private var _binding: FragmentTourBinding? = null
+class HotelFragment(tour: Hotel) : MvpAppCompatFragment(), HotelView, BackButtonListener {
+    private var _binding: FragmentHotelBinding? = null
     private val binding get() = _binding!!
 
-    private var tourSubComponent: TourSubComponent? = null
+    private var tourSubComponent: HotelSubComponent? = null
 
 
     private lateinit var currentCurrency: String // текущая валюта
 
 
-    val presenter: TourPresenter by moxyPresenter {
-        tourSubComponent = App.instance.initTourSubComponent()
+    val presenter: HotelPresenter by moxyPresenter {
+        tourSubComponent = App.instance.initHotelSubComponent()
 
-        TourPresenter(tour).apply {
+        HotelPresenter(tour).apply {
             tourSubComponent?.inject(this)
         }
     }
@@ -40,7 +40,7 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTourBinding.inflate(inflater, container, false)
+        _binding = FragmentHotelBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -60,33 +60,33 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
     }
 
     override fun initName(text: String) {
-        binding.recyclerItemTourHotelName.text = text
+        binding.recyclerItemHotelHotelName.text = text
     }
 
     override fun initPlace(text: String) {
-        binding.recyclerItemTourHotelLocation.text = text
+        binding.recyclerItemHotelHotelLocation.text = text
     }
 
     override fun initRating(text: String) {
-        binding.recyclerItemTourHotelRating.text = text
+        binding.recyclerItemHotelHotelRating.text = text
     }
 
     override fun initAirport(text: String) {
-        binding.recyclerItemTourAirportTextView.text = "в $text км"
+        binding.recyclerItemHotelAirportTextView.text = "в $text км"
     }
 
     override fun initBeach(text: String) {
-        if (text != "0") binding.recyclerItemTourBeachTextView.text = "$text м"
-        else binding.recyclerItemTourBeachTextView.text = "далеко"
+        if (text != "0") binding.recyclerItemHotelBeachTextView.text = "$text м"
+        else binding.recyclerItemHotelBeachTextView.text = "далеко"
     }
 
     override fun initParking(text: String) {
-        if (text == "+") binding.recyclerItemTourParkingTextView.text = "есть"
-        else binding.recyclerItemTourParkingTextView.text = "нет"
+        if (text == "+") binding.recyclerItemHotelParkingTextView.text = "есть"
+        else binding.recyclerItemHotelParkingTextView.text = "нет"
     }
 
     override fun initPrice(text: String) {
-        binding.recyclerItemTourPriceTextView.text = "$text ₽ "
+        binding.recyclerItemHotelPriceTextView.text = "$text ₽ "
     }
 
     override fun initPictures(pictures: List<String>) {
@@ -99,7 +99,7 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
 
     override fun release() {
         tourSubComponent = null
-        App.instance.releaseTourSubComponent()
+        App.instance.releaseHotelSubComponent()
     }
 
     override fun backPressed() = presenter.backPressed()
@@ -111,7 +111,7 @@ class TourFragment(tour: Tour) : MvpAppCompatFragment(), TourView, BackButtonLis
 
 
     companion object {
-        fun newInstance(tour: Tour) = TourFragment(tour)
+        fun newInstance(tour: Hotel) = HotelFragment(tour)
     }
 
 

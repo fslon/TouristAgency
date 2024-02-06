@@ -2,11 +2,11 @@ package com.example.touristagency.mvp.presenter
 
 import android.util.Log
 import com.example.touristagency.mvp.model.cities.ICitiesRepo
-import com.example.touristagency.mvp.model.tours.IToursRepo
-import com.example.touristagency.mvp.model.tours.Tour
-import com.example.touristagency.mvp.presenter.list.ITourListPresenter
-import com.example.touristagency.mvp.view.ToursView
-import com.example.touristagency.mvp.view.list.TourItemView
+import com.example.touristagency.mvp.model.hotels.IHotelsRepo
+import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.presenter.list.IHotelListPresenter
+import com.example.touristagency.mvp.view.HotelsView
+import com.example.touristagency.mvp.view.list.HotelItemView
 import com.example.touristagency.navigation.IScreens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -18,7 +18,7 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class ToursMainPresenter : MvpPresenter<ToursView>() {
+class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     @Inject
     lateinit var router: Router
 
@@ -26,7 +26,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     lateinit var screens: IScreens
 
     @Inject
-    lateinit var toursRepo: IToursRepo
+    lateinit var toursRepo: IHotelsRepo
 
     @Inject
     lateinit var citiesRepo: ICitiesRepo
@@ -70,17 +70,17 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
     private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
-    val favouriteTours = mutableListOf<Tour>()
+    val favouriteTours = mutableListOf<Hotel>()
 //    val hotTours = mutableListOf<Tour>()
 
-    class ToursListPresenter : ITourListPresenter {
+    class ToursListPresenter : IHotelListPresenter {
 
-        val tours = mutableListOf<Tour>()
+        val tours = mutableListOf<Hotel>()
 
-        override var itemClickListener: ((TourItemView) -> Unit)? = null
-        override var favouriteButtonClickListener: ((TourItemView) -> Unit)? = null
+        override var itemClickListener: ((HotelItemView) -> Unit)? = null
+        override var favouriteButtonClickListener: ((HotelItemView) -> Unit)? = null
         override fun getCount() = tours.size
-        override fun bindView(view: TourItemView) {
+        override fun bindView(view: HotelItemView) {
             val tour = tours[view.pos]
 
             Log.e("+++++ ", tour.toString())
@@ -134,7 +134,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
         toursListPresenter.itemClickListener = { itemView ->
             val tour = toursListPresenter.tours[itemView.pos]
 
-            router.navigateTo(screens.tour(tour))
+            router.navigateTo(screens.hotel(tour))
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
 
@@ -185,7 +185,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 //    }
 
     fun navigationSearchOnClick() {
-        router.replaceScreen(screens.mainAllTours())
+        router.replaceScreen(screens.mainAllHotels())
     }
 
     fun navigationHotToursOnClick() {
@@ -234,7 +234,7 @@ class ToursMainPresenter : MvpPresenter<ToursView>() {
 
 
     private fun loadTours() { // получение списка туров
-        val disposableTours = toursRepo.getTours().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+        val disposableTours = toursRepo.getHotels().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
 
             Log.e("--------------- ", repos.toString())
 

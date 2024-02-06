@@ -1,6 +1,6 @@
 package com.example.touristagency.mvp.model.cities
 
-import com.example.touristagency.mvp.model.tours.IDataSource
+import com.example.touristagency.mvp.model.hotels.IDataSource
 import com.example.touristagency.ui.network.INetworkStatus
 import io.reactivex.rxjava3.schedulers.Schedulers
 

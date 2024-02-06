@@ -1,4 +1,4 @@
-package com.example.touristagency.mvp.model.tours
+package com.example.touristagency.mvp.model.hotels
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Tour(
+data class Hotel(
     @Expose val id: String? = null,
     @Expose val city: String? = null,
     @Expose val name: String? = null,
@@ -37,9 +37,19 @@ data class Tour(
     @Expose val photo3: String? = null,
 
     @Expose val wifi: String? = null,
+
     @SerializedName("lineNumber")
-    @Expose val lineNumber: Int? = null
+    @Expose val lineNumber: Int? = null,
 
 
-    ) : Parcelable
+    @Expose val pool: String? = null,
+    @Expose val bathhouse: String? = null,
+    @Expose val gym: String? = null,
+    @Expose val sauna: String? = null,
+
+    @SerializedName("nightClub")
+    @Expose val nightClub: String? = null
+
+
+) : Parcelable
 

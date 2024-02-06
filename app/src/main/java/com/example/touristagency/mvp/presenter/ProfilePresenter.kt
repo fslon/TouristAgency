@@ -86,7 +86,7 @@ class ProfilePresenter : MvpPresenter<ProfileView>() {
     }
 
     fun navigationSearchOnClick() {
-        router.replaceScreen(screens.mainAllTours())
+        router.replaceScreen(screens.mainAllHotels())
     }
 
     fun navigationHotToursOnClick() {
