@@ -2,8 +2,8 @@ package com.example.touristagency.mvp.presenter
 
 import android.util.Log
 import com.example.touristagency.mvp.model.cities.ICitiesRepo
-import com.example.touristagency.mvp.model.hotels.IHotelsRepo
 import com.example.touristagency.mvp.model.hotels.Hotel
+import com.example.touristagency.mvp.model.hotels.IHotelsRepo
 import com.example.touristagency.mvp.presenter.list.IHotelListPresenter
 import com.example.touristagency.mvp.view.HotelsView
 import com.example.touristagency.mvp.view.list.HotelItemView
@@ -31,7 +31,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     @Inject
     lateinit var citiesRepo: ICitiesRepo
 
-    private val compositeDisposable = CompositeDisposable()
+    private var hotelsList = mutableListOf<Hotel>() // основной лист с отелями
 
     private val currentCurrency: String = "₽"// текущая валюта
 
@@ -42,7 +42,9 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     private val minimumNumberOfPeople: Int = 1
     private val maximumNumberOfPeople: Int = 10
 
-    val calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance()
+
+    private val compositeDisposable = CompositeDisposable()
 
     private val sortingStrings = listOf("Рекомендуемое", "По рейтингу", "Дешевле", "Дороже") // способы сортировки для меню сортировки
     private var currentSortingValue = sortingStrings[0] // текущий выбранный способ сортировки (по дефолту нулевой)
@@ -70,46 +72,46 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     private val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
     private val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
 
-    val favouriteTours = mutableListOf<Hotel>()
+    private val favouriteTours = mutableListOf<Hotel>()
 //    val hotTours = mutableListOf<Tour>()
 
-    class ToursListPresenter : IHotelListPresenter {
+    class HotelsListPresenter : IHotelListPresenter {
 
-        val tours = mutableListOf<Hotel>()
+        val hotelsListRecyclerView = mutableListOf<Hotel>()
 
         override var itemClickListener: ((HotelItemView) -> Unit)? = null
         override var favouriteButtonClickListener: ((HotelItemView) -> Unit)? = null
-        override fun getCount() = tours.size
+        override fun getCount() = hotelsListRecyclerView.size
         override fun bindView(view: HotelItemView) {
-            val tour = tours[view.pos]
+            val hotel = hotelsListRecyclerView[view.pos]
 
-            Log.e("+++++ ", tour.toString())
+//            Log.e("+++++ ", tour.toString())
 
-            tour.name?.let { view.setName(it) }
-            tour.place?.let { view.setPlace(it) }
-            tour.price?.let { view.setPrice(it) }
-            tour.airportDistance?.let { view.setAirportDistance(it) }
-            tour.beachDistance?.let { view.setBeachDistance(it) }
-            tour.rating?.let { view.setRating(it) }
-            tour.parking?.let { view.setParking(it) }
-            tour.stars?.let { view.setStars(it) }
-            tour.foodSystem?.let { view.setFoodSystem(it) }
-            tour.foodSystem?.let { view.setFoodSystem(it) }
-            tour.foodType?.let { view.setFoodType(it) }
+            hotel.name?.let { view.setName(it) }
+            hotel.place?.let { view.setPlace(it) }
+            hotel.price?.let { view.setPrice(it) }
+            hotel.airportDistance?.let { view.setAirportDistance(it) }
+            hotel.beachDistance?.let { view.setBeachDistance(it) }
+            hotel.rating?.let { view.setRating(it) }
+            hotel.parking?.let { view.setParking(it) }
+            hotel.stars?.let { view.setStars(it) }
+            hotel.foodSystem?.let { view.setFoodSystem(it) }
+            hotel.foodSystem?.let { view.setFoodSystem(it) }
+            hotel.foodType?.let { view.setFoodType(it) }
 
             val pictures = mutableListOf<String>()
-            pictures.add(tour.photo1.toString())
-            pictures.add(tour.photo2.toString())
-            pictures.add(tour.photo3.toString())
+            pictures.add(hotel.photo1.toString())
+            pictures.add(hotel.photo2.toString())
+            pictures.add(hotel.photo3.toString())
             view.loadPictures(pictures)
 
-            tour.wifi?.let { view.setWifi(it) }
-            tour.lineNumber?.let { view.setLine(it) }
+            hotel.wifi?.let { view.setWifi(it) }
+            hotel.lineNumber?.let { view.setLine(it) }
 
         }
     }
 
-    val toursListPresenter = ToursListPresenter()
+    val hotelsListPresenter = HotelsListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -130,18 +132,17 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
 
         viewState.init()
 
-        loadTours()
-        toursListPresenter.itemClickListener = { itemView ->
-            val tour = toursListPresenter.tours[itemView.pos]
+        loadHotels()
+        hotelsListPresenter.itemClickListener = { itemView ->
+            val tour = hotelsListPresenter.hotelsListRecyclerView[itemView.pos]
 
             router.navigateTo(screens.hotel(tour))
 //            router.navigateTo(screens.profileUser(user)) // переход на экран пользователя c помощью router.navigateTo
         }
 
-        toursListPresenter.favouriteButtonClickListener = { itemView ->
+        hotelsListPresenter.favouriteButtonClickListener = { itemView ->
             updateImage(itemView.pos)
-
-            favouriteTours.add(toursListPresenter.tours[itemView.pos]) // добавление текущего тура в любимые
+            favouriteTours.add(hotelsListPresenter.hotelsListRecyclerView[itemView.pos]) // добавление текущего тура в любимые
         }
 
 
@@ -154,7 +155,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
 
         if (savedValuesCityDialog[cityNameKeyCityDialog]?.isNotBlank() == true and (savedValuesCityDialog[cityNameKeyCityDialog]?.isNotEmpty() == true)) {
             savedValuesCityDialog[cityNameKeyCityDialog]?.let { loadHotelsByCity(it) }
-        } else loadTours()
+        } else loadHotels()
     }
 
 
@@ -202,7 +203,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
 
     private fun initMinDate() {
 
-        calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)
+//        calendar.add(Calendar.DAY_OF_MONTH, 1) // минимальная дата +1 (завтра)
         val minYear = calendar.get(Calendar.YEAR)
         val minMonth = calendar.get(Calendar.MONTH)
         val minDay = calendar.get(Calendar.DAY_OF_MONTH)
@@ -217,7 +218,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     private fun loadCities() { // получение списка городов
 
         val disposableCities = citiesRepo.getCities().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
-            Log.e("--------------- ", repos.toString())
+//            Log.e("--------------- ", repos.toString())
 
             for (city in repos) {
                 cities.add(city.cityName.toString())
@@ -233,13 +234,21 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     }
 
 
-    private fun loadTours() { // получение списка туров
-        val disposableTours = toursRepo.getHotels().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
+    //todo создать главный лист с турами которые из api приходят (лист будет в презентере обьявлен), в применении фильтров менять лист в презентере, используя данные главного листа
+
+
+    private fun loadHotels() { // получение списка туров
+        val disposableHotels = toursRepo.getHotels().observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
 
             Log.e("--------------- ", repos.toString())
 
-            toursListPresenter.tours.clear()
-            toursListPresenter.tours.addAll(repos)
+            hotelsList.clear()
+            hotelsList.addAll(repos)
+
+            hotelsListPresenter.hotelsListRecyclerView.clear()
+            hotelsListPresenter.hotelsListRecyclerView.addAll(repos)
+
+            applyFiltersToTheList() // TODO делаю сейчас (фильтры)
 
             sortingItemOnClick(currentSortingValue) // для применения текущей сортировки
 
@@ -257,7 +266,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
 
             viewState.stopRefreshing()
         })
-        compositeDisposable.add(disposableTours)
+        compositeDisposable.add(disposableHotels)
 
     }
 
@@ -265,10 +274,15 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     private fun loadHotelsByCity(cityName: String) { // получение списка туров
         val disposableHotelsByCity = toursRepo.getHotelsByCity(cityName).observeOn(AndroidSchedulers.mainThread()).subscribe({ repos ->
 
-            Log.e("!!!!!!!!! ", repos.toString())
+//            Log.e("!!!!!!!!! ", repos.toString())
 
-            toursListPresenter.tours.clear()
-            toursListPresenter.tours.addAll(repos)
+            hotelsList.clear()
+            hotelsList.addAll(repos)
+
+            hotelsListPresenter.hotelsListRecyclerView.clear()
+            hotelsListPresenter.hotelsListRecyclerView.addAll(repos)
+
+            applyFiltersToTheList() // TODO делаю сейчас (фильтры)
 
             sortingItemOnClick(currentSortingValue) // для применения текущей сортировки
 
@@ -291,7 +305,7 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     }
 
     private fun showOrHideNotFoundLayout() { // скрывает или показывает "ничего не найдено" в зависимости от наполнения массива с отелями
-        if (toursListPresenter.getCount() == 0) {
+        if (hotelsListPresenter.getCount() == 0) {
             viewState.setVisibilityNotFoundLayout(true)
             viewState.setVisibilityRecyclerView(false)
         } else {
@@ -312,44 +326,108 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
     fun sortingItemOnClick(titleOfItem: String) {
         when (titleOfItem) { // может не работать, если названия кнопок в макете будут не совпадать с названиями способов сортировки в массиве (например если язык поменять)
             sortingStrings[0] -> { // Рекомендуемое
-                // TODO Обработка выбранной сортировки
                 currentSortingValue = titleOfItem
 
                 viewState.setTextSortingButton(titleOfItem)
 
-                toursListPresenter.tours.sortBy { it.id?.toInt() }
+                hotelsListPresenter.hotelsListRecyclerView.sortBy { it.id?.toInt() }
             }
 
             sortingStrings[1] -> { // По рейтингу
-                // TODO Обработка выбранной сортировки
                 currentSortingValue = titleOfItem
 
                 viewState.setTextSortingButton(titleOfItem)
 
-                toursListPresenter.tours.sortByDescending { it.rating?.toInt() }
+                hotelsListPresenter.hotelsListRecyclerView.sortByDescending { it.rating?.toInt() }
             }
 
             sortingStrings[2] -> { // Дешевле
-                // TODO Обработка выбранной сортировки
                 currentSortingValue = titleOfItem
 
                 viewState.setTextSortingButton(titleOfItem)
 
-                toursListPresenter.tours.sortBy { it.price?.toInt() }
+                hotelsListPresenter.hotelsListRecyclerView.sortBy { it.price?.toInt() }
 
             }
 
             sortingStrings[3] -> { // Дороже
-                // TODO Обработка выбранной сортировки
                 currentSortingValue = titleOfItem
 
                 viewState.setTextSortingButton(titleOfItem)
 
-                toursListPresenter.tours.sortByDescending { it.price?.toInt() }
+                hotelsListPresenter.hotelsListRecyclerView.sortByDescending { it.price?.toInt() }
             }
         }
         viewState.updateList()
     }
+
+
+    private fun applyFiltersToTheList() {
+        val list = hotelsListPresenter.hotelsListRecyclerView
+        val listWithItemsToRemove = mutableListOf<Hotel>()
+//        savedValuesFiltersDialog[priceNumberToKey]
+
+        list.clear()
+        list.addAll(hotelsList)
+
+        for (hotelItem in list) {
+            try {
+                if (hotelItem.price!!.toFloat() < savedValuesFiltersDialog[priceNumberFromKey]!!.toFloat()) listWithItemsToRemove.add(hotelItem)
+                if (hotelItem.price!!.toFloat() > savedValuesFiltersDialog[priceNumberToKey]!!.toFloat()) listWithItemsToRemove.add(hotelItem)
+
+                if (hotelItem.stars!!.toFloat() < savedValuesFiltersDialog[starsNumberFromKey]!!.toFloat()) listWithItemsToRemove.add(hotelItem)
+                if (hotelItem.stars!!.toFloat() > savedValuesFiltersDialog[starsNumberToKey]!!.toFloat()) listWithItemsToRemove.add(hotelItem)
+
+                when (savedValuesFiltersDialog[foodSystemsRadioGroupKey]) {
+                    "radio2" -> if (hotelItem.foodSystem != "breakfast") listWithItemsToRemove.add(hotelItem)
+                    "radio3" -> if (hotelItem.foodSystem != "breakfast + lunch") listWithItemsToRemove.add(hotelItem)
+                    "radio4" -> if (hotelItem.foodSystem != "breakfast + lunch + dinner") listWithItemsToRemove.add(hotelItem)
+                    "radio5" -> if (hotelItem.foodSystem != "breakfast + dinner") listWithItemsToRemove.add(hotelItem)
+                    "radio6" -> if (hotelItem.foodSystem != "without food") listWithItemsToRemove.add(hotelItem)
+                }
+
+                when (savedValuesFiltersDialog[foodTypesRadioGroupKey]) {
+                    "radio2" -> if (hotelItem.foodType != "all_inclusive") listWithItemsToRemove.add(hotelItem)
+                    "radio3" -> if (hotelItem.foodType != "buffet") listWithItemsToRemove.add(hotelItem)
+                }
+
+
+
+
+                if ((savedValuesFiltersDialog[infrastructureCheckBox1Key].toBoolean()) and (hotelItem.wifi == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox2Key].toBoolean()) and (hotelItem.pool == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox3Key].toBoolean()) and (hotelItem.bathhouse == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox4Key].toBoolean()) and (hotelItem.parking == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox5Key].toBoolean()) and (hotelItem.gym == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox6Key].toBoolean()) and (hotelItem.sauna == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+                if ((savedValuesFiltersDialog[infrastructureCheckBox7Key].toBoolean()) and (hotelItem.nightClub == "-")) listWithItemsToRemove.add(
+                    hotelItem
+                )
+
+
+            } catch (exception: NullPointerException) {
+                throw NullPointerException("Some of the filter parameters are empty or invalid")
+            }
+        }
+        list.removeAll(listWithItemsToRemove)
+
+        sortingItemOnClick(currentSortingValue) // для применения текущей сортировки
+        viewState.updateList()
+        showOrHideNotFoundLayout()
+    }
+
 
     fun priceSliderOnChange(value1: String, value2: String) {
         viewState.setValueToPriceNumberFrom(value1 + currentCurrency)
@@ -389,10 +467,38 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
         setCurrentValuesFiltersDialog()
     }
 
-    fun filtersDialogOnCancel(list: MutableMap<String, String>) {
-        savedValuesFiltersDialog = list
 
-        //TODO тут сделать запрос в базу по выбранным фильтрам
+    fun filtersDialogOnCancel(
+        priceNumberFromValue: String,
+        priceNumberToValue: String,
+        starsNumberFromValue: String,
+        starsNumberToValue: String,
+        foodSystemsRadioGroupValue: String,
+        foodTypesRadioGroupValue: String,
+        infrastructureCheckBox1Value: String,
+        infrastructureCheckBox2Value: String,
+        infrastructureCheckBox3Value: String,
+        infrastructureCheckBox4Value: String,
+        infrastructureCheckBox5Value: String,
+        infrastructureCheckBox6Value: String,
+        infrastructureCheckBox7Value: String
+    ) {
+        savedValuesFiltersDialog[priceNumberFromKey] = priceNumberFromValue
+        savedValuesFiltersDialog[priceNumberToKey] = priceNumberToValue
+        savedValuesFiltersDialog[starsNumberFromKey] = starsNumberFromValue
+        savedValuesFiltersDialog[starsNumberToKey] = starsNumberToValue
+        savedValuesFiltersDialog[foodTypesRadioGroupKey] = foodTypesRadioGroupValue
+        savedValuesFiltersDialog[foodSystemsRadioGroupKey] = foodSystemsRadioGroupValue
+        savedValuesFiltersDialog[infrastructureCheckBox1Key] = infrastructureCheckBox1Value
+        savedValuesFiltersDialog[infrastructureCheckBox2Key] = infrastructureCheckBox2Value
+        savedValuesFiltersDialog[infrastructureCheckBox3Key] = infrastructureCheckBox3Value
+        savedValuesFiltersDialog[infrastructureCheckBox4Key] = infrastructureCheckBox4Value
+        savedValuesFiltersDialog[infrastructureCheckBox5Key] = infrastructureCheckBox5Value
+        savedValuesFiltersDialog[infrastructureCheckBox6Key] = infrastructureCheckBox6Value
+        savedValuesFiltersDialog[infrastructureCheckBox7Key] = infrastructureCheckBox7Value
+
+
+        applyFiltersToTheList() // TODO делаю сейчас (фильтры)  //TODO тут сделать запрос в базу по выбранным фильтрам
     }
 
     private fun initFiltersDialogFun() {
@@ -404,19 +510,19 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
 
     private fun setInitialFiltersValues() {
         savedValuesFiltersDialog.put(priceNumberFromKey, "0")
-        savedValuesFiltersDialog.put(priceNumberToKey, "1000000")
+        savedValuesFiltersDialog.put(priceNumberToKey, "20000")
 
         savedValuesFiltersDialog.put(starsNumberFromKey, "1")
         savedValuesFiltersDialog.put(starsNumberToKey, "5")
 
         savedValuesFiltersDialog.put(
             foodTypesRadioGroupKey,
-            "food_types_radiobutton_1"
+            "radio1"
         )
 
         savedValuesFiltersDialog.put(
             foodSystemsRadioGroupKey,
-            "food_systems_radiobutton_1"
+            "radio1"
         )
 
         savedValuesFiltersDialog.put(infrastructureCheckBox1Key, false.toString())
@@ -452,8 +558,6 @@ class HotelsMainPresenter : MvpPresenter<HotelsView>() {
             loadHotelsByCity(cityFieldText)
 
         }
-
-
     }
 
 

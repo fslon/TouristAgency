@@ -46,7 +46,7 @@
     <string name="food_types_radio_3_text">Все включено</string>
     <string name="tv_infrastructure_text">Инфраструктура</string>
     <string name="filters_infrastructure_tv_1_text">Wi-FI</string>
-    <string name="filters_infrastructure_tv_2_text">Аквапарк</string>
+    <string name="filters_infrastructure_tv_2_text">Бассейн</string>
     <string name="filters_infrastructure_tv_3_text">Баня</string>
     <string name="filters_infrastructure_tv_4_text">Парковка</string>
     <string name="filters_infrastructure_tv_5_text">Тренажерный зал</string>

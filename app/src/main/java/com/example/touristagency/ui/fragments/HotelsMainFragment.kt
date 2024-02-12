@@ -3,6 +3,7 @@ package com.example.touristagency.ui.fragments
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -188,12 +189,12 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
         this.maximumNumberOfNights = maximumNumberOfNights
     }
 
-    override fun setMinimumNumberPeoples(minimumNumberOfPeoples: Int) {
-        this.minimumNumberOfPeople = minimumNumberOfPeoples
+    override fun setMinimumNumberPeoples(minimumNumberOfPeople: Int) {
+        this.minimumNumberOfPeople = minimumNumberOfPeople
     }
 
-    override fun setMaximumNumberPeoples(maximumNumberOfPeoples: Int) {
-        this.maximumNumberOfPeople = maximumNumberOfPeoples
+    override fun setMaximumNumberPeoples(maximumNumberOfPeople: Int) {
+        this.maximumNumberOfPeople = maximumNumberOfPeople
     }
 
     override fun initFiltersButton() {
@@ -300,8 +301,8 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
         infrastructureCheckBox6IsChecked: Boolean,
         infrastructureCheckBox7IsChecked: Boolean
     ) {
-        priceNumberFrom.text = priceNumberFromValue
-        priceNumberTo.text = priceNumberToValue
+        priceNumberFrom.text = priceNumberFromValue + currentCurrency
+        priceNumberTo.text = priceNumberToValue + currentCurrency
 
         starsNumberFrom.text = starsNumberFromValue
         starsNumberTo.text = starsNumberToValue
@@ -310,51 +311,51 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
         rangeSliderStars.setValues(starsNumberFromValue.toFloat(), starsNumberToValue.toFloat())
 
         when (foodTypesRadioGroupCheckedId) {
-            "food_types_radiobutton_1" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio1" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_types_radiobutton_1
             )?.id
 
-            "food_types_radiobutton_2" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio2" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_types_radiobutton_2
             )?.id
 
-            "food_types_radiobutton_3" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio3" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_types_radiobutton_3
             )?.id
 
-            else -> foodTypesRadioGroupCheckedId.toInt()
+            else -> throw IllegalArgumentException("Wrong foodTypesRadioGroupCheckedId")
         }?.let {
             foodTypesRadioGroupFilters.check(
-                it as Int
+                it
             )
         }
 
         when (foodSystemsRadioGroupCheckedId) {
-            "food_systems_radiobutton_1" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio1" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_1
             )?.id
 
-            "food_systems_radiobutton_2" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio2" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_2
             )?.id
 
-            "food_systems_radiobutton_3" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio3" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_3
             )?.id
 
-            "food_systems_radiobutton_4" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio4" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_4
             )?.id
 
-            "food_systems_radiobutton_5" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio5" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_5
             )?.id
 
-            "food_systems_radiobutton_6" -> filtersDialog.findViewById<MaterialRadioButton>(
+            "radio6" -> filtersDialog.findViewById<MaterialRadioButton>(
                 R.id.food_radiobutton_6
             )?.id
 
-            else -> foodSystemsRadioGroupCheckedId.toInt()
+            else -> throw IllegalArgumentException("Wrong foodSystemsRadioGroupCheckedId")
         }?.let {
             foodSystemsRadioGroupFilters.check(
                 it
@@ -370,63 +371,70 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
         infrastructureCheckBox7.isChecked = infrastructureCheckBox7IsChecked
     }
 
-    private fun getValuesFiltersDialog(
-        priceNumberFromKey: String,
-        priceNumberToKey: String,
-        starsNumberFromKey: String,
-        starsNumberToKey: String,
-        foodTypesRadioGroupKey: String,
-        foodSystemsRadioGroupKey: String,
-        infrastructureCheckBox1Key: String,
-        infrastructureCheckBox2Key: String,
-        infrastructureCheckBox3Key: String,
-        infrastructureCheckBox4Key: String,
-        infrastructureCheckBox5Key: String,
-        infrastructureCheckBox6Key: String,
-        infrastructureCheckBox7Key: String
+//    private fun getValuesFiltersDialog(
+//        priceNumberFromKey: String,
+//        priceNumberToKey: String,
+//        starsNumberFromKey: String,
+//        starsNumberToKey: String,
+//        foodTypesRadioGroupKey: String,
+//        foodSystemsRadioGroupKey: String,
+//        infrastructureCheckBox1Key: String,
+//        infrastructureCheckBox2Key: String,
+//        infrastructureCheckBox3Key: String,
+//        infrastructureCheckBox4Key: String,
+//        infrastructureCheckBox5Key: String,
+//        infrastructureCheckBox6Key: String,
+//        infrastructureCheckBox7Key: String
+//
+//    ): MutableMap<String, String> {
+//        val savedValuesFiltersDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в меню фильтров
+//        savedValuesFiltersDialog.put(priceNumberFromKey, rangeSliderPrice.values[0].toString())
+//        savedValuesFiltersDialog.put(priceNumberToKey, rangeSliderPrice.values[1].toString())
+//
+//        savedValuesFiltersDialog.put(starsNumberFromKey, rangeSliderStars.values[0].toInt().toString())
+//        savedValuesFiltersDialog.put(starsNumberToKey, rangeSliderStars.values[1].toInt().toString())
+//
+//        savedValuesFiltersDialog.put(foodTypesRadioGroupKey, foodTypesRadioGroupFilters.checkedRadioButtonId.toString())
+//        savedValuesFiltersDialog.put(foodSystemsRadioGroupKey, foodSystemsRadioGroupFilters.checkedRadioButtonId.toString())
+//
+//        savedValuesFiltersDialog.put(infrastructureCheckBox1Key, infrastructureCheckBox1.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox2Key, infrastructureCheckBox2.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox3Key, infrastructureCheckBox3.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox4Key, infrastructureCheckBox4.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox5Key, infrastructureCheckBox5.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox6Key, infrastructureCheckBox6.isChecked.toString())
+//        savedValuesFiltersDialog.put(infrastructureCheckBox7Key, infrastructureCheckBox7.isChecked.toString())
+//
+//        return savedValuesFiltersDialog
+//    }
 
-    ): MutableMap<String, String> {
-        val savedValuesFiltersDialog = mutableMapOf<String, String>() // сохраненные значения для основных view в меню фильтров
-        savedValuesFiltersDialog.put(priceNumberFromKey, rangeSliderPrice.values[0].toString())
-        savedValuesFiltersDialog.put(priceNumberToKey, rangeSliderPrice.values[1].toString())
+    private fun rangeSliderPriceInit() {
+        rangeSliderPrice.valueFrom = 0F
+        rangeSliderPrice.valueTo = 20000F
 
-        savedValuesFiltersDialog.put(starsNumberFromKey, rangeSliderStars.values[0].toInt().toString())
-        savedValuesFiltersDialog.put(starsNumberToKey, rangeSliderStars.values[1].toInt().toString())
-
-        savedValuesFiltersDialog.put(foodTypesRadioGroupKey, foodTypesRadioGroupFilters.checkedRadioButtonId.toString())
-        savedValuesFiltersDialog.put(foodSystemsRadioGroupKey, foodSystemsRadioGroupFilters.checkedRadioButtonId.toString())
-
-        savedValuesFiltersDialog.put(infrastructureCheckBox1Key, infrastructureCheckBox1.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox2Key, infrastructureCheckBox2.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox3Key, infrastructureCheckBox3.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox4Key, infrastructureCheckBox4.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox5Key, infrastructureCheckBox5.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox6Key, infrastructureCheckBox6.isChecked.toString())
-        savedValuesFiltersDialog.put(infrastructureCheckBox7Key, infrastructureCheckBox7.isChecked.toString())
-
-        return savedValuesFiltersDialog
-    }
-
-    fun rangeSliderPriceInit() {
         rangeSliderPrice.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
             presenter.priceSliderOnChange(slider.values[0].toInt().toString(), slider.values[1].toInt().toString())
         }
     }
 
-    fun rangeSliderStarsInit() {
+    private fun rangeSliderStarsInit() {
+        rangeSliderStars.valueFrom = 1F
+        rangeSliderStars.valueTo = 5F
+
+
         rangeSliderStars.addOnChangeListener { slider, value, fromUser -> // изменения в слайдере с ценой
             presenter.priceStarsOnChange(slider.values[0].toInt().toString(), slider.values[1].toInt().toString())
         }
     }
 
-    fun cancelButtonFiltersInit() {
+    private fun cancelButtonFiltersInit() {
         val cancelButtonFilters = filtersDialog.findViewById<TextView>(R.id.filters_layout_cancel_button)
         cancelButtonFilters?.setOnClickListener {
             presenter.cancelButtonFiltersOnClick()
         }
     }
 
-    fun clearButtonFiltersInit() {
+    private fun clearButtonFiltersInit() {
         val clearButtonFilters = filtersDialog.findViewById<TextView>(R.id.filters_layout_clear_button)
         clearButtonFilters?.setOnClickListener {
             presenter.clearButtonFiltersOnClick()
@@ -434,37 +442,42 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
     }
 
     private fun initOnCancelFiltersDialog() {
-        val priceNumberFromKey = "priceNumberFrom" // ключ для сохранения "цены от" в map
-        val priceNumberToKey = "priceNumberTo" // ключ для сохранения "цены до" в map
-        val starsNumberFromKey = "starsNumberFrom" // ключ для сохранения "колво звезд от" в map
-        val starsNumberToKey = "starsNumberTo" // ключ для сохранения  "колво звезд до" в map
-        val foodTypesRadioGroupKey = "foodTypesRadioGroup" // ключ для сохранения checked элемента в radiogroup типов питания
-        val foodSystemsRadioGroupKey = "foodSystemsRadioGroup" // ключ для сохранения checked элемента в radiogroup систем питания
-        val infrastructureCheckBox1Key = "infrastructureCheckBox1" // ключ для сохранения состояния чекбокса 1
-        val infrastructureCheckBox2Key = "infrastructureCheckBox2" // ключ для сохранения состояния чекбокса 2
-        val infrastructureCheckBox3Key = "infrastructureCheckBox3" // ключ для сохранения состояния чекбокса 3
-        val infrastructureCheckBox4Key = "infrastructureCheckBox4" // ключ для сохранения состояния чекбокса 4
-        val infrastructureCheckBox5Key = "infrastructureCheckBox5" // ключ для сохранения состояния чекбокса 5
-        val infrastructureCheckBox6Key = "infrastructureCheckBox6" // ключ для сохранения состояния чекбокса 6
-        val infrastructureCheckBox7Key = "infrastructureCheckBox7" // ключ для сохранения состояния чекбокса 7
-
         filtersDialog.setOnCancelListener {
+
+            var currentFoodSystemRadioButton = ""
+            when (foodSystemsRadioGroupFilters.checkedRadioButtonId.toString()) {
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_1)?.id.toString() -> currentFoodSystemRadioButton = "radio1"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_2)?.id.toString() -> currentFoodSystemRadioButton = "radio2"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_3)?.id.toString() -> currentFoodSystemRadioButton = "radio3"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_4)?.id.toString() -> currentFoodSystemRadioButton = "radio4"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_5)?.id.toString() -> currentFoodSystemRadioButton = "radio5"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_radiobutton_6)?.id.toString() -> currentFoodSystemRadioButton = "radio6"
+            }
+            var currentFoodTypeRadioButton = ""
+            when (foodTypesRadioGroupFilters.checkedRadioButtonId.toString()) {
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_types_radiobutton_1)?.id.toString() -> currentFoodTypeRadioButton = "radio1"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_types_radiobutton_2)?.id.toString() -> currentFoodTypeRadioButton = "radio2"
+                filtersDialog.findViewById<MaterialRadioButton>(R.id.food_types_radiobutton_3)?.id.toString() -> currentFoodTypeRadioButton = "radio3"
+            }
+
+
             presenter.filtersDialogOnCancel(
-                getValuesFiltersDialog(
-                    priceNumberFromKey,
-                    priceNumberToKey,
-                    starsNumberFromKey,
-                    starsNumberToKey,
-                    foodTypesRadioGroupKey,
-                    foodSystemsRadioGroupKey,
-                    infrastructureCheckBox1Key,
-                    infrastructureCheckBox2Key,
-                    infrastructureCheckBox3Key,
-                    infrastructureCheckBox4Key,
-                    infrastructureCheckBox5Key,
-                    infrastructureCheckBox6Key,
-                    infrastructureCheckBox7Key
-                )
+                rangeSliderPrice.values[0].toString(),
+                rangeSliderPrice.values[1].toString(),
+                rangeSliderStars.values[0].toInt().toString(),
+                rangeSliderStars.values[1].toInt().toString(),
+//                foodTypesRadioGroupFilters.checkedRadioButtonId.toString(),
+                currentFoodSystemRadioButton,
+//                foodSystemsRadioGroupFilters.checkedRadioButtonId.toString(),
+                currentFoodTypeRadioButton,
+                infrastructureCheckBox1.isChecked.toString(),
+                infrastructureCheckBox2.isChecked.toString(),
+                infrastructureCheckBox3.isChecked.toString(),
+                infrastructureCheckBox4.isChecked.toString(),
+                infrastructureCheckBox5.isChecked.toString(),
+                infrastructureCheckBox6.isChecked.toString(),
+                infrastructureCheckBox7.isChecked.toString()
+//                getValuesFiltersDialog()
             )
         }
     }
@@ -623,31 +636,15 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
         findButton = cityDialog.findViewById(R.id.city_menu_find_button)
 
         findButton.setOnClickListener {
-            presenter.findButtonCityDialogOnClick(cityField.text.toString(), dateField.text.toString(), nightsField.text.toString(), peoplesField.text.toString())
-
-
-//            if (isSelectedCitiesValid()) { // проверка на валидность полей с городами
-//                saveValuesForCityDialog()
-//                presenter.findButtonCityDialogOnClick()
-//            }
+            presenter.findButtonCityDialogOnClick(
+                cityField.text.toString(),
+                dateField.text.toString(),
+                nightsField.text.toString(),
+                peoplesField.text.toString()
+            )
         }
     }
 
-//    private fun saveValuesForCityDialog() { // сохранение значений из основных view из cityDialog в map
-//        val savedValuesCityDialog = mutableMapOf<String, String>()
-//
-//        val cityNameKeyCityDialog = "cityName" // ключ для сохранения города в map
-//        val dateKeyCityDialog = "date" // ключ для сохранения даты вылета в map
-//        val nightsKeyCityDialog = "nights" // ключ для сохранения количества ночей в map
-//        val peoplesKeyCityDialog = "peoples" // ключ для сохранения количества людей в map
-//
-//        savedValuesCityDialog.put(cityNameKeyCityDialog, cityField.text.toString())
-//        savedValuesCityDialog.put(dateKeyCityDialog, dateField.text.toString())
-//        savedValuesCityDialog.put(nightsKeyCityDialog, nightsField.text.toString())
-//        savedValuesCityDialog.put(peoplesKeyCityDialog, peoplesField.text.toString())
-//
-//        presenter.saveValuesCityDialog(savedValuesCityDialog)
-//    }
 
     override fun setValuesCityDialog(
         cityName: String,
@@ -840,21 +837,6 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
 
     }
 
-
-//    private fun isSelectedCitiesValid(): Boolean { // проверка на валидность полея с выбором города с городами
-//
-//        if (cityField.text.toString().isBlank()
-//        ) return true // если поле города назначения пустое, то пропускаем, будет "Россия"
-//
-//        for (item in cities) { // проверка, есть ли в списке городов город назначения
-//            if (item.toString() == cityField.text.toString()) return true
-//        }
-//
-//        showSnackBarAboutValue("Некорректное название города, пожалуйста, выберите из выпадающего списка")
-//        return false
-//    }
-
-
     private fun initInfrastructureCheckboxes(filtersDialog: BottomSheetDialog) { // init checkboxes + textviews в фильтрах
         filtersDialog.findViewById<TextView>(R.id.filters_infrastructure_textview_1)
             ?.setOnClickListener { // onClickListener на TextView рядом с чекбоксом
@@ -905,7 +887,7 @@ class HotelsMainFragment : MvpAppCompatFragment(), HotelsView, BackButtonListene
 
     override fun init() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = HotelsRVAdapter(presenter.toursListPresenter)
+        adapter = HotelsRVAdapter(presenter.hotelsListPresenter)
         binding.recyclerView.adapter = adapter
     }
 
